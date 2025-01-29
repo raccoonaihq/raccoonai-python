@@ -57,6 +57,7 @@ class LamResource(SyncAPIResource):
         *,
         query: str,
         raccoon_passcode: str,
+        advanced: Optional[lam_extract_params.Advanced] | NotGiven = NOT_GIVEN,
         app_url: Optional[str] | NotGiven = NOT_GIVEN,
         chat_history: Optional[Iterable[object]] | NotGiven = NOT_GIVEN,
         max_count: Optional[int] | NotGiven = NOT_GIVEN,
@@ -78,6 +79,9 @@ class LamResource(SyncAPIResource):
 
           raccoon_passcode: The raccoon passcode associated with the end user on behalf of which the call is
               being made.
+
+          advanced: Advanced configuration options for the task, such as ad-blocking and CAPTCHA
+              solving.
 
           app_url: This is the entrypoint URL for the web agent.
 
@@ -108,6 +112,7 @@ class LamResource(SyncAPIResource):
         query: str,
         raccoon_passcode: str,
         stream: Literal[True],
+        advanced: Optional[lam_extract_params.Advanced] | NotGiven = NOT_GIVEN,
         app_url: Optional[str] | NotGiven = NOT_GIVEN,
         chat_history: Optional[Iterable[object]] | NotGiven = NOT_GIVEN,
         max_count: Optional[int] | NotGiven = NOT_GIVEN,
@@ -131,6 +136,9 @@ class LamResource(SyncAPIResource):
 
           stream: Whether the response should be streamed back or not.
 
+          advanced: Advanced configuration options for the task, such as ad-blocking and CAPTCHA
+              solving.
+
           app_url: This is the entrypoint URL for the web agent.
 
           chat_history: The history of the conversation as a list of messages or objects you might use
@@ -158,6 +166,7 @@ class LamResource(SyncAPIResource):
         query: str,
         raccoon_passcode: str,
         stream: bool,
+        advanced: Optional[lam_extract_params.Advanced] | NotGiven = NOT_GIVEN,
         app_url: Optional[str] | NotGiven = NOT_GIVEN,
         chat_history: Optional[Iterable[object]] | NotGiven = NOT_GIVEN,
         max_count: Optional[int] | NotGiven = NOT_GIVEN,
@@ -181,6 +190,9 @@ class LamResource(SyncAPIResource):
 
           stream: Whether the response should be streamed back or not.
 
+          advanced: Advanced configuration options for the task, such as ad-blocking and CAPTCHA
+              solving.
+
           app_url: This is the entrypoint URL for the web agent.
 
           chat_history: The history of the conversation as a list of messages or objects you might use
@@ -207,6 +219,7 @@ class LamResource(SyncAPIResource):
         *,
         query: str,
         raccoon_passcode: str,
+        advanced: Optional[lam_extract_params.Advanced] | NotGiven = NOT_GIVEN,
         app_url: Optional[str] | NotGiven = NOT_GIVEN,
         chat_history: Optional[Iterable[object]] | NotGiven = NOT_GIVEN,
         max_count: Optional[int] | NotGiven = NOT_GIVEN,
@@ -225,6 +238,7 @@ class LamResource(SyncAPIResource):
                 {
                     "query": query,
                     "raccoon_passcode": raccoon_passcode,
+                    "advanced": advanced,
                     "app_url": app_url,
                     "chat_history": chat_history,
                     "max_count": max_count,
@@ -247,6 +261,7 @@ class LamResource(SyncAPIResource):
         app_name: str,
         *,
         raccoon_passcode: str,
+        advanced: Optional[lam_integration_run_params.Advanced] | NotGiven = NOT_GIVEN,
         integration_id: Optional[str] | NotGiven = NOT_GIVEN,
         properties: Optional[object] | NotGiven = NOT_GIVEN,
         stream: Optional[Literal[False]] | NotGiven = NOT_GIVEN,
@@ -263,6 +278,9 @@ class LamResource(SyncAPIResource):
         Args:
           raccoon_passcode: The raccoon passcode associated with the end user on behalf of which the call is
               being made.
+
+          advanced: Advanced configuration options for the task, such as ad-blocking and CAPTCHA
+              solving.
 
           integration_id: The unique identifier for the integration being called.
 
@@ -287,6 +305,7 @@ class LamResource(SyncAPIResource):
         *,
         raccoon_passcode: str,
         stream: Literal[True],
+        advanced: Optional[lam_integration_run_params.Advanced] | NotGiven = NOT_GIVEN,
         integration_id: Optional[str] | NotGiven = NOT_GIVEN,
         properties: Optional[object] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -304,6 +323,9 @@ class LamResource(SyncAPIResource):
               being made.
 
           stream: Whether the response should be streamed back or not.
+
+          advanced: Advanced configuration options for the task, such as ad-blocking and CAPTCHA
+              solving.
 
           integration_id: The unique identifier for the integration being called.
 
@@ -326,6 +348,7 @@ class LamResource(SyncAPIResource):
         *,
         raccoon_passcode: str,
         stream: bool,
+        advanced: Optional[lam_integration_run_params.Advanced] | NotGiven = NOT_GIVEN,
         integration_id: Optional[str] | NotGiven = NOT_GIVEN,
         properties: Optional[object] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -343,6 +366,9 @@ class LamResource(SyncAPIResource):
               being made.
 
           stream: Whether the response should be streamed back or not.
+
+          advanced: Advanced configuration options for the task, such as ad-blocking and CAPTCHA
+              solving.
 
           integration_id: The unique identifier for the integration being called.
 
@@ -364,6 +390,7 @@ class LamResource(SyncAPIResource):
         app_name: str,
         *,
         raccoon_passcode: str,
+        advanced: Optional[lam_integration_run_params.Advanced] | NotGiven = NOT_GIVEN,
         integration_id: Optional[str] | NotGiven = NOT_GIVEN,
         properties: Optional[object] | NotGiven = NOT_GIVEN,
         stream: Optional[Literal[False]] | Literal[True] | NotGiven = NOT_GIVEN,
@@ -383,6 +410,7 @@ class LamResource(SyncAPIResource):
                 body=maybe_transform(
                     {
                         "raccoon_passcode": raccoon_passcode,
+                        "advanced": advanced,
                         "integration_id": integration_id,
                         "properties": properties,
                         "stream": stream,
@@ -406,6 +434,7 @@ class LamResource(SyncAPIResource):
         *,
         query: str,
         raccoon_passcode: str,
+        advanced: Optional[lam_run_params.Advanced] | NotGiven = NOT_GIVEN,
         app_url: Optional[str] | NotGiven = NOT_GIVEN,
         chat_history: Optional[Iterable[object]] | NotGiven = NOT_GIVEN,
         stream: Optional[Literal[False]] | NotGiven = NOT_GIVEN,
@@ -425,6 +454,9 @@ class LamResource(SyncAPIResource):
 
           raccoon_passcode: The raccoon passcode associated with the end user on behalf of which the call is
               being made.
+
+          advanced: Advanced configuration options for the task, such as ad-blocking and CAPTCHA
+              solving.
 
           app_url: This is the entrypoint URL for the web agent.
 
@@ -450,6 +482,7 @@ class LamResource(SyncAPIResource):
         query: str,
         raccoon_passcode: str,
         stream: Literal[True],
+        advanced: Optional[lam_run_params.Advanced] | NotGiven = NOT_GIVEN,
         app_url: Optional[str] | NotGiven = NOT_GIVEN,
         chat_history: Optional[Iterable[object]] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -470,6 +503,9 @@ class LamResource(SyncAPIResource):
               being made.
 
           stream: Whether the response should be streamed back or not.
+
+          advanced: Advanced configuration options for the task, such as ad-blocking and CAPTCHA
+              solving.
 
           app_url: This is the entrypoint URL for the web agent.
 
@@ -493,6 +529,7 @@ class LamResource(SyncAPIResource):
         query: str,
         raccoon_passcode: str,
         stream: bool,
+        advanced: Optional[lam_run_params.Advanced] | NotGiven = NOT_GIVEN,
         app_url: Optional[str] | NotGiven = NOT_GIVEN,
         chat_history: Optional[Iterable[object]] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -513,6 +550,9 @@ class LamResource(SyncAPIResource):
               being made.
 
           stream: Whether the response should be streamed back or not.
+
+          advanced: Advanced configuration options for the task, such as ad-blocking and CAPTCHA
+              solving.
 
           app_url: This is the entrypoint URL for the web agent.
 
@@ -535,6 +575,7 @@ class LamResource(SyncAPIResource):
         *,
         query: str,
         raccoon_passcode: str,
+        advanced: Optional[lam_run_params.Advanced] | NotGiven = NOT_GIVEN,
         app_url: Optional[str] | NotGiven = NOT_GIVEN,
         chat_history: Optional[Iterable[object]] | NotGiven = NOT_GIVEN,
         stream: Optional[Literal[False]] | Literal[True] | NotGiven = NOT_GIVEN,
@@ -551,6 +592,7 @@ class LamResource(SyncAPIResource):
                 {
                     "query": query,
                     "raccoon_passcode": raccoon_passcode,
+                    "advanced": advanced,
                     "app_url": app_url,
                     "chat_history": chat_history,
                     "stream": stream,
@@ -592,6 +634,7 @@ class AsyncLamResource(AsyncAPIResource):
         *,
         query: str,
         raccoon_passcode: str,
+        advanced: Optional[lam_extract_params.Advanced] | NotGiven = NOT_GIVEN,
         app_url: Optional[str] | NotGiven = NOT_GIVEN,
         chat_history: Optional[Iterable[object]] | NotGiven = NOT_GIVEN,
         max_count: Optional[int] | NotGiven = NOT_GIVEN,
@@ -613,6 +656,9 @@ class AsyncLamResource(AsyncAPIResource):
 
           raccoon_passcode: The raccoon passcode associated with the end user on behalf of which the call is
               being made.
+
+          advanced: Advanced configuration options for the task, such as ad-blocking and CAPTCHA
+              solving.
 
           app_url: This is the entrypoint URL for the web agent.
 
@@ -643,6 +689,7 @@ class AsyncLamResource(AsyncAPIResource):
         query: str,
         raccoon_passcode: str,
         stream: Literal[True],
+        advanced: Optional[lam_extract_params.Advanced] | NotGiven = NOT_GIVEN,
         app_url: Optional[str] | NotGiven = NOT_GIVEN,
         chat_history: Optional[Iterable[object]] | NotGiven = NOT_GIVEN,
         max_count: Optional[int] | NotGiven = NOT_GIVEN,
@@ -666,6 +713,9 @@ class AsyncLamResource(AsyncAPIResource):
 
           stream: Whether the response should be streamed back or not.
 
+          advanced: Advanced configuration options for the task, such as ad-blocking and CAPTCHA
+              solving.
+
           app_url: This is the entrypoint URL for the web agent.
 
           chat_history: The history of the conversation as a list of messages or objects you might use
@@ -693,6 +743,7 @@ class AsyncLamResource(AsyncAPIResource):
         query: str,
         raccoon_passcode: str,
         stream: bool,
+        advanced: Optional[lam_extract_params.Advanced] | NotGiven = NOT_GIVEN,
         app_url: Optional[str] | NotGiven = NOT_GIVEN,
         chat_history: Optional[Iterable[object]] | NotGiven = NOT_GIVEN,
         max_count: Optional[int] | NotGiven = NOT_GIVEN,
@@ -716,6 +767,9 @@ class AsyncLamResource(AsyncAPIResource):
 
           stream: Whether the response should be streamed back or not.
 
+          advanced: Advanced configuration options for the task, such as ad-blocking and CAPTCHA
+              solving.
+
           app_url: This is the entrypoint URL for the web agent.
 
           chat_history: The history of the conversation as a list of messages or objects you might use
@@ -742,6 +796,7 @@ class AsyncLamResource(AsyncAPIResource):
         *,
         query: str,
         raccoon_passcode: str,
+        advanced: Optional[lam_extract_params.Advanced] | NotGiven = NOT_GIVEN,
         app_url: Optional[str] | NotGiven = NOT_GIVEN,
         chat_history: Optional[Iterable[object]] | NotGiven = NOT_GIVEN,
         max_count: Optional[int] | NotGiven = NOT_GIVEN,
@@ -760,6 +815,7 @@ class AsyncLamResource(AsyncAPIResource):
                 {
                     "query": query,
                     "raccoon_passcode": raccoon_passcode,
+                    "advanced": advanced,
                     "app_url": app_url,
                     "chat_history": chat_history,
                     "max_count": max_count,
@@ -782,6 +838,7 @@ class AsyncLamResource(AsyncAPIResource):
         app_name: str,
         *,
         raccoon_passcode: str,
+        advanced: Optional[lam_integration_run_params.Advanced] | NotGiven = NOT_GIVEN,
         integration_id: Optional[str] | NotGiven = NOT_GIVEN,
         properties: Optional[object] | NotGiven = NOT_GIVEN,
         stream: Optional[Literal[False]] | NotGiven = NOT_GIVEN,
@@ -798,6 +855,9 @@ class AsyncLamResource(AsyncAPIResource):
         Args:
           raccoon_passcode: The raccoon passcode associated with the end user on behalf of which the call is
               being made.
+
+          advanced: Advanced configuration options for the task, such as ad-blocking and CAPTCHA
+              solving.
 
           integration_id: The unique identifier for the integration being called.
 
@@ -822,6 +882,7 @@ class AsyncLamResource(AsyncAPIResource):
         *,
         raccoon_passcode: str,
         stream: Literal[True],
+        advanced: Optional[lam_integration_run_params.Advanced] | NotGiven = NOT_GIVEN,
         integration_id: Optional[str] | NotGiven = NOT_GIVEN,
         properties: Optional[object] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -839,6 +900,9 @@ class AsyncLamResource(AsyncAPIResource):
               being made.
 
           stream: Whether the response should be streamed back or not.
+
+          advanced: Advanced configuration options for the task, such as ad-blocking and CAPTCHA
+              solving.
 
           integration_id: The unique identifier for the integration being called.
 
@@ -861,6 +925,7 @@ class AsyncLamResource(AsyncAPIResource):
         *,
         raccoon_passcode: str,
         stream: bool,
+        advanced: Optional[lam_integration_run_params.Advanced] | NotGiven = NOT_GIVEN,
         integration_id: Optional[str] | NotGiven = NOT_GIVEN,
         properties: Optional[object] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -878,6 +943,9 @@ class AsyncLamResource(AsyncAPIResource):
               being made.
 
           stream: Whether the response should be streamed back or not.
+
+          advanced: Advanced configuration options for the task, such as ad-blocking and CAPTCHA
+              solving.
 
           integration_id: The unique identifier for the integration being called.
 
@@ -899,6 +967,7 @@ class AsyncLamResource(AsyncAPIResource):
         app_name: str,
         *,
         raccoon_passcode: str,
+        advanced: Optional[lam_integration_run_params.Advanced] | NotGiven = NOT_GIVEN,
         integration_id: Optional[str] | NotGiven = NOT_GIVEN,
         properties: Optional[object] | NotGiven = NOT_GIVEN,
         stream: Optional[Literal[False]] | Literal[True] | NotGiven = NOT_GIVEN,
@@ -918,6 +987,7 @@ class AsyncLamResource(AsyncAPIResource):
                 body=await async_maybe_transform(
                     {
                         "raccoon_passcode": raccoon_passcode,
+                        "advanced": advanced,
                         "integration_id": integration_id,
                         "properties": properties,
                         "stream": stream,
@@ -941,6 +1011,7 @@ class AsyncLamResource(AsyncAPIResource):
         *,
         query: str,
         raccoon_passcode: str,
+        advanced: Optional[lam_run_params.Advanced] | NotGiven = NOT_GIVEN,
         app_url: Optional[str] | NotGiven = NOT_GIVEN,
         chat_history: Optional[Iterable[object]] | NotGiven = NOT_GIVEN,
         stream: Optional[Literal[False]] | NotGiven = NOT_GIVEN,
@@ -960,6 +1031,9 @@ class AsyncLamResource(AsyncAPIResource):
 
           raccoon_passcode: The raccoon passcode associated with the end user on behalf of which the call is
               being made.
+
+          advanced: Advanced configuration options for the task, such as ad-blocking and CAPTCHA
+              solving.
 
           app_url: This is the entrypoint URL for the web agent.
 
@@ -985,6 +1059,7 @@ class AsyncLamResource(AsyncAPIResource):
         query: str,
         raccoon_passcode: str,
         stream: Literal[True],
+        advanced: Optional[lam_run_params.Advanced] | NotGiven = NOT_GIVEN,
         app_url: Optional[str] | NotGiven = NOT_GIVEN,
         chat_history: Optional[Iterable[object]] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -1005,6 +1080,9 @@ class AsyncLamResource(AsyncAPIResource):
               being made.
 
           stream: Whether the response should be streamed back or not.
+
+          advanced: Advanced configuration options for the task, such as ad-blocking and CAPTCHA
+              solving.
 
           app_url: This is the entrypoint URL for the web agent.
 
@@ -1028,6 +1106,7 @@ class AsyncLamResource(AsyncAPIResource):
         query: str,
         raccoon_passcode: str,
         stream: bool,
+        advanced: Optional[lam_run_params.Advanced] | NotGiven = NOT_GIVEN,
         app_url: Optional[str] | NotGiven = NOT_GIVEN,
         chat_history: Optional[Iterable[object]] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -1048,6 +1127,9 @@ class AsyncLamResource(AsyncAPIResource):
               being made.
 
           stream: Whether the response should be streamed back or not.
+
+          advanced: Advanced configuration options for the task, such as ad-blocking and CAPTCHA
+              solving.
 
           app_url: This is the entrypoint URL for the web agent.
 
@@ -1070,6 +1152,7 @@ class AsyncLamResource(AsyncAPIResource):
         *,
         query: str,
         raccoon_passcode: str,
+        advanced: Optional[lam_run_params.Advanced] | NotGiven = NOT_GIVEN,
         app_url: Optional[str] | NotGiven = NOT_GIVEN,
         chat_history: Optional[Iterable[object]] | NotGiven = NOT_GIVEN,
         stream: Optional[Literal[False]] | Literal[True] | NotGiven = NOT_GIVEN,
@@ -1086,6 +1169,7 @@ class AsyncLamResource(AsyncAPIResource):
                 {
                     "query": query,
                     "raccoon_passcode": raccoon_passcode,
+                    "advanced": advanced,
                     "app_url": app_url,
                     "chat_history": chat_history,
                     "stream": stream,

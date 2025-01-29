@@ -34,6 +34,11 @@ class TestLam:
         lam = client.lam.extract(
             query="Find YCombinator startups who got funded in W24.",
             raccoon_passcode="<end-user-raccoon-passcode>",
+            advanced={
+                "block_ads": True,
+                "proxy": True,
+                "solve_captchas": True,
+            },
             app_url="https://www.ycombinator.com/companies",
             chat_history=[{}],
             max_count=5,
@@ -90,6 +95,11 @@ class TestLam:
             query="Find YCombinator startups who got funded in W24.",
             raccoon_passcode="<end-user-raccoon-passcode>",
             stream=True,
+            advanced={
+                "block_ads": True,
+                "proxy": True,
+                "solve_captchas": True,
+            },
             app_url="https://www.ycombinator.com/companies",
             chat_history=[{}],
             max_count=5,
@@ -144,6 +154,11 @@ class TestLam:
         lam = client.lam.integration_run(
             app_name="app_name",
             raccoon_passcode="raccoon_passcode",
+            advanced={
+                "block_ads": True,
+                "proxy": True,
+                "solve_captchas": True,
+            },
             integration_id="integration_id",
             properties={},
             stream=False,
@@ -199,6 +214,11 @@ class TestLam:
             app_name="app_name",
             raccoon_passcode="raccoon_passcode",
             stream=True,
+            advanced={
+                "block_ads": True,
+                "proxy": True,
+                "solve_captchas": True,
+            },
             integration_id="integration_id",
             properties={},
         )
@@ -253,6 +273,11 @@ class TestLam:
         lam = client.lam.run(
             query="Find the price of iphone 16 on Amazon.",
             raccoon_passcode="<end-user-raccoon-passcode>",
+            advanced={
+                "block_ads": True,
+                "proxy": True,
+                "solve_captchas": True,
+            },
             app_url="https://www.amazon.com",
             chat_history=[{}],
             stream=False,
@@ -300,6 +325,11 @@ class TestLam:
             query="Find the price of iphone 16 on Amazon.",
             raccoon_passcode="<end-user-raccoon-passcode>",
             stream=True,
+            advanced={
+                "block_ads": True,
+                "proxy": True,
+                "solve_captchas": True,
+            },
             app_url="https://www.amazon.com",
             chat_history=[{}],
         )
@@ -349,6 +379,11 @@ class TestAsyncLam:
         lam = await async_client.lam.extract(
             query="Find YCombinator startups who got funded in W24.",
             raccoon_passcode="<end-user-raccoon-passcode>",
+            advanced={
+                "block_ads": True,
+                "proxy": True,
+                "solve_captchas": True,
+            },
             app_url="https://www.ycombinator.com/companies",
             chat_history=[{}],
             max_count=5,
@@ -405,6 +440,11 @@ class TestAsyncLam:
             query="Find YCombinator startups who got funded in W24.",
             raccoon_passcode="<end-user-raccoon-passcode>",
             stream=True,
+            advanced={
+                "block_ads": True,
+                "proxy": True,
+                "solve_captchas": True,
+            },
             app_url="https://www.ycombinator.com/companies",
             chat_history=[{}],
             max_count=5,
@@ -459,6 +499,11 @@ class TestAsyncLam:
         lam = await async_client.lam.integration_run(
             app_name="app_name",
             raccoon_passcode="raccoon_passcode",
+            advanced={
+                "block_ads": True,
+                "proxy": True,
+                "solve_captchas": True,
+            },
             integration_id="integration_id",
             properties={},
             stream=False,
@@ -514,6 +559,11 @@ class TestAsyncLam:
             app_name="app_name",
             raccoon_passcode="raccoon_passcode",
             stream=True,
+            advanced={
+                "block_ads": True,
+                "proxy": True,
+                "solve_captchas": True,
+            },
             integration_id="integration_id",
             properties={},
         )
@@ -568,6 +618,11 @@ class TestAsyncLam:
         lam = await async_client.lam.run(
             query="Find the price of iphone 16 on Amazon.",
             raccoon_passcode="<end-user-raccoon-passcode>",
+            advanced={
+                "block_ads": True,
+                "proxy": True,
+                "solve_captchas": True,
+            },
             app_url="https://www.amazon.com",
             chat_history=[{}],
             stream=False,
@@ -615,6 +670,11 @@ class TestAsyncLam:
             query="Find the price of iphone 16 on Amazon.",
             raccoon_passcode="<end-user-raccoon-passcode>",
             stream=True,
+            advanced={
+                "block_ads": True,
+                "proxy": True,
+                "solve_captchas": True,
+            },
             app_url="https://www.amazon.com",
             chat_history=[{}],
         )

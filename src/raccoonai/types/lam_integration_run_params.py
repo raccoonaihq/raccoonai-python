@@ -5,7 +5,12 @@ from __future__ import annotations
 from typing import Union, Optional
 from typing_extensions import Literal, Required, TypedDict
 
-__all__ = ["LamIntegrationRunParamsBase", "LamIntegrationRunParamsNonStreaming", "LamIntegrationRunParamsStreaming"]
+__all__ = [
+    "LamIntegrationRunParamsBase",
+    "Advanced",
+    "LamIntegrationRunParamsNonStreaming",
+    "LamIntegrationRunParamsStreaming",
+]
 
 
 class LamIntegrationRunParamsBase(TypedDict, total=False):
@@ -15,11 +20,28 @@ class LamIntegrationRunParamsBase(TypedDict, total=False):
     being made.
     """
 
+    advanced: Optional[Advanced]
+    """
+    Advanced configuration options for the task, such as ad-blocking and CAPTCHA
+    solving.
+    """
+
     integration_id: Optional[str]
     """The unique identifier for the integration being called."""
 
     properties: Optional[object]
     """Additional properties or data related to the particular integration."""
+
+
+class Advanced(TypedDict, total=False):
+    block_ads: Optional[bool]
+    """Whether to block advertisements during the browser session."""
+
+    proxy: Optional[bool]
+    """Whether to use a proxy for the browser session."""
+
+    solve_captchas: Optional[bool]
+    """Whether to attempt automatic CAPTCHA solving."""
 
 
 class LamIntegrationRunParamsNonStreaming(LamIntegrationRunParamsBase, total=False):
