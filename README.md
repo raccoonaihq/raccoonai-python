@@ -37,7 +37,7 @@ response = client.lam.run(
     query="Find the price of iphone 16 on Amazon.",
     raccoon_passcode="<end-user-raccoon-passcode>",
 )
-print(response.message)
+print(response.livestream_url)
 ```
 
 While you can provide a `secret_key` keyword argument,
@@ -66,7 +66,7 @@ async def main() -> None:
         query="Find the price of iphone 16 on Amazon.",
         raccoon_passcode="<end-user-raccoon-passcode>",
     )
-    print(response.message)
+    print(response.livestream_url)
 
 
 asyncio.run(main())
@@ -89,7 +89,7 @@ stream = client.lam.run(
     stream=True,
 )
 for response in stream:
-    print(response.message)
+    print(response.livestream_url)
 ```
 
 The async client uses the exact same interface.
@@ -105,7 +105,7 @@ stream = await client.lam.run(
     stream=True,
 )
 async for response in stream:
-    print(response.message)
+    print(response.livestream_url)
 ```
 
 ## Using types
@@ -256,7 +256,7 @@ response = client.lam.with_raw_response.run(
 print(response.headers.get('X-My-Header'))
 
 lam = response.parse()  # get the object that `lam.run()` would have returned
-print(lam.message)
+print(lam.livestream_url)
 ```
 
 These methods return an [`APIResponse`](https://github.com/flyingraccoonai/raccoonai-python/tree/main/src/raccoonai/_response.py) object.

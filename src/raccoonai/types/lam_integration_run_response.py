@@ -12,6 +12,9 @@ class UnionMember0(BaseModel):
     integration_id: str
     """A unique identifier for the integration in use."""
 
+    livestream_url: str
+    """The Livestream URL"""
+
     message: str
     """A message providing the thought summary if the status is processing currently."""
 
@@ -19,7 +22,7 @@ class UnionMember0(BaseModel):
     """Additional metadata or details related to the integration task."""
 
     task_status: str
-    """The current status of the extraction task.
+    """The current status of the integration task.
 
     For example: 'STARTING', 'PROCESSING', 'DONE', 'HUMAN_INTERACTION', or
     'FAILURE'.
@@ -30,6 +33,9 @@ class IntegrationResponse(BaseModel):
     integration_id: str
     """A unique identifier for the integration in use."""
 
+    livestream_url: str
+    """The Livestream URL"""
+
     message: str
     """A message providing the thought summary if the status is processing currently."""
 
@@ -37,7 +43,7 @@ class IntegrationResponse(BaseModel):
     """Additional metadata or details related to the integration task."""
 
     task_status: str
-    """The current status of the extraction task.
+    """The current status of the integration task.
 
     For example: 'STARTING', 'PROCESSING', 'DONE', 'HUMAN_INTERACTION', or
     'FAILURE'.

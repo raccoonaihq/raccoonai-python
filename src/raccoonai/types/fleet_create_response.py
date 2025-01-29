@@ -7,6 +7,9 @@ __all__ = ["FleetCreateResponse"]
 
 
 class FleetCreateResponse(BaseModel):
+    livestream_url: str
+    """The Livestream URL"""
+
     session_id: str
     """A unique identifier for the created session."""
 
