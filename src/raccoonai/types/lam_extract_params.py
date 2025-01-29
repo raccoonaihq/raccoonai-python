@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Union, Iterable, Optional
 from typing_extensions import Literal, Required, TypedDict
 
-__all__ = ["LamExtractParamsBase", "LamExtractParamsNonStreaming", "LamExtractParamsStreaming"]
+__all__ = ["LamExtractParamsBase", "Advanced", "LamExtractParamsNonStreaming", "LamExtractParamsStreaming"]
 
 
 class LamExtractParamsBase(TypedDict, total=False):
@@ -16,6 +16,12 @@ class LamExtractParamsBase(TypedDict, total=False):
     """
     The raccoon passcode associated with the end user on behalf of which the call is
     being made.
+    """
+
+    advanced: Optional[Advanced]
+    """
+    Advanced configuration options for the task, such as ad-blocking and CAPTCHA
+    solving.
     """
 
     app_url: Optional[str]
@@ -36,6 +42,17 @@ class LamExtractParamsBase(TypedDict, total=False):
     This is a dictionary where the keys describe the fields and the values describe
     their purposes.
     """
+
+
+class Advanced(TypedDict, total=False):
+    block_ads: Optional[bool]
+    """Whether to block advertisements during the browser session."""
+
+    proxy: Optional[bool]
+    """Whether to use a proxy for the browser session."""
+
+    solve_captchas: Optional[bool]
+    """Whether to attempt automatic CAPTCHA solving."""
 
 
 class LamExtractParamsNonStreaming(LamExtractParamsBase, total=False):
