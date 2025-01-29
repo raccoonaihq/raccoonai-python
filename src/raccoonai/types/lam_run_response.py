@@ -7,6 +7,9 @@ __all__ = ["LamRunResponse"]
 
 
 class LamRunResponse(BaseModel):
+    livestream_url: str
+    """The Livestream URL"""
+
     message: str
     """A message providing the thought summary if the status is processing currently."""
 
@@ -14,7 +17,7 @@ class LamRunResponse(BaseModel):
     """Additional metadata or details related to the run task."""
 
     task_status: str
-    """The current status of the extraction task.
+    """The current status of the run task.
 
     For example: 'STARTING', 'PROCESSING', 'DONE', 'HUMAN_INTERACTION', or
     'FAILURE'.

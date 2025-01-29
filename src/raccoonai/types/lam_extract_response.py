@@ -14,6 +14,9 @@ class LamExtractResponse(BaseModel):
     Each object represents an extracted entity.
     """
 
+    livestream_url: str
+    """The Livestream URL"""
+
     message: str
     """A message providing the thought summary if the status is processing currently."""
 
