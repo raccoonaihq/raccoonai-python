@@ -20,7 +20,7 @@ class LamExtractParamsBase(TypedDict, total=False):
 
     advanced: Optional[Advanced]
     """
-    Advanced configuration options for the task, such as ad-blocking and CAPTCHA
+    Advanced configuration options for the session, such as ad-blocking and CAPTCHA
     solving.
     """
 
