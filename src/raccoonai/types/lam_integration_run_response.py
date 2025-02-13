@@ -22,7 +22,7 @@ class UnionMember0(BaseModel):
     """Additional metadata or details related to the integration task."""
 
     task_status: str
-    """The current status of the integration task.
+    """The current status of the extraction task.
 
     For example: 'STARTING', 'PROCESSING', 'DONE', 'HUMAN_INTERACTION', or
     'FAILURE'.
@@ -43,7 +43,7 @@ class IntegrationResponse(BaseModel):
     """Additional metadata or details related to the integration task."""
 
     task_status: str
-    """The current status of the integration task.
+    """The current status of the extraction task.
 
     For example: 'STARTING', 'PROCESSING', 'DONE', 'HUMAN_INTERACTION', or
     'FAILURE'.

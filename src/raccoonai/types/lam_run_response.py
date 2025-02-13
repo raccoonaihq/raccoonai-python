@@ -17,7 +17,7 @@ class LamRunResponse(BaseModel):
     """Additional metadata or details related to the run task."""
 
     task_status: str
-    """The current status of the run task.
+    """The current status of the extraction task.
 
     For example: 'STARTING', 'PROCESSING', 'DONE', 'HUMAN_INTERACTION', or
     'FAILURE'.
