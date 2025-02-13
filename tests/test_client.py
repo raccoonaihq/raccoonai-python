@@ -23,6 +23,7 @@ from pydantic import ValidationError
 
 from raccoonai import RaccoonAI, AsyncRaccoonAI, APIResponseValidationError
 from raccoonai._types import Omit
+from raccoonai._utils import maybe_transform
 from raccoonai._models import BaseModel, FinalRequestOptions
 from raccoonai._constants import RAW_RESPONSE_HEADER
 from raccoonai._exceptions import APIStatusError, RaccoonAIError, APITimeoutError, APIResponseValidationError
@@ -32,6 +33,7 @@ from raccoonai._base_client import (
     BaseClient,
     make_request_options,
 )
+from raccoonai.types.lam_run_params import LamRunParamsNonStreaming
 
 from .utils import update_env
 
@@ -742,8 +744,12 @@ class TestRaccoonAI:
                 "/lam/run",
                 body=cast(
                     object,
-                    dict(
-                        query="Find the price of iphone 16 on Amazon.", raccoon_passcode="<end-user-raccoon-passcode>"
+                    maybe_transform(
+                        dict(
+                            query="Find the price of iphone 16 on Amazon.",
+                            raccoon_passcode="<end-user-raccoon-passcode>",
+                        ),
+                        LamRunParamsNonStreaming,
                     ),
                 ),
                 cast_to=httpx.Response,
@@ -762,8 +768,12 @@ class TestRaccoonAI:
                 "/lam/run",
                 body=cast(
                     object,
-                    dict(
-                        query="Find the price of iphone 16 on Amazon.", raccoon_passcode="<end-user-raccoon-passcode>"
+                    maybe_transform(
+                        dict(
+                            query="Find the price of iphone 16 on Amazon.",
+                            raccoon_passcode="<end-user-raccoon-passcode>",
+                        ),
+                        LamRunParamsNonStreaming,
                     ),
                 ),
                 cast_to=httpx.Response,
@@ -1551,8 +1561,12 @@ class TestAsyncRaccoonAI:
                 "/lam/run",
                 body=cast(
                     object,
-                    dict(
-                        query="Find the price of iphone 16 on Amazon.", raccoon_passcode="<end-user-raccoon-passcode>"
+                    maybe_transform(
+                        dict(
+                            query="Find the price of iphone 16 on Amazon.",
+                            raccoon_passcode="<end-user-raccoon-passcode>",
+                        ),
+                        LamRunParamsNonStreaming,
                     ),
                 ),
                 cast_to=httpx.Response,
@@ -1571,8 +1585,12 @@ class TestAsyncRaccoonAI:
                 "/lam/run",
                 body=cast(
                     object,
-                    dict(
-                        query="Find the price of iphone 16 on Amazon.", raccoon_passcode="<end-user-raccoon-passcode>"
+                    maybe_transform(
+                        dict(
+                            query="Find the price of iphone 16 on Amazon.",
+                            raccoon_passcode="<end-user-raccoon-passcode>",
+                        ),
+                        LamRunParamsNonStreaming,
                     ),
                 ),
                 cast_to=httpx.Response,
