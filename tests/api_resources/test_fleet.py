@@ -46,8 +46,8 @@ class TestFleet:
                 "locales": ["en-US", "fr-FR"],
                 "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
                 "viewport": {
-                    "height": 1080,
-                    "width": 1920,
+                    "height": 720,
+                    "width": 1280,
                 },
             },
             url="https://www.google.com",
@@ -230,8 +230,8 @@ class TestAsyncFleet:
                 "locales": ["en-US", "fr-FR"],
                 "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
                 "viewport": {
-                    "height": 1080,
-                    "width": 1920,
+                    "height": 720,
+                    "width": 1280,
                 },
             },
             url="https://www.google.com",
