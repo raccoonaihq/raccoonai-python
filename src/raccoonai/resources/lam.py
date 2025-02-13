@@ -80,7 +80,7 @@ class LamResource(SyncAPIResource):
           raccoon_passcode: The raccoon passcode associated with the end user on behalf of which the call is
               being made.
 
-          advanced: Advanced configuration options for the task, such as ad-blocking and CAPTCHA
+          advanced: Advanced configuration options for the session, such as ad-blocking and CAPTCHA
               solving.
 
           app_url: This is the entrypoint URL for the web agent.
@@ -136,7 +136,7 @@ class LamResource(SyncAPIResource):
 
           stream: Whether the response should be streamed back or not.
 
-          advanced: Advanced configuration options for the task, such as ad-blocking and CAPTCHA
+          advanced: Advanced configuration options for the session, such as ad-blocking and CAPTCHA
               solving.
 
           app_url: This is the entrypoint URL for the web agent.
@@ -190,7 +190,7 @@ class LamResource(SyncAPIResource):
 
           stream: Whether the response should be streamed back or not.
 
-          advanced: Advanced configuration options for the task, such as ad-blocking and CAPTCHA
+          advanced: Advanced configuration options for the session, such as ad-blocking and CAPTCHA
               solving.
 
           app_url: This is the entrypoint URL for the web agent.
@@ -279,7 +279,7 @@ class LamResource(SyncAPIResource):
           raccoon_passcode: The raccoon passcode associated with the end user on behalf of which the call is
               being made.
 
-          advanced: Advanced configuration options for the task, such as ad-blocking and CAPTCHA
+          advanced: Advanced configuration options for the session, such as ad-blocking and CAPTCHA
               solving.
 
           integration_id: The unique identifier for the integration being called.
@@ -324,7 +324,7 @@ class LamResource(SyncAPIResource):
 
           stream: Whether the response should be streamed back or not.
 
-          advanced: Advanced configuration options for the task, such as ad-blocking and CAPTCHA
+          advanced: Advanced configuration options for the session, such as ad-blocking and CAPTCHA
               solving.
 
           integration_id: The unique identifier for the integration being called.
@@ -367,7 +367,7 @@ class LamResource(SyncAPIResource):
 
           stream: Whether the response should be streamed back or not.
 
-          advanced: Advanced configuration options for the task, such as ad-blocking and CAPTCHA
+          advanced: Advanced configuration options for the session, such as ad-blocking and CAPTCHA
               solving.
 
           integration_id: The unique identifier for the integration being called.
@@ -455,7 +455,7 @@ class LamResource(SyncAPIResource):
           raccoon_passcode: The raccoon passcode associated with the end user on behalf of which the call is
               being made.
 
-          advanced: Advanced configuration options for the task, such as ad-blocking and CAPTCHA
+          advanced: Advanced configuration options for the session, such as ad-blocking and CAPTCHA
               solving.
 
           app_url: This is the entrypoint URL for the web agent.
@@ -504,7 +504,7 @@ class LamResource(SyncAPIResource):
 
           stream: Whether the response should be streamed back or not.
 
-          advanced: Advanced configuration options for the task, such as ad-blocking and CAPTCHA
+          advanced: Advanced configuration options for the session, such as ad-blocking and CAPTCHA
               solving.
 
           app_url: This is the entrypoint URL for the web agent.
@@ -551,7 +551,7 @@ class LamResource(SyncAPIResource):
 
           stream: Whether the response should be streamed back or not.
 
-          advanced: Advanced configuration options for the task, such as ad-blocking and CAPTCHA
+          advanced: Advanced configuration options for the session, such as ad-blocking and CAPTCHA
               solving.
 
           app_url: This is the entrypoint URL for the web agent.
@@ -657,7 +657,7 @@ class AsyncLamResource(AsyncAPIResource):
           raccoon_passcode: The raccoon passcode associated with the end user on behalf of which the call is
               being made.
 
-          advanced: Advanced configuration options for the task, such as ad-blocking and CAPTCHA
+          advanced: Advanced configuration options for the session, such as ad-blocking and CAPTCHA
               solving.
 
           app_url: This is the entrypoint URL for the web agent.
@@ -713,7 +713,7 @@ class AsyncLamResource(AsyncAPIResource):
 
           stream: Whether the response should be streamed back or not.
 
-          advanced: Advanced configuration options for the task, such as ad-blocking and CAPTCHA
+          advanced: Advanced configuration options for the session, such as ad-blocking and CAPTCHA
               solving.
 
           app_url: This is the entrypoint URL for the web agent.
@@ -767,7 +767,7 @@ class AsyncLamResource(AsyncAPIResource):
 
           stream: Whether the response should be streamed back or not.
 
-          advanced: Advanced configuration options for the task, such as ad-blocking and CAPTCHA
+          advanced: Advanced configuration options for the session, such as ad-blocking and CAPTCHA
               solving.
 
           app_url: This is the entrypoint URL for the web agent.
@@ -856,7 +856,7 @@ class AsyncLamResource(AsyncAPIResource):
           raccoon_passcode: The raccoon passcode associated with the end user on behalf of which the call is
               being made.
 
-          advanced: Advanced configuration options for the task, such as ad-blocking and CAPTCHA
+          advanced: Advanced configuration options for the session, such as ad-blocking and CAPTCHA
               solving.
 
           integration_id: The unique identifier for the integration being called.
@@ -901,7 +901,7 @@ class AsyncLamResource(AsyncAPIResource):
 
           stream: Whether the response should be streamed back or not.
 
-          advanced: Advanced configuration options for the task, such as ad-blocking and CAPTCHA
+          advanced: Advanced configuration options for the session, such as ad-blocking and CAPTCHA
               solving.
 
           integration_id: The unique identifier for the integration being called.
@@ -944,7 +944,7 @@ class AsyncLamResource(AsyncAPIResource):
 
           stream: Whether the response should be streamed back or not.
 
-          advanced: Advanced configuration options for the task, such as ad-blocking and CAPTCHA
+          advanced: Advanced configuration options for the session, such as ad-blocking and CAPTCHA
               solving.
 
           integration_id: The unique identifier for the integration being called.
@@ -1032,7 +1032,7 @@ class AsyncLamResource(AsyncAPIResource):
           raccoon_passcode: The raccoon passcode associated with the end user on behalf of which the call is
               being made.
 
-          advanced: Advanced configuration options for the task, such as ad-blocking and CAPTCHA
+          advanced: Advanced configuration options for the session, such as ad-blocking and CAPTCHA
               solving.
 
           app_url: This is the entrypoint URL for the web agent.
@@ -1081,7 +1081,7 @@ class AsyncLamResource(AsyncAPIResource):
 
           stream: Whether the response should be streamed back or not.
 
-          advanced: Advanced configuration options for the task, such as ad-blocking and CAPTCHA
+          advanced: Advanced configuration options for the session, such as ad-blocking and CAPTCHA
               solving.
 
           app_url: This is the entrypoint URL for the web agent.
@@ -1128,7 +1128,7 @@ class AsyncLamResource(AsyncAPIResource):
 
           stream: Whether the response should be streamed back or not.
 
-          advanced: Advanced configuration options for the task, such as ad-blocking and CAPTCHA
+          advanced: Advanced configuration options for the session, such as ad-blocking and CAPTCHA
               solving.
 
           app_url: This is the entrypoint URL for the web agent.
