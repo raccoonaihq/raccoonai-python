@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.4 (2025-02-14)
+
+Full Changelog: [v0.1.0-alpha.3...v0.1.0-alpha.4](https://github.com/flyingraccoonai/raccoonai-python/compare/v0.1.0-alpha.3...v0.1.0-alpha.4)
+
+### Bug Fixes
+
+* asyncify on non-asyncio runtimes ([#15](https://github.com/flyingraccoonai/raccoonai-python/issues/15)) ([5a8345e](https://github.com/flyingraccoonai/raccoonai-python/commit/5a8345e71be12864429fa19e8d4d55c9b70a63db))
+
 ## 0.1.0-alpha.3 (2025-02-13)
 
 Full Changelog: [v0.1.0-alpha.2...v0.1.0-alpha.3](https://github.com/flyingraccoonai/raccoonai-python/compare/v0.1.0-alpha.2...v0.1.0-alpha.3)
