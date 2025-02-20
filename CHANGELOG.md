@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.1.0-alpha.5 (2025-02-20)
+
+Full Changelog: [v0.1.0-alpha.4...v0.1.0-alpha.5](https://github.com/raccoonaihq/raccoonai-python/compare/v0.1.0-alpha.4...v0.1.0-alpha.5)
+
+### Features
+
+* **api:** manual updates ([#22](https://github.com/raccoonaihq/raccoonai-python/issues/22)) ([cc6e554](https://github.com/raccoonaihq/raccoonai-python/commit/cc6e55441b2f704061e3a83573e4fc74503c8a68))
+* **client:** increase initial delay in retries to 1 sec ([#21](https://github.com/raccoonaihq/raccoonai-python/issues/21)) ([7db68d9](https://github.com/raccoonaihq/raccoonai-python/commit/7db68d9a20f316e75c35cefdabb24856435c34cf))
+* **client:** set default_timeout to 10 minutes and max_retries to 0 ([#18](https://github.com/raccoonaihq/raccoonai-python/issues/18)) ([51cc5e4](https://github.com/raccoonaihq/raccoonai-python/commit/51cc5e441b12bef5f11d7e942c2ce276f1fe71a0))
+* **config:** update github org name ([#19](https://github.com/raccoonaihq/raccoonai-python/issues/19)) ([de5f0e1](https://github.com/raccoonaihq/raccoonai-python/commit/de5f0e128512d004b0e945e0b8a4c280bffe411b))
+
 ## 0.1.0-alpha.4 (2025-02-14)
 
 Full Changelog: [v0.1.0-alpha.3...v0.1.0-alpha.4](https://github.com/flyingraccoonai/raccoonai-python/compare/v0.1.0-alpha.3...v0.1.0-alpha.4)

@@ -163,7 +163,7 @@ Error codes are as follows:
 
 ### Retries
 
-Certain errors are automatically retried 2 times by default, with a short exponential backoff.
+Certain errors are automatically retried 0 times by default, with a short exponential backoff.
 Connection errors (for example, due to a network connectivity problem), 408 Request Timeout, 409 Conflict,
 429 Rate Limit, and >=500 Internal errors are all retried by default.
 
@@ -187,7 +187,7 @@ client.with_options(max_retries=5).lam.run(
 
 ### Timeouts
 
-By default requests time out after 1 minute. You can configure this with a `timeout` option,
+By default requests time out after 10 minutes. You can configure this with a `timeout` option,
 which accepts a float or an [`httpx.Timeout`](https://www.python-httpx.org/advanced/#fine-tuning-the-configuration) object:
 
 ```python
@@ -195,7 +195,7 @@ from raccoonai import RaccoonAI
 
 # Configure the default for all requests:
 client = RaccoonAI(
-    # 20 seconds (default is 1 minute)
+    # 20 seconds (default is 10 minutes)
     timeout=20.0,
 )
 
@@ -259,9 +259,9 @@ lam = response.parse()  # get the object that `lam.run()` would have returned
 print(lam.livestream_url)
 ```
 
-These methods return an [`APIResponse`](https://github.com/flyingraccoonai/raccoonai-python/tree/main/src/raccoonai/_response.py) object.
+These methods return an [`APIResponse`](https://github.com/raccoonaihq/raccoonai-python/tree/main/src/raccoonai/_response.py) object.
 
-The async client returns an [`AsyncAPIResponse`](https://github.com/flyingraccoonai/raccoonai-python/tree/main/src/raccoonai/_response.py) with the same structure, the only difference being `await`able methods for reading the response content.
+The async client returns an [`AsyncAPIResponse`](https://github.com/raccoonaihq/raccoonai-python/tree/main/src/raccoonai/_response.py) with the same structure, the only difference being `await`able methods for reading the response content.
 
 #### `.with_streaming_response`
 
@@ -368,7 +368,7 @@ This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) con
 
 We take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.
 
-We are keen for your feedback; please open an [issue](https://www.github.com/flyingraccoonai/raccoonai-python/issues) with questions, bugs, or suggestions.
+We are keen for your feedback; please open an [issue](https://www.github.com/raccoonaihq/raccoonai-python/issues) with questions, bugs, or suggestions.
 
 ### Determining the installed version
 
