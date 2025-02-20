@@ -38,7 +38,7 @@ class LamResource(SyncAPIResource):
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/raccoonaihq/raccoonai-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/flyingraccoonai/raccoonai-python#accessing-raw-response-data-eg-headers
         """
         return LamResourceWithRawResponse(self)
 
@@ -47,7 +47,7 @@ class LamResource(SyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/raccoonaihq/raccoonai-python#with_streaming_response
+        For more information, see https://www.github.com/flyingraccoonai/raccoonai-python#with_streaming_response
         """
         return LamResourceWithStreamingResponse(self)
 
@@ -615,7 +615,7 @@ class AsyncLamResource(AsyncAPIResource):
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/raccoonaihq/raccoonai-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/flyingraccoonai/raccoonai-python#accessing-raw-response-data-eg-headers
         """
         return AsyncLamResourceWithRawResponse(self)
 
@@ -624,7 +624,7 @@ class AsyncLamResource(AsyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/raccoonaihq/raccoonai-python#with_streaming_response
+        For more information, see https://www.github.com/flyingraccoonai/raccoonai-python#with_streaming_response
         """
         return AsyncLamResourceWithStreamingResponse(self)
 
