@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.1.0-alpha.6 (2025-02-21)
+
+Full Changelog: [v0.1.0-alpha.5...v0.1.0-alpha.6](https://github.com/raccoonaihq/raccoonai-python/compare/v0.1.0-alpha.5...v0.1.0-alpha.6)
+
+### Features
+
+* **client:** allow passing `NotGiven` for body ([#24](https://github.com/raccoonaihq/raccoonai-python/issues/24)) ([c632aa5](https://github.com/raccoonaihq/raccoonai-python/commit/c632aa57554681c776cb5aad35c673b2c2db65c7))
+
+
+### Bug Fixes
+
+* **client:** mark some request bodies as optional ([c632aa5](https://github.com/raccoonaihq/raccoonai-python/commit/c632aa57554681c776cb5aad35c673b2c2db65c7))
+
 ## 0.1.0-alpha.5 (2025-02-20)
 
 Full Changelog: [v0.1.0-alpha.4...v0.1.0-alpha.5](https://github.com/raccoonaihq/raccoonai-python/compare/v0.1.0-alpha.4...v0.1.0-alpha.5)
