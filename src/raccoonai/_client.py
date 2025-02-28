@@ -87,7 +87,7 @@ class RaccoonAI(SyncAPIClient):
         # part of our public interface in the future.
         _strict_response_validation: bool = False,
     ) -> None:
-        """Construct a new synchronous raccoonAI client instance.
+        """Construct a new synchronous RaccoonAI client instance.
 
         This automatically infers the `secret_key` argument from the `RACCOON_SECRET_KEY` environment variable if it is not provided.
         """
@@ -283,7 +283,7 @@ class AsyncRaccoonAI(AsyncAPIClient):
         # part of our public interface in the future.
         _strict_response_validation: bool = False,
     ) -> None:
-        """Construct a new async raccoonAI client instance.
+        """Construct a new async AsyncRaccoonAI client instance.
 
         This automatically infers the `secret_key` argument from the `RACCOON_SECRET_KEY` environment variable if it is not provided.
         """
