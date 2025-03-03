@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Union, Iterable, Optional
 from typing_extensions import Literal, Required, TypedDict
 
-__all__ = ["LamRunParamsBase", "Advanced", "LamRunParamsNonStreaming", "LamRunParamsStreaming"]
+__all__ = ["LamRunParamsBase", "Advanced", "AdvancedProxy", "LamRunParamsNonStreaming", "LamRunParamsStreaming"]
 
 
 class LamRunParamsBase(TypedDict, total=False):
@@ -33,13 +33,46 @@ class LamRunParamsBase(TypedDict, total=False):
     while building a chat app to give the model context of the past conversation.
     """
 
+    max_count: Optional[int]
+    """The maximum number of results to extract."""
+
+    mode: Optional[Literal["deepsearch", "default"]]
+    """Mode of execution."""
+
+    schema: object
+    """The expected schema for the response.
+
+    This is a dictionary where the keys describe the fields and the values describe
+    their purposes.
+    """
+
+
+class AdvancedProxy(TypedDict, total=False):
+    city: Optional[str]
+    """Target city."""
+
+    country: Optional[str]
+    """Target country (2-letter ISO code)."""
+
+    enable: bool
+    """Whether to use a proxy for the browser session."""
+
+    state: Optional[str]
+    """Target state (2-letter code)."""
+
+    zip: Optional[int]
+    """Target postal code."""
+
 
 class Advanced(TypedDict, total=False):
     block_ads: Optional[bool]
     """Whether to block advertisements during the browser session."""
 
-    proxy: Optional[bool]
-    """Whether to use a proxy for the browser session."""
+    extension_ids: Optional[Iterable[object]]
+    """list of extension ids"""
+
+    proxy: Optional[AdvancedProxy]
+    """Proxy details for the browser session."""
 
     solve_captchas: Optional[bool]
     """Whether to attempt automatic CAPTCHA solving."""

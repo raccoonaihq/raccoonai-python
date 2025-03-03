@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from typing import List, Union
-from typing_extensions import TypeAlias
+from typing_extensions import Literal, TypeAlias
 
 from .._models import BaseModel
 
@@ -21,7 +21,7 @@ class UnionMember0(BaseModel):
     properties: object
     """Additional metadata or details related to the integration task."""
 
-    task_status: str
+    task_status: Literal["STARTING", "PROCESSING", "DONE", "HUMAN_INTERACTION", "FAILURE"]
     """The current status of the extraction task.
 
     For example: 'STARTING', 'PROCESSING', 'DONE', 'HUMAN_INTERACTION', or
@@ -42,7 +42,7 @@ class IntegrationResponse(BaseModel):
     properties: object
     """Additional metadata or details related to the integration task."""
 
-    task_status: str
+    task_status: Literal["STARTING", "PROCESSING", "DONE", "HUMAN_INTERACTION", "FAILURE"]
     """The current status of the extraction task.
 
     For example: 'STARTING', 'PROCESSING', 'DONE', 'HUMAN_INTERACTION', or
