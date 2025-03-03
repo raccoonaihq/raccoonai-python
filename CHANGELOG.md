@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.1.0-alpha.7 (2025-03-03)
+
+Full Changelog: [v0.1.0-alpha.6...v0.1.0-alpha.7](https://github.com/raccoonaihq/raccoonai-python/compare/v0.1.0-alpha.6...v0.1.0-alpha.7)
+
+### Features
+
+* **api:** api update ([#32](https://github.com/raccoonaihq/raccoonai-python/issues/32)) ([122dfbd](https://github.com/raccoonaihq/raccoonai-python/commit/122dfbdab0b497c7baa5c1e30e8c53d971a99b0c))
+
+
+### Chores
+
+* **docs:** update client docstring ([#31](https://github.com/raccoonaihq/raccoonai-python/issues/31)) ([7d5b1cb](https://github.com/raccoonaihq/raccoonai-python/commit/7d5b1cbbbc21e7d7daf7860951236ebbfcc3ba70))
+* **internal:** fix devcontainers setup ([#27](https://github.com/raccoonaihq/raccoonai-python/issues/27)) ([8b3178e](https://github.com/raccoonaihq/raccoonai-python/commit/8b3178e30fe72e1326eb46c49891b668a15db3ca))
+* **internal:** properly set __pydantic_private__ ([#29](https://github.com/raccoonaihq/raccoonai-python/issues/29)) ([f457c28](https://github.com/raccoonaihq/raccoonai-python/commit/f457c28d9b5bbe682cc83156bfad97a0d5216444))
+
+
+### Documentation
+
+* update URLs from stainlessapi.com to stainless.com ([#30](https://github.com/raccoonaihq/raccoonai-python/issues/30)) ([a90f1af](https://github.com/raccoonaihq/raccoonai-python/commit/a90f1afa15b717ae8b8df892b56ee29c1061d441))
+
 ## 0.1.0-alpha.6 (2025-02-21)
 
 Full Changelog: [v0.1.0-alpha.5...v0.1.0-alpha.6](https://github.com/raccoonaihq/raccoonai-python/compare/v0.1.0-alpha.5...v0.1.0-alpha.6)
