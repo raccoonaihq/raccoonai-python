@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from typing import Optional
+from typing_extensions import Literal
 
 import httpx
 
@@ -53,8 +54,7 @@ class FleetResource(SyncAPIResource):
         self,
         *,
         advanced: Optional[fleet_create_params.Advanced] | NotGiven = NOT_GIVEN,
-        app_name: Optional[str] | NotGiven = NOT_GIVEN,
-        browser_type: Optional[str] | NotGiven = NOT_GIVEN,
+        browser_type: Optional[Literal["chromium", "firefox", "webkit"]] | NotGiven = NOT_GIVEN,
         headless: Optional[bool] | NotGiven = NOT_GIVEN,
         raccoon_passcode: Optional[str] | NotGiven = NOT_GIVEN,
         session_timeout: Optional[int] | NotGiven = NOT_GIVEN,
@@ -73,9 +73,6 @@ class FleetResource(SyncAPIResource):
         Args:
           advanced: Advanced configuration options for the session, such as ad-blocking and CAPTCHA
               solving.
-
-          app_name: The name of the app for which the session is going to run for, used for
-              streamlining authentication.
 
           browser_type: The type of browser to use. Supported values include 'chromium', 'firefox', and
               'webkit'.
@@ -105,7 +102,6 @@ class FleetResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "advanced": advanced,
-                    "app_name": app_name,
                     "browser_type": browser_type,
                     "headless": headless,
                     "raccoon_passcode": raccoon_passcode,
@@ -245,8 +241,7 @@ class AsyncFleetResource(AsyncAPIResource):
         self,
         *,
         advanced: Optional[fleet_create_params.Advanced] | NotGiven = NOT_GIVEN,
-        app_name: Optional[str] | NotGiven = NOT_GIVEN,
-        browser_type: Optional[str] | NotGiven = NOT_GIVEN,
+        browser_type: Optional[Literal["chromium", "firefox", "webkit"]] | NotGiven = NOT_GIVEN,
         headless: Optional[bool] | NotGiven = NOT_GIVEN,
         raccoon_passcode: Optional[str] | NotGiven = NOT_GIVEN,
         session_timeout: Optional[int] | NotGiven = NOT_GIVEN,
@@ -265,9 +260,6 @@ class AsyncFleetResource(AsyncAPIResource):
         Args:
           advanced: Advanced configuration options for the session, such as ad-blocking and CAPTCHA
               solving.
-
-          app_name: The name of the app for which the session is going to run for, used for
-              streamlining authentication.
 
           browser_type: The type of browser to use. Supported values include 'chromium', 'firefox', and
               'webkit'.
@@ -297,7 +289,6 @@ class AsyncFleetResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "advanced": advanced,
-                    "app_name": app_name,
                     "browser_type": browser_type,
                     "headless": headless,
                     "raccoon_passcode": raccoon_passcode,

@@ -2,10 +2,10 @@
 
 from __future__ import annotations
 
-from typing import Dict, List, Optional
-from typing_extensions import TypedDict
+from typing import Dict, List, Iterable, Optional
+from typing_extensions import Literal, TypedDict
 
-__all__ = ["FleetCreateParams", "Advanced", "Settings"]
+__all__ = ["FleetCreateParams", "Advanced", "AdvancedProxy", "Settings"]
 
 
 class FleetCreateParams(TypedDict, total=False):
@@ -15,13 +15,7 @@ class FleetCreateParams(TypedDict, total=False):
     solving.
     """
 
-    app_name: Optional[str]
-    """
-    The name of the app for which the session is going to run for, used for
-    streamlining authentication.
-    """
-
-    browser_type: Optional[str]
+    browser_type: Optional[Literal["chromium", "firefox", "webkit"]]
     """The type of browser to use.
 
     Supported values include 'chromium', 'firefox', and 'webkit'.
@@ -49,12 +43,32 @@ class FleetCreateParams(TypedDict, total=False):
     """The entrypoint url for the session."""
 
 
+class AdvancedProxy(TypedDict, total=False):
+    city: Optional[str]
+    """Target city."""
+
+    country: Optional[str]
+    """Target country (2-letter ISO code)."""
+
+    enable: bool
+    """Whether to use a proxy for the browser session."""
+
+    state: Optional[str]
+    """Target state (2-letter code)."""
+
+    zip: Optional[int]
+    """Target postal code."""
+
+
 class Advanced(TypedDict, total=False):
     block_ads: Optional[bool]
     """Whether to block advertisements during the browser session."""
 
-    proxy: Optional[bool]
-    """Whether to use a proxy for the browser session."""
+    extension_ids: Optional[Iterable[object]]
+    """list of extension ids"""
+
+    proxy: Optional[AdvancedProxy]
+    """Proxy details for the browser session."""
 
     solve_captchas: Optional[bool]
     """Whether to attempt automatic CAPTCHA solving."""

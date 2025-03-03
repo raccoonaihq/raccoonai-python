@@ -34,10 +34,16 @@ class TestFleet:
         fleet = client.fleet.create(
             advanced={
                 "block_ads": True,
-                "proxy": True,
+                "extension_ids": ["df2399ea-a938-438f-9d4b-ef3bc95cf8af"],
+                "proxy": {
+                    "city": "sanfrancisco",
+                    "country": "us",
+                    "enable": True,
+                    "state": "ca",
+                    "zip": 94102,
+                },
                 "solve_captchas": True,
             },
-            app_name="uber",
             browser_type="chromium",
             headless=True,
             raccoon_passcode="<end-user-raccoon-passcode>",
@@ -218,10 +224,16 @@ class TestAsyncFleet:
         fleet = await async_client.fleet.create(
             advanced={
                 "block_ads": True,
-                "proxy": True,
+                "extension_ids": ["df2399ea-a938-438f-9d4b-ef3bc95cf8af"],
+                "proxy": {
+                    "city": "sanfrancisco",
+                    "country": "us",
+                    "enable": True,
+                    "state": "ca",
+                    "zip": 94102,
+                },
                 "solve_captchas": True,
             },
-            app_name="uber",
             browser_type="chromium",
             headless=True,
             raccoon_passcode="<end-user-raccoon-passcode>",

@@ -746,7 +746,7 @@ class TestRaccoonAI:
                     object,
                     maybe_transform(
                         dict(
-                            query="Find the price of iphone 16 on Amazon.",
+                            query="Find YCombinator startups who got funded in W24.",
                             raccoon_passcode="<end-user-raccoon-passcode>",
                         ),
                         LamRunParamsNonStreaming,
@@ -770,7 +770,7 @@ class TestRaccoonAI:
                     object,
                     maybe_transform(
                         dict(
-                            query="Find the price of iphone 16 on Amazon.",
+                            query="Find YCombinator startups who got funded in W24.",
                             raccoon_passcode="<end-user-raccoon-passcode>",
                         ),
                         LamRunParamsNonStreaming,
@@ -809,7 +809,7 @@ class TestRaccoonAI:
         respx_mock.post("/lam/run").mock(side_effect=retry_handler)
 
         response = client.lam.with_raw_response.run(
-            query="Find the price of iphone 16 on Amazon.", raccoon_passcode="<end-user-raccoon-passcode>"
+            query="Find YCombinator startups who got funded in W24.", raccoon_passcode="<end-user-raccoon-passcode>"
         )
 
         assert response.retries_taken == failures_before_success
@@ -835,7 +835,7 @@ class TestRaccoonAI:
         respx_mock.post("/lam/run").mock(side_effect=retry_handler)
 
         response = client.lam.with_raw_response.run(
-            query="Find the price of iphone 16 on Amazon.",
+            query="Find YCombinator startups who got funded in W24.",
             raccoon_passcode="<end-user-raccoon-passcode>",
             extra_headers={"x-stainless-retry-count": Omit()},
         )
@@ -862,7 +862,7 @@ class TestRaccoonAI:
         respx_mock.post("/lam/run").mock(side_effect=retry_handler)
 
         response = client.lam.with_raw_response.run(
-            query="Find the price of iphone 16 on Amazon.",
+            query="Find YCombinator startups who got funded in W24.",
             raccoon_passcode="<end-user-raccoon-passcode>",
             extra_headers={"x-stainless-retry-count": "42"},
         )
@@ -1563,7 +1563,7 @@ class TestAsyncRaccoonAI:
                     object,
                     maybe_transform(
                         dict(
-                            query="Find the price of iphone 16 on Amazon.",
+                            query="Find YCombinator startups who got funded in W24.",
                             raccoon_passcode="<end-user-raccoon-passcode>",
                         ),
                         LamRunParamsNonStreaming,
@@ -1587,7 +1587,7 @@ class TestAsyncRaccoonAI:
                     object,
                     maybe_transform(
                         dict(
-                            query="Find the price of iphone 16 on Amazon.",
+                            query="Find YCombinator startups who got funded in W24.",
                             raccoon_passcode="<end-user-raccoon-passcode>",
                         ),
                         LamRunParamsNonStreaming,
@@ -1627,7 +1627,7 @@ class TestAsyncRaccoonAI:
         respx_mock.post("/lam/run").mock(side_effect=retry_handler)
 
         response = await client.lam.with_raw_response.run(
-            query="Find the price of iphone 16 on Amazon.", raccoon_passcode="<end-user-raccoon-passcode>"
+            query="Find YCombinator startups who got funded in W24.", raccoon_passcode="<end-user-raccoon-passcode>"
         )
 
         assert response.retries_taken == failures_before_success
@@ -1654,7 +1654,7 @@ class TestAsyncRaccoonAI:
         respx_mock.post("/lam/run").mock(side_effect=retry_handler)
 
         response = await client.lam.with_raw_response.run(
-            query="Find the price of iphone 16 on Amazon.",
+            query="Find YCombinator startups who got funded in W24.",
             raccoon_passcode="<end-user-raccoon-passcode>",
             extra_headers={"x-stainless-retry-count": Omit()},
         )
@@ -1682,7 +1682,7 @@ class TestAsyncRaccoonAI:
         respx_mock.post("/lam/run").mock(side_effect=retry_handler)
 
         response = await client.lam.with_raw_response.run(
-            query="Find the price of iphone 16 on Amazon.",
+            query="Find YCombinator startups who got funded in W24.",
             raccoon_passcode="<end-user-raccoon-passcode>",
             extra_headers={"x-stainless-retry-count": "42"},
         )
