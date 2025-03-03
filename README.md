@@ -34,10 +34,10 @@ client = RaccoonAI(
 )
 
 response = client.lam.run(
-    query="Find the price of iphone 16 on Amazon.",
+    query="Find YCombinator startups who got funded in W24.",
     raccoon_passcode="<end-user-raccoon-passcode>",
 )
-print(response.livestream_url)
+print(response.data)
 ```
 
 While you can provide a `secret_key` keyword argument,
@@ -63,10 +63,10 @@ client = AsyncRaccoonAI(
 
 async def main() -> None:
     response = await client.lam.run(
-        query="Find the price of iphone 16 on Amazon.",
+        query="Find YCombinator startups who got funded in W24.",
         raccoon_passcode="<end-user-raccoon-passcode>",
     )
-    print(response.livestream_url)
+    print(response.data)
 
 
 asyncio.run(main())
@@ -84,12 +84,12 @@ from raccoonai import RaccoonAI
 client = RaccoonAI()
 
 stream = client.lam.run(
-    query="Find the price of iphone 16 on Amazon.",
+    query="Find YCombinator startups who got funded in W24.",
     raccoon_passcode="<end-user-raccoon-passcode>",
     stream=True,
 )
 for response in stream:
-    print(response.livestream_url)
+    print(response.data)
 ```
 
 The async client uses the exact same interface.
@@ -100,12 +100,12 @@ from raccoonai import AsyncRaccoonAI
 client = AsyncRaccoonAI()
 
 stream = await client.lam.run(
-    query="Find the price of iphone 16 on Amazon.",
+    query="Find YCombinator startups who got funded in W24.",
     raccoon_passcode="<end-user-raccoon-passcode>",
     stream=True,
 )
 async for response in stream:
-    print(response.livestream_url)
+    print(response.data)
 ```
 
 ## Using types
@@ -134,7 +134,7 @@ client = RaccoonAI()
 
 try:
     client.lam.run(
-        query="Find the price of iphone 16 on Amazon.",
+        query="Find YCombinator startups who got funded in W24.",
         raccoon_passcode="<end-user-raccoon-passcode>",
     )
 except raccoonai.APIConnectionError as e:
@@ -180,7 +180,7 @@ client = RaccoonAI(
 
 # Or, configure per-request:
 client.with_options(max_retries=5).lam.run(
-    query="Find the price of iphone 16 on Amazon.",
+    query="Find YCombinator startups who got funded in W24.",
     raccoon_passcode="<end-user-raccoon-passcode>",
 )
 ```
@@ -206,7 +206,7 @@ client = RaccoonAI(
 
 # Override per-request:
 client.with_options(timeout=5.0).lam.run(
-    query="Find the price of iphone 16 on Amazon.",
+    query="Find YCombinator startups who got funded in W24.",
     raccoon_passcode="<end-user-raccoon-passcode>",
 )
 ```
@@ -250,13 +250,13 @@ from raccoonai import RaccoonAI
 
 client = RaccoonAI()
 response = client.lam.with_raw_response.run(
-    query="Find the price of iphone 16 on Amazon.",
+    query="Find YCombinator startups who got funded in W24.",
     raccoon_passcode="<end-user-raccoon-passcode>",
 )
 print(response.headers.get('X-My-Header'))
 
 lam = response.parse()  # get the object that `lam.run()` would have returned
-print(lam.livestream_url)
+print(lam.data)
 ```
 
 These methods return an [`APIResponse`](https://github.com/raccoonaihq/raccoonai-python/tree/main/src/raccoonai/_response.py) object.
@@ -271,7 +271,7 @@ To stream the response body, use `.with_streaming_response` instead, which requi
 
 ```python
 with client.lam.with_streaming_response.run(
-    query="Find the price of iphone 16 on Amazon.",
+    query="Find YCombinator startups who got funded in W24.",
     raccoon_passcode="<end-user-raccoon-passcode>",
 ) as response:
     print(response.headers.get("X-My-Header"))
