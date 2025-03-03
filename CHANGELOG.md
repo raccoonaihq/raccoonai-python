@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.1.0-alpha.8 (2025-03-03)
+
+Full Changelog: [v0.1.0-alpha.7...v0.1.0-alpha.8](https://github.com/raccoonaihq/raccoonai-python/compare/v0.1.0-alpha.7...v0.1.0-alpha.8)
+
+### Features
+
+* **api:** add tail and extensions resources + update old ones ([#34](https://github.com/raccoonaihq/raccoonai-python/issues/34)) ([46e7bc7](https://github.com/raccoonaihq/raccoonai-python/commit/46e7bc7a131e41a47f05ff3103ad2859997719b9))
+
+
+### Bug Fixes
+
+* **api:** tail users get path ([#36](https://github.com/raccoonaihq/raccoonai-python/issues/36)) ([00b9303](https://github.com/raccoonaihq/raccoonai-python/commit/00b9303a013a4202f4d4e9c824f8065013d1e236))
+
 ## 0.1.0-alpha.7 (2025-03-03)
 
 Full Changelog: [v0.1.0-alpha.6...v0.1.0-alpha.7](https://github.com/raccoonaihq/raccoonai-python/compare/v0.1.0-alpha.6...v0.1.0-alpha.7)

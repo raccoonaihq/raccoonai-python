@@ -2,12 +2,12 @@
 
 from __future__ import annotations
 
-from typing import Optional
+from typing import List, Optional
 from typing_extensions import Literal
 
 import httpx
 
-from ..types import fleet_create_params
+from ..types import fleet_create_params, fleet_sessions_params
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from .._utils import (
     maybe_transform,
@@ -25,6 +25,7 @@ from .._base_client import make_request_options
 from ..types.fleet_logs_response import FleetLogsResponse
 from ..types.fleet_create_response import FleetCreateResponse
 from ..types.fleet_status_response import FleetStatusResponse
+from ..types.fleet_sessions_response import FleetSessionsResponse
 from ..types.fleet_terminate_response import FleetTerminateResponse
 
 __all__ = ["FleetResource", "AsyncFleetResource"]
@@ -148,6 +149,85 @@ class FleetResource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=FleetLogsResponse,
+        )
+
+    def sessions(
+        self,
+        *,
+        end_time: Optional[int] | NotGiven = NOT_GIVEN,
+        execution_type: Optional[List[Literal["run", "extract", "fleet"]]] | NotGiven = NOT_GIVEN,
+        limit: Optional[int] | NotGiven = NOT_GIVEN,
+        page: Optional[int] | NotGiven = NOT_GIVEN,
+        raccoon_passcode: Optional[str] | NotGiven = NOT_GIVEN,
+        session_id: Optional[str] | NotGiven = NOT_GIVEN,
+        sort_by: Optional[Literal["timestamp", "executionTime", "taskId", "status", "executionType"]]
+        | NotGiven = NOT_GIVEN,
+        sort_order: Optional[Literal["ascend", "descend"]] | NotGiven = NOT_GIVEN,
+        start_time: Optional[int] | NotGiven = NOT_GIVEN,
+        task_id: Optional[str] | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> FleetSessionsResponse:
+        """
+        Get Sessions Endpoint
+
+        Args:
+          end_time: Filter sessions created before this Unix timestamp (in milliseconds).
+
+          execution_type: Filter sessions by execution type (e.g., 'run', 'extract').
+
+          limit: Number of sessions per page (maximum 100).
+
+          page: Page number for pagination.
+
+          raccoon_passcode: Filter sessions by Raccoon passcode.
+
+          session_id: Filter sessions by a specific session ID.
+
+          sort_by: Field to sort sessions by (e.g., 'timestamp', 'executionTime').
+
+          sort_order: Sort order ('ascend' or 'descend').
+
+          start_time: Filter sessions created after this Unix timestamp (in milliseconds).
+
+          task_id: Filter sessions by a specific task ID.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._get(
+            "/sessions",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "end_time": end_time,
+                        "execution_type": execution_type,
+                        "limit": limit,
+                        "page": page,
+                        "raccoon_passcode": raccoon_passcode,
+                        "session_id": session_id,
+                        "sort_by": sort_by,
+                        "sort_order": sort_order,
+                        "start_time": start_time,
+                        "task_id": task_id,
+                    },
+                    fleet_sessions_params.FleetSessionsParams,
+                ),
+            ),
+            cast_to=FleetSessionsResponse,
         )
 
     def status(
@@ -337,6 +417,85 @@ class AsyncFleetResource(AsyncAPIResource):
             cast_to=FleetLogsResponse,
         )
 
+    async def sessions(
+        self,
+        *,
+        end_time: Optional[int] | NotGiven = NOT_GIVEN,
+        execution_type: Optional[List[Literal["run", "extract", "fleet"]]] | NotGiven = NOT_GIVEN,
+        limit: Optional[int] | NotGiven = NOT_GIVEN,
+        page: Optional[int] | NotGiven = NOT_GIVEN,
+        raccoon_passcode: Optional[str] | NotGiven = NOT_GIVEN,
+        session_id: Optional[str] | NotGiven = NOT_GIVEN,
+        sort_by: Optional[Literal["timestamp", "executionTime", "taskId", "status", "executionType"]]
+        | NotGiven = NOT_GIVEN,
+        sort_order: Optional[Literal["ascend", "descend"]] | NotGiven = NOT_GIVEN,
+        start_time: Optional[int] | NotGiven = NOT_GIVEN,
+        task_id: Optional[str] | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> FleetSessionsResponse:
+        """
+        Get Sessions Endpoint
+
+        Args:
+          end_time: Filter sessions created before this Unix timestamp (in milliseconds).
+
+          execution_type: Filter sessions by execution type (e.g., 'run', 'extract').
+
+          limit: Number of sessions per page (maximum 100).
+
+          page: Page number for pagination.
+
+          raccoon_passcode: Filter sessions by Raccoon passcode.
+
+          session_id: Filter sessions by a specific session ID.
+
+          sort_by: Field to sort sessions by (e.g., 'timestamp', 'executionTime').
+
+          sort_order: Sort order ('ascend' or 'descend').
+
+          start_time: Filter sessions created after this Unix timestamp (in milliseconds).
+
+          task_id: Filter sessions by a specific task ID.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return await self._get(
+            "/sessions",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {
+                        "end_time": end_time,
+                        "execution_type": execution_type,
+                        "limit": limit,
+                        "page": page,
+                        "raccoon_passcode": raccoon_passcode,
+                        "session_id": session_id,
+                        "sort_by": sort_by,
+                        "sort_order": sort_order,
+                        "start_time": start_time,
+                        "task_id": task_id,
+                    },
+                    fleet_sessions_params.FleetSessionsParams,
+                ),
+            ),
+            cast_to=FleetSessionsResponse,
+        )
+
     async def status(
         self,
         session_id: str,
@@ -414,6 +573,9 @@ class FleetResourceWithRawResponse:
         self.logs = to_raw_response_wrapper(
             fleet.logs,
         )
+        self.sessions = to_raw_response_wrapper(
+            fleet.sessions,
+        )
         self.status = to_raw_response_wrapper(
             fleet.status,
         )
@@ -431,6 +593,9 @@ class AsyncFleetResourceWithRawResponse:
         )
         self.logs = async_to_raw_response_wrapper(
             fleet.logs,
+        )
+        self.sessions = async_to_raw_response_wrapper(
+            fleet.sessions,
         )
         self.status = async_to_raw_response_wrapper(
             fleet.status,
@@ -450,6 +615,9 @@ class FleetResourceWithStreamingResponse:
         self.logs = to_streamed_response_wrapper(
             fleet.logs,
         )
+        self.sessions = to_streamed_response_wrapper(
+            fleet.sessions,
+        )
         self.status = to_streamed_response_wrapper(
             fleet.status,
         )
@@ -467,6 +635,9 @@ class AsyncFleetResourceWithStreamingResponse:
         )
         self.logs = async_to_streamed_response_wrapper(
             fleet.logs,
+        )
+        self.sessions = async_to_streamed_response_wrapper(
+            fleet.sessions,
         )
         self.status = async_to_streamed_response_wrapper(
             fleet.status,

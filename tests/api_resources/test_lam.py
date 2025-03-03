@@ -9,146 +9,13 @@ import pytest
 
 from raccoonai import RaccoonAI, AsyncRaccoonAI
 from tests.utils import assert_matches_type
-from raccoonai.types import LamRunResponse, LamIntegrationRunResponse
+from raccoonai.types import LamRunResponse, LamTasksResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
 
 class TestLam:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
-
-    @parametrize
-    def test_method_integration_run_overload_1(self, client: RaccoonAI) -> None:
-        lam = client.lam.integration_run(
-            app_name="app_name",
-            raccoon_passcode="raccoon_passcode",
-        )
-        assert_matches_type(LamIntegrationRunResponse, lam, path=["response"])
-
-    @parametrize
-    def test_method_integration_run_with_all_params_overload_1(self, client: RaccoonAI) -> None:
-        lam = client.lam.integration_run(
-            app_name="app_name",
-            raccoon_passcode="raccoon_passcode",
-            advanced={
-                "block_ads": True,
-                "extension_ids": ["df2399ea-a938-438f-9d4b-ef3bc95cf8af"],
-                "proxy": {
-                    "city": "sanfrancisco",
-                    "country": "us",
-                    "enable": True,
-                    "state": "ca",
-                    "zip": 94102,
-                },
-                "solve_captchas": True,
-            },
-            integration_id="integration_id",
-            properties={},
-            stream=False,
-        )
-        assert_matches_type(LamIntegrationRunResponse, lam, path=["response"])
-
-    @parametrize
-    def test_raw_response_integration_run_overload_1(self, client: RaccoonAI) -> None:
-        response = client.lam.with_raw_response.integration_run(
-            app_name="app_name",
-            raccoon_passcode="raccoon_passcode",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        lam = response.parse()
-        assert_matches_type(LamIntegrationRunResponse, lam, path=["response"])
-
-    @parametrize
-    def test_streaming_response_integration_run_overload_1(self, client: RaccoonAI) -> None:
-        with client.lam.with_streaming_response.integration_run(
-            app_name="app_name",
-            raccoon_passcode="raccoon_passcode",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            lam = response.parse()
-            assert_matches_type(LamIntegrationRunResponse, lam, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @parametrize
-    def test_path_params_integration_run_overload_1(self, client: RaccoonAI) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `app_name` but received ''"):
-            client.lam.with_raw_response.integration_run(
-                app_name="",
-                raccoon_passcode="raccoon_passcode",
-            )
-
-    @parametrize
-    def test_method_integration_run_overload_2(self, client: RaccoonAI) -> None:
-        lam_stream = client.lam.integration_run(
-            app_name="app_name",
-            raccoon_passcode="raccoon_passcode",
-            stream=True,
-        )
-        lam_stream.response.close()
-
-    @parametrize
-    def test_method_integration_run_with_all_params_overload_2(self, client: RaccoonAI) -> None:
-        lam_stream = client.lam.integration_run(
-            app_name="app_name",
-            raccoon_passcode="raccoon_passcode",
-            stream=True,
-            advanced={
-                "block_ads": True,
-                "extension_ids": ["df2399ea-a938-438f-9d4b-ef3bc95cf8af"],
-                "proxy": {
-                    "city": "sanfrancisco",
-                    "country": "us",
-                    "enable": True,
-                    "state": "ca",
-                    "zip": 94102,
-                },
-                "solve_captchas": True,
-            },
-            integration_id="integration_id",
-            properties={},
-        )
-        lam_stream.response.close()
-
-    @parametrize
-    def test_raw_response_integration_run_overload_2(self, client: RaccoonAI) -> None:
-        response = client.lam.with_raw_response.integration_run(
-            app_name="app_name",
-            raccoon_passcode="raccoon_passcode",
-            stream=True,
-        )
-
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        stream = response.parse()
-        stream.close()
-
-    @parametrize
-    def test_streaming_response_integration_run_overload_2(self, client: RaccoonAI) -> None:
-        with client.lam.with_streaming_response.integration_run(
-            app_name="app_name",
-            raccoon_passcode="raccoon_passcode",
-            stream=True,
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            stream = response.parse()
-            stream.close()
-
-        assert cast(Any, response.is_closed) is True
-
-    @parametrize
-    def test_path_params_integration_run_overload_2(self, client: RaccoonAI) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `app_name` but received ''"):
-            client.lam.with_raw_response.integration_run(
-                app_name="",
-                raccoon_passcode="raccoon_passcode",
-                stream=True,
-            )
 
     @parametrize
     def test_method_run_overload_1(self, client: RaccoonAI) -> None:
@@ -286,142 +153,49 @@ class TestLam:
 
         assert cast(Any, response.is_closed) is True
 
-
-class TestAsyncLam:
-    parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
+    @parametrize
+    def test_method_tasks(self, client: RaccoonAI) -> None:
+        lam = client.lam.tasks()
+        assert_matches_type(LamTasksResponse, lam, path=["response"])
 
     @parametrize
-    async def test_method_integration_run_overload_1(self, async_client: AsyncRaccoonAI) -> None:
-        lam = await async_client.lam.integration_run(
-            app_name="app_name",
-            raccoon_passcode="raccoon_passcode",
+    def test_method_tasks_with_all_params(self, client: RaccoonAI) -> None:
+        lam = client.lam.tasks(
+            end_time=1678972800000,
+            execution_type=["run", "extract"],
+            limit=20,
+            page=1,
+            raccoon_passcode="code123",
+            sort_by="timestamp",
+            sort_order="ascend",
+            start_time=1678886400000,
+            task_id="task_123",
         )
-        assert_matches_type(LamIntegrationRunResponse, lam, path=["response"])
+        assert_matches_type(LamTasksResponse, lam, path=["response"])
 
     @parametrize
-    async def test_method_integration_run_with_all_params_overload_1(self, async_client: AsyncRaccoonAI) -> None:
-        lam = await async_client.lam.integration_run(
-            app_name="app_name",
-            raccoon_passcode="raccoon_passcode",
-            advanced={
-                "block_ads": True,
-                "extension_ids": ["df2399ea-a938-438f-9d4b-ef3bc95cf8af"],
-                "proxy": {
-                    "city": "sanfrancisco",
-                    "country": "us",
-                    "enable": True,
-                    "state": "ca",
-                    "zip": 94102,
-                },
-                "solve_captchas": True,
-            },
-            integration_id="integration_id",
-            properties={},
-            stream=False,
-        )
-        assert_matches_type(LamIntegrationRunResponse, lam, path=["response"])
-
-    @parametrize
-    async def test_raw_response_integration_run_overload_1(self, async_client: AsyncRaccoonAI) -> None:
-        response = await async_client.lam.with_raw_response.integration_run(
-            app_name="app_name",
-            raccoon_passcode="raccoon_passcode",
-        )
+    def test_raw_response_tasks(self, client: RaccoonAI) -> None:
+        response = client.lam.with_raw_response.tasks()
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        lam = await response.parse()
-        assert_matches_type(LamIntegrationRunResponse, lam, path=["response"])
+        lam = response.parse()
+        assert_matches_type(LamTasksResponse, lam, path=["response"])
 
     @parametrize
-    async def test_streaming_response_integration_run_overload_1(self, async_client: AsyncRaccoonAI) -> None:
-        async with async_client.lam.with_streaming_response.integration_run(
-            app_name="app_name",
-            raccoon_passcode="raccoon_passcode",
-        ) as response:
+    def test_streaming_response_tasks(self, client: RaccoonAI) -> None:
+        with client.lam.with_streaming_response.tasks() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
-            lam = await response.parse()
-            assert_matches_type(LamIntegrationRunResponse, lam, path=["response"])
+            lam = response.parse()
+            assert_matches_type(LamTasksResponse, lam, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
-    @parametrize
-    async def test_path_params_integration_run_overload_1(self, async_client: AsyncRaccoonAI) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `app_name` but received ''"):
-            await async_client.lam.with_raw_response.integration_run(
-                app_name="",
-                raccoon_passcode="raccoon_passcode",
-            )
 
-    @parametrize
-    async def test_method_integration_run_overload_2(self, async_client: AsyncRaccoonAI) -> None:
-        lam_stream = await async_client.lam.integration_run(
-            app_name="app_name",
-            raccoon_passcode="raccoon_passcode",
-            stream=True,
-        )
-        await lam_stream.response.aclose()
-
-    @parametrize
-    async def test_method_integration_run_with_all_params_overload_2(self, async_client: AsyncRaccoonAI) -> None:
-        lam_stream = await async_client.lam.integration_run(
-            app_name="app_name",
-            raccoon_passcode="raccoon_passcode",
-            stream=True,
-            advanced={
-                "block_ads": True,
-                "extension_ids": ["df2399ea-a938-438f-9d4b-ef3bc95cf8af"],
-                "proxy": {
-                    "city": "sanfrancisco",
-                    "country": "us",
-                    "enable": True,
-                    "state": "ca",
-                    "zip": 94102,
-                },
-                "solve_captchas": True,
-            },
-            integration_id="integration_id",
-            properties={},
-        )
-        await lam_stream.response.aclose()
-
-    @parametrize
-    async def test_raw_response_integration_run_overload_2(self, async_client: AsyncRaccoonAI) -> None:
-        response = await async_client.lam.with_raw_response.integration_run(
-            app_name="app_name",
-            raccoon_passcode="raccoon_passcode",
-            stream=True,
-        )
-
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        stream = await response.parse()
-        await stream.close()
-
-    @parametrize
-    async def test_streaming_response_integration_run_overload_2(self, async_client: AsyncRaccoonAI) -> None:
-        async with async_client.lam.with_streaming_response.integration_run(
-            app_name="app_name",
-            raccoon_passcode="raccoon_passcode",
-            stream=True,
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            stream = await response.parse()
-            await stream.close()
-
-        assert cast(Any, response.is_closed) is True
-
-    @parametrize
-    async def test_path_params_integration_run_overload_2(self, async_client: AsyncRaccoonAI) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `app_name` but received ''"):
-            await async_client.lam.with_raw_response.integration_run(
-                app_name="",
-                raccoon_passcode="raccoon_passcode",
-                stream=True,
-            )
+class TestAsyncLam:
+    parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
     async def test_method_run_overload_1(self, async_client: AsyncRaccoonAI) -> None:
@@ -556,5 +330,45 @@ class TestAsyncLam:
 
             stream = await response.parse()
             await stream.close()
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_method_tasks(self, async_client: AsyncRaccoonAI) -> None:
+        lam = await async_client.lam.tasks()
+        assert_matches_type(LamTasksResponse, lam, path=["response"])
+
+    @parametrize
+    async def test_method_tasks_with_all_params(self, async_client: AsyncRaccoonAI) -> None:
+        lam = await async_client.lam.tasks(
+            end_time=1678972800000,
+            execution_type=["run", "extract"],
+            limit=20,
+            page=1,
+            raccoon_passcode="code123",
+            sort_by="timestamp",
+            sort_order="ascend",
+            start_time=1678886400000,
+            task_id="task_123",
+        )
+        assert_matches_type(LamTasksResponse, lam, path=["response"])
+
+    @parametrize
+    async def test_raw_response_tasks(self, async_client: AsyncRaccoonAI) -> None:
+        response = await async_client.lam.with_raw_response.tasks()
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        lam = await response.parse()
+        assert_matches_type(LamTasksResponse, lam, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_tasks(self, async_client: AsyncRaccoonAI) -> None:
+        async with async_client.lam.with_streaming_response.tasks() as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            lam = await response.parse()
+            assert_matches_type(LamTasksResponse, lam, path=["response"])
 
         assert cast(Any, response.is_closed) is True
