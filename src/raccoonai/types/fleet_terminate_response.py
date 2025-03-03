@@ -1,5 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+from typing_extensions import Literal
 
 from .._models import BaseModel
 
@@ -10,8 +11,5 @@ class FleetTerminateResponse(BaseModel):
     session_id: str
     """A unique identifier for the session."""
 
-    status: str
-    """The current status of the session.
-
-    Possible values include 'running', 'unknown', or 'terminated'.
-    """
+    status: Literal["starting", "running", "terminated", "completed", "unknown"]
+    """The current status of the session."""

@@ -3,12 +3,11 @@
 Types:
 
 ```python
-from raccoonai.types import LamExtractResponse, LamIntegrationRunResponse, LamRunResponse
+from raccoonai.types import LamIntegrationRunResponse, LamRunResponse
 ```
 
 Methods:
 
-- <code title="post /lam/extract">client.lam.<a href="./src/raccoonai/resources/lam.py">extract</a>(\*\*<a href="src/raccoonai/types/lam_extract_params.py">params</a>) -> <a href="./src/raccoonai/types/lam_extract_response.py">LamExtractResponse</a></code>
 - <code title="post /lam/{app_name}/run">client.lam.<a href="./src/raccoonai/resources/lam.py">integration_run</a>(app_name, \*\*<a href="src/raccoonai/types/lam_integration_run_params.py">params</a>) -> <a href="./src/raccoonai/types/lam_integration_run_response.py">LamIntegrationRunResponse</a></code>
 - <code title="post /lam/run">client.lam.<a href="./src/raccoonai/resources/lam.py">run</a>(\*\*<a href="src/raccoonai/types/lam_run_params.py">params</a>) -> <a href="./src/raccoonai/types/lam_run_response.py">LamRunResponse</a></code>
 
