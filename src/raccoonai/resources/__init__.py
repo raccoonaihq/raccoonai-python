@@ -8,6 +8,14 @@ from .lam import (
     LamResourceWithStreamingResponse,
     AsyncLamResourceWithStreamingResponse,
 )
+from .tail import (
+    TailResource,
+    AsyncTailResource,
+    TailResourceWithRawResponse,
+    AsyncTailResourceWithRawResponse,
+    TailResourceWithStreamingResponse,
+    AsyncTailResourceWithStreamingResponse,
+)
 from .fleet import (
     FleetResource,
     AsyncFleetResource,
@@ -15,6 +23,14 @@ from .fleet import (
     AsyncFleetResourceWithRawResponse,
     FleetResourceWithStreamingResponse,
     AsyncFleetResourceWithStreamingResponse,
+)
+from .extensions import (
+    ExtensionsResource,
+    AsyncExtensionsResource,
+    ExtensionsResourceWithRawResponse,
+    AsyncExtensionsResourceWithRawResponse,
+    ExtensionsResourceWithStreamingResponse,
+    AsyncExtensionsResourceWithStreamingResponse,
 )
 
 __all__ = [
@@ -24,10 +40,22 @@ __all__ = [
     "AsyncLamResourceWithRawResponse",
     "LamResourceWithStreamingResponse",
     "AsyncLamResourceWithStreamingResponse",
+    "TailResource",
+    "AsyncTailResource",
+    "TailResourceWithRawResponse",
+    "AsyncTailResourceWithRawResponse",
+    "TailResourceWithStreamingResponse",
+    "AsyncTailResourceWithStreamingResponse",
     "FleetResource",
     "AsyncFleetResource",
     "FleetResourceWithRawResponse",
     "AsyncFleetResourceWithRawResponse",
     "FleetResourceWithStreamingResponse",
     "AsyncFleetResourceWithStreamingResponse",
+    "ExtensionsResource",
+    "AsyncExtensionsResource",
+    "ExtensionsResourceWithRawResponse",
+    "AsyncExtensionsResourceWithRawResponse",
+    "ExtensionsResourceWithStreamingResponse",
+    "AsyncExtensionsResourceWithStreamingResponse",
 ]

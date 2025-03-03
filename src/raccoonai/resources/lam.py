@@ -2,12 +2,12 @@
 
 from __future__ import annotations
 
-from typing import Any, Iterable, Optional, cast
+from typing import List, Iterable, Optional
 from typing_extensions import Literal, overload
 
 import httpx
 
-from ..types import lam_run_params, lam_integration_run_params
+from ..types import lam_run_params, lam_tasks_params
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from .._utils import (
     required_args,
@@ -25,7 +25,7 @@ from .._response import (
 from .._streaming import Stream, AsyncStream
 from .._base_client import make_request_options
 from ..types.lam_run_response import LamRunResponse
-from ..types.lam_integration_run_response import LamIntegrationRunResponse
+from ..types.lam_tasks_response import LamTasksResponse
 
 __all__ = ["LamResource", "AsyncLamResource"]
 
@@ -49,179 +49,6 @@ class LamResource(SyncAPIResource):
         For more information, see https://www.github.com/raccoonaihq/raccoonai-python#with_streaming_response
         """
         return LamResourceWithStreamingResponse(self)
-
-    @overload
-    def integration_run(
-        self,
-        app_name: str,
-        *,
-        raccoon_passcode: str,
-        advanced: Optional[lam_integration_run_params.Advanced] | NotGiven = NOT_GIVEN,
-        integration_id: Optional[str] | NotGiven = NOT_GIVEN,
-        properties: Optional[object] | NotGiven = NOT_GIVEN,
-        stream: Optional[Literal[False]] | NotGiven = NOT_GIVEN,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> LamIntegrationRunResponse:
-        """
-        Lam Integrations Endpoint
-
-        Args:
-          raccoon_passcode: The raccoon passcode associated with the end user on behalf of which the call is
-              being made.
-
-          advanced: Advanced configuration options for the session, such as ad-blocking and CAPTCHA
-              solving.
-
-          integration_id: The unique identifier for the integration being called.
-
-          properties: Additional properties or data related to the particular integration.
-
-          stream: Whether the response should be streamed back or not.
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        ...
-
-    @overload
-    def integration_run(
-        self,
-        app_name: str,
-        *,
-        raccoon_passcode: str,
-        stream: Literal[True],
-        advanced: Optional[lam_integration_run_params.Advanced] | NotGiven = NOT_GIVEN,
-        integration_id: Optional[str] | NotGiven = NOT_GIVEN,
-        properties: Optional[object] | NotGiven = NOT_GIVEN,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Stream[LamIntegrationRunResponse]:
-        """
-        Lam Integrations Endpoint
-
-        Args:
-          raccoon_passcode: The raccoon passcode associated with the end user on behalf of which the call is
-              being made.
-
-          stream: Whether the response should be streamed back or not.
-
-          advanced: Advanced configuration options for the session, such as ad-blocking and CAPTCHA
-              solving.
-
-          integration_id: The unique identifier for the integration being called.
-
-          properties: Additional properties or data related to the particular integration.
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        ...
-
-    @overload
-    def integration_run(
-        self,
-        app_name: str,
-        *,
-        raccoon_passcode: str,
-        stream: bool,
-        advanced: Optional[lam_integration_run_params.Advanced] | NotGiven = NOT_GIVEN,
-        integration_id: Optional[str] | NotGiven = NOT_GIVEN,
-        properties: Optional[object] | NotGiven = NOT_GIVEN,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> LamIntegrationRunResponse | Stream[LamIntegrationRunResponse]:
-        """
-        Lam Integrations Endpoint
-
-        Args:
-          raccoon_passcode: The raccoon passcode associated with the end user on behalf of which the call is
-              being made.
-
-          stream: Whether the response should be streamed back or not.
-
-          advanced: Advanced configuration options for the session, such as ad-blocking and CAPTCHA
-              solving.
-
-          integration_id: The unique identifier for the integration being called.
-
-          properties: Additional properties or data related to the particular integration.
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        ...
-
-    @required_args(["raccoon_passcode"], ["raccoon_passcode", "stream"])
-    def integration_run(
-        self,
-        app_name: str,
-        *,
-        raccoon_passcode: str,
-        advanced: Optional[lam_integration_run_params.Advanced] | NotGiven = NOT_GIVEN,
-        integration_id: Optional[str] | NotGiven = NOT_GIVEN,
-        properties: Optional[object] | NotGiven = NOT_GIVEN,
-        stream: Optional[Literal[False]] | Literal[True] | NotGiven = NOT_GIVEN,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> LamIntegrationRunResponse | Stream[LamIntegrationRunResponse]:
-        if not app_name:
-            raise ValueError(f"Expected a non-empty value for `app_name` but received {app_name!r}")
-        return cast(
-            LamIntegrationRunResponse,
-            self._post(
-                f"/lam/{app_name}/run",
-                body=maybe_transform(
-                    {
-                        "raccoon_passcode": raccoon_passcode,
-                        "advanced": advanced,
-                        "integration_id": integration_id,
-                        "properties": properties,
-                        "stream": stream,
-                    },
-                    lam_integration_run_params.LamIntegrationRunParams,
-                ),
-                options=make_request_options(
-                    extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-                ),
-                cast_to=cast(
-                    Any, LamIntegrationRunResponse
-                ),  # Union types cannot be passed in as arguments in the type system
-                stream=stream or False,
-                stream_cls=Stream[LamIntegrationRunResponse],
-            ),
-        )
 
     @overload
     def run(
@@ -438,6 +265,81 @@ class LamResource(SyncAPIResource):
             stream_cls=Stream[LamRunResponse],
         )
 
+    def tasks(
+        self,
+        *,
+        end_time: Optional[int] | NotGiven = NOT_GIVEN,
+        execution_type: Optional[List[Literal["run", "extract", "fleet"]]] | NotGiven = NOT_GIVEN,
+        limit: Optional[int] | NotGiven = NOT_GIVEN,
+        page: Optional[int] | NotGiven = NOT_GIVEN,
+        raccoon_passcode: Optional[str] | NotGiven = NOT_GIVEN,
+        sort_by: Optional[Literal["timestamp", "executionTime", "taskId", "status", "executionType"]]
+        | NotGiven = NOT_GIVEN,
+        sort_order: Optional[Literal["ascend", "descend"]] | NotGiven = NOT_GIVEN,
+        start_time: Optional[int] | NotGiven = NOT_GIVEN,
+        task_id: Optional[str] | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> LamTasksResponse:
+        """
+        Get Tasks Endpoint
+
+        Args:
+          end_time: Filter tasks created before this Unix timestamp (in milliseconds).
+
+          execution_type: Filter tasks by execution type (e.g., 'run', 'extract').
+
+          limit: Number of tasks per page (maximum 100).
+
+          page: Page number for pagination.
+
+          raccoon_passcode: Filter tasks by Raccoon passcode.
+
+          sort_by: Field to sort tasks by (e.g., 'timestamp', 'executionTime').
+
+          sort_order: Sort order ('ascend' or 'descend').
+
+          start_time: Filter tasks created after this Unix timestamp (in milliseconds).
+
+          task_id: Filter tasks by a specific task ID.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._get(
+            "/lam/tasks",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "end_time": end_time,
+                        "execution_type": execution_type,
+                        "limit": limit,
+                        "page": page,
+                        "raccoon_passcode": raccoon_passcode,
+                        "sort_by": sort_by,
+                        "sort_order": sort_order,
+                        "start_time": start_time,
+                        "task_id": task_id,
+                    },
+                    lam_tasks_params.LamTasksParams,
+                ),
+            ),
+            cast_to=LamTasksResponse,
+        )
+
 
 class AsyncLamResource(AsyncAPIResource):
     @cached_property
@@ -458,179 +360,6 @@ class AsyncLamResource(AsyncAPIResource):
         For more information, see https://www.github.com/raccoonaihq/raccoonai-python#with_streaming_response
         """
         return AsyncLamResourceWithStreamingResponse(self)
-
-    @overload
-    async def integration_run(
-        self,
-        app_name: str,
-        *,
-        raccoon_passcode: str,
-        advanced: Optional[lam_integration_run_params.Advanced] | NotGiven = NOT_GIVEN,
-        integration_id: Optional[str] | NotGiven = NOT_GIVEN,
-        properties: Optional[object] | NotGiven = NOT_GIVEN,
-        stream: Optional[Literal[False]] | NotGiven = NOT_GIVEN,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> LamIntegrationRunResponse:
-        """
-        Lam Integrations Endpoint
-
-        Args:
-          raccoon_passcode: The raccoon passcode associated with the end user on behalf of which the call is
-              being made.
-
-          advanced: Advanced configuration options for the session, such as ad-blocking and CAPTCHA
-              solving.
-
-          integration_id: The unique identifier for the integration being called.
-
-          properties: Additional properties or data related to the particular integration.
-
-          stream: Whether the response should be streamed back or not.
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        ...
-
-    @overload
-    async def integration_run(
-        self,
-        app_name: str,
-        *,
-        raccoon_passcode: str,
-        stream: Literal[True],
-        advanced: Optional[lam_integration_run_params.Advanced] | NotGiven = NOT_GIVEN,
-        integration_id: Optional[str] | NotGiven = NOT_GIVEN,
-        properties: Optional[object] | NotGiven = NOT_GIVEN,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> AsyncStream[LamIntegrationRunResponse]:
-        """
-        Lam Integrations Endpoint
-
-        Args:
-          raccoon_passcode: The raccoon passcode associated with the end user on behalf of which the call is
-              being made.
-
-          stream: Whether the response should be streamed back or not.
-
-          advanced: Advanced configuration options for the session, such as ad-blocking and CAPTCHA
-              solving.
-
-          integration_id: The unique identifier for the integration being called.
-
-          properties: Additional properties or data related to the particular integration.
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        ...
-
-    @overload
-    async def integration_run(
-        self,
-        app_name: str,
-        *,
-        raccoon_passcode: str,
-        stream: bool,
-        advanced: Optional[lam_integration_run_params.Advanced] | NotGiven = NOT_GIVEN,
-        integration_id: Optional[str] | NotGiven = NOT_GIVEN,
-        properties: Optional[object] | NotGiven = NOT_GIVEN,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> LamIntegrationRunResponse | AsyncStream[LamIntegrationRunResponse]:
-        """
-        Lam Integrations Endpoint
-
-        Args:
-          raccoon_passcode: The raccoon passcode associated with the end user on behalf of which the call is
-              being made.
-
-          stream: Whether the response should be streamed back or not.
-
-          advanced: Advanced configuration options for the session, such as ad-blocking and CAPTCHA
-              solving.
-
-          integration_id: The unique identifier for the integration being called.
-
-          properties: Additional properties or data related to the particular integration.
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        ...
-
-    @required_args(["raccoon_passcode"], ["raccoon_passcode", "stream"])
-    async def integration_run(
-        self,
-        app_name: str,
-        *,
-        raccoon_passcode: str,
-        advanced: Optional[lam_integration_run_params.Advanced] | NotGiven = NOT_GIVEN,
-        integration_id: Optional[str] | NotGiven = NOT_GIVEN,
-        properties: Optional[object] | NotGiven = NOT_GIVEN,
-        stream: Optional[Literal[False]] | Literal[True] | NotGiven = NOT_GIVEN,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> LamIntegrationRunResponse | AsyncStream[LamIntegrationRunResponse]:
-        if not app_name:
-            raise ValueError(f"Expected a non-empty value for `app_name` but received {app_name!r}")
-        return cast(
-            LamIntegrationRunResponse,
-            await self._post(
-                f"/lam/{app_name}/run",
-                body=await async_maybe_transform(
-                    {
-                        "raccoon_passcode": raccoon_passcode,
-                        "advanced": advanced,
-                        "integration_id": integration_id,
-                        "properties": properties,
-                        "stream": stream,
-                    },
-                    lam_integration_run_params.LamIntegrationRunParams,
-                ),
-                options=make_request_options(
-                    extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-                ),
-                cast_to=cast(
-                    Any, LamIntegrationRunResponse
-                ),  # Union types cannot be passed in as arguments in the type system
-                stream=stream or False,
-                stream_cls=AsyncStream[LamIntegrationRunResponse],
-            ),
-        )
 
     @overload
     async def run(
@@ -847,16 +576,91 @@ class AsyncLamResource(AsyncAPIResource):
             stream_cls=AsyncStream[LamRunResponse],
         )
 
+    async def tasks(
+        self,
+        *,
+        end_time: Optional[int] | NotGiven = NOT_GIVEN,
+        execution_type: Optional[List[Literal["run", "extract", "fleet"]]] | NotGiven = NOT_GIVEN,
+        limit: Optional[int] | NotGiven = NOT_GIVEN,
+        page: Optional[int] | NotGiven = NOT_GIVEN,
+        raccoon_passcode: Optional[str] | NotGiven = NOT_GIVEN,
+        sort_by: Optional[Literal["timestamp", "executionTime", "taskId", "status", "executionType"]]
+        | NotGiven = NOT_GIVEN,
+        sort_order: Optional[Literal["ascend", "descend"]] | NotGiven = NOT_GIVEN,
+        start_time: Optional[int] | NotGiven = NOT_GIVEN,
+        task_id: Optional[str] | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> LamTasksResponse:
+        """
+        Get Tasks Endpoint
+
+        Args:
+          end_time: Filter tasks created before this Unix timestamp (in milliseconds).
+
+          execution_type: Filter tasks by execution type (e.g., 'run', 'extract').
+
+          limit: Number of tasks per page (maximum 100).
+
+          page: Page number for pagination.
+
+          raccoon_passcode: Filter tasks by Raccoon passcode.
+
+          sort_by: Field to sort tasks by (e.g., 'timestamp', 'executionTime').
+
+          sort_order: Sort order ('ascend' or 'descend').
+
+          start_time: Filter tasks created after this Unix timestamp (in milliseconds).
+
+          task_id: Filter tasks by a specific task ID.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return await self._get(
+            "/lam/tasks",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {
+                        "end_time": end_time,
+                        "execution_type": execution_type,
+                        "limit": limit,
+                        "page": page,
+                        "raccoon_passcode": raccoon_passcode,
+                        "sort_by": sort_by,
+                        "sort_order": sort_order,
+                        "start_time": start_time,
+                        "task_id": task_id,
+                    },
+                    lam_tasks_params.LamTasksParams,
+                ),
+            ),
+            cast_to=LamTasksResponse,
+        )
+
 
 class LamResourceWithRawResponse:
     def __init__(self, lam: LamResource) -> None:
         self._lam = lam
 
-        self.integration_run = to_raw_response_wrapper(
-            lam.integration_run,
-        )
         self.run = to_raw_response_wrapper(
             lam.run,
+        )
+        self.tasks = to_raw_response_wrapper(
+            lam.tasks,
         )
 
 
@@ -864,11 +668,11 @@ class AsyncLamResourceWithRawResponse:
     def __init__(self, lam: AsyncLamResource) -> None:
         self._lam = lam
 
-        self.integration_run = async_to_raw_response_wrapper(
-            lam.integration_run,
-        )
         self.run = async_to_raw_response_wrapper(
             lam.run,
+        )
+        self.tasks = async_to_raw_response_wrapper(
+            lam.tasks,
         )
 
 
@@ -876,11 +680,11 @@ class LamResourceWithStreamingResponse:
     def __init__(self, lam: LamResource) -> None:
         self._lam = lam
 
-        self.integration_run = to_streamed_response_wrapper(
-            lam.integration_run,
-        )
         self.run = to_streamed_response_wrapper(
             lam.run,
+        )
+        self.tasks = to_streamed_response_wrapper(
+            lam.tasks,
         )
 
 
@@ -888,9 +692,9 @@ class AsyncLamResourceWithStreamingResponse:
     def __init__(self, lam: AsyncLamResource) -> None:
         self._lam = lam
 
-        self.integration_run = async_to_streamed_response_wrapper(
-            lam.integration_run,
-        )
         self.run = async_to_streamed_response_wrapper(
             lam.run,
+        )
+        self.tasks = async_to_streamed_response_wrapper(
+            lam.tasks,
         )
