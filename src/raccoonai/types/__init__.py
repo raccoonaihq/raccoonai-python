@@ -5,9 +5,11 @@ from __future__ import annotations
 from .lam_run_params import LamRunParams as LamRunParams
 from .lam_run_response import LamRunResponse as LamRunResponse
 from .lam_tasks_params import LamTasksParams as LamTasksParams
+from .tail_users_params import TailUsersParams as TailUsersParams
 from .lam_tasks_response import LamTasksResponse as LamTasksResponse
 from .fleet_create_params import FleetCreateParams as FleetCreateParams
 from .fleet_logs_response import FleetLogsResponse as FleetLogsResponse
+from .tail_users_response import TailUsersResponse as TailUsersResponse
 from .fleet_create_response import FleetCreateResponse as FleetCreateResponse
 from .fleet_sessions_params import FleetSessionsParams as FleetSessionsParams
 from .fleet_status_response import FleetStatusResponse as FleetStatusResponse

@@ -13,6 +13,16 @@ Methods:
 
 # Tail
 
+Types:
+
+```python
+from raccoonai.types import TailUsersResponse
+```
+
+Methods:
+
+- <code title="get /tail/users">client.tail.<a href="./src/raccoonai/resources/tail/tail.py">users</a>(\*\*<a href="src/raccoonai/types/tail_users_params.py">params</a>) -> <a href="./src/raccoonai/types/tail_users_response.py">TailUsersResponse</a></code>
+
 ## Apps
 
 Types:
