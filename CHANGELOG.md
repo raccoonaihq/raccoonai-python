@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.9 (2025-03-04)
+
+Full Changelog: [v0.1.0-alpha.8...v0.1.0-alpha.9](https://github.com/raccoonaihq/raccoonai-python/compare/v0.1.0-alpha.8...v0.1.0-alpha.9)
+
+### Chores
+
+* **internal:** remove unused http client options forwarding ([#38](https://github.com/raccoonaihq/raccoonai-python/issues/38)) ([3f63c81](https://github.com/raccoonaihq/raccoonai-python/commit/3f63c811fbd58e6a91beb1e03f26cb9fa084a529))
+
 ## 0.1.0-alpha.8 (2025-03-03)
 
 Full Changelog: [v0.1.0-alpha.7...v0.1.0-alpha.8](https://github.com/raccoonaihq/raccoonai-python/compare/v0.1.0-alpha.7...v0.1.0-alpha.8)
