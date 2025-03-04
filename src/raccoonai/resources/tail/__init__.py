@@ -8,14 +8,6 @@ from .apps import (
     AppsResourceWithStreamingResponse,
     AsyncAppsResourceWithStreamingResponse,
 )
-from .auth import (
-    AuthResource,
-    AsyncAuthResource,
-    AuthResourceWithRawResponse,
-    AsyncAuthResourceWithRawResponse,
-    AuthResourceWithStreamingResponse,
-    AsyncAuthResourceWithStreamingResponse,
-)
 from .tail import (
     TailResource,
     AsyncTailResource,
@@ -24,20 +16,28 @@ from .tail import (
     TailResourceWithStreamingResponse,
     AsyncTailResourceWithStreamingResponse,
 )
+from .users import (
+    UsersResource,
+    AsyncUsersResource,
+    UsersResourceWithRawResponse,
+    AsyncUsersResourceWithRawResponse,
+    UsersResourceWithStreamingResponse,
+    AsyncUsersResourceWithStreamingResponse,
+)
 
 __all__ = [
+    "UsersResource",
+    "AsyncUsersResource",
+    "UsersResourceWithRawResponse",
+    "AsyncUsersResourceWithRawResponse",
+    "UsersResourceWithStreamingResponse",
+    "AsyncUsersResourceWithStreamingResponse",
     "AppsResource",
     "AsyncAppsResource",
     "AppsResourceWithRawResponse",
     "AsyncAppsResourceWithRawResponse",
     "AppsResourceWithStreamingResponse",
     "AsyncAppsResourceWithStreamingResponse",
-    "AuthResource",
-    "AsyncAuthResource",
-    "AuthResourceWithRawResponse",
-    "AsyncAuthResourceWithRawResponse",
-    "AuthResourceWithStreamingResponse",
-    "AsyncAuthResourceWithStreamingResponse",
     "TailResource",
     "AsyncTailResource",
     "TailResourceWithRawResponse",
