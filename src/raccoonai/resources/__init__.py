@@ -24,14 +24,6 @@ from .fleet import (
     FleetResourceWithStreamingResponse,
     AsyncFleetResourceWithStreamingResponse,
 )
-from .extensions import (
-    ExtensionsResource,
-    AsyncExtensionsResource,
-    ExtensionsResourceWithRawResponse,
-    AsyncExtensionsResourceWithRawResponse,
-    ExtensionsResourceWithStreamingResponse,
-    AsyncExtensionsResourceWithStreamingResponse,
-)
 
 __all__ = [
     "LamResource",
@@ -52,10 +44,4 @@ __all__ = [
     "AsyncFleetResourceWithRawResponse",
     "FleetResourceWithStreamingResponse",
     "AsyncFleetResourceWithStreamingResponse",
-    "ExtensionsResource",
-    "AsyncExtensionsResource",
-    "ExtensionsResourceWithRawResponse",
-    "AsyncExtensionsResourceWithRawResponse",
-    "ExtensionsResourceWithStreamingResponse",
-    "AsyncExtensionsResourceWithStreamingResponse",
 ]
