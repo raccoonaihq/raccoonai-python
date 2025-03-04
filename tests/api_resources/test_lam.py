@@ -9,7 +9,7 @@ import pytest
 
 from raccoonai import RaccoonAI, AsyncRaccoonAI
 from tests.utils import assert_matches_type
-from raccoonai.types import LamRunResponse, LamTasksResponse
+from raccoonai.types import LamRunResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -153,46 +153,6 @@ class TestLam:
 
         assert cast(Any, response.is_closed) is True
 
-    @parametrize
-    def test_method_tasks(self, client: RaccoonAI) -> None:
-        lam = client.lam.tasks()
-        assert_matches_type(LamTasksResponse, lam, path=["response"])
-
-    @parametrize
-    def test_method_tasks_with_all_params(self, client: RaccoonAI) -> None:
-        lam = client.lam.tasks(
-            end_time=1678972800000,
-            execution_type=["run", "extract"],
-            limit=20,
-            page=1,
-            raccoon_passcode="code123",
-            sort_by="timestamp",
-            sort_order="ascend",
-            start_time=1678886400000,
-            task_id="task_123",
-        )
-        assert_matches_type(LamTasksResponse, lam, path=["response"])
-
-    @parametrize
-    def test_raw_response_tasks(self, client: RaccoonAI) -> None:
-        response = client.lam.with_raw_response.tasks()
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        lam = response.parse()
-        assert_matches_type(LamTasksResponse, lam, path=["response"])
-
-    @parametrize
-    def test_streaming_response_tasks(self, client: RaccoonAI) -> None:
-        with client.lam.with_streaming_response.tasks() as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            lam = response.parse()
-            assert_matches_type(LamTasksResponse, lam, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
 
 class TestAsyncLam:
     parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
@@ -330,45 +290,5 @@ class TestAsyncLam:
 
             stream = await response.parse()
             await stream.close()
-
-        assert cast(Any, response.is_closed) is True
-
-    @parametrize
-    async def test_method_tasks(self, async_client: AsyncRaccoonAI) -> None:
-        lam = await async_client.lam.tasks()
-        assert_matches_type(LamTasksResponse, lam, path=["response"])
-
-    @parametrize
-    async def test_method_tasks_with_all_params(self, async_client: AsyncRaccoonAI) -> None:
-        lam = await async_client.lam.tasks(
-            end_time=1678972800000,
-            execution_type=["run", "extract"],
-            limit=20,
-            page=1,
-            raccoon_passcode="code123",
-            sort_by="timestamp",
-            sort_order="ascend",
-            start_time=1678886400000,
-            task_id="task_123",
-        )
-        assert_matches_type(LamTasksResponse, lam, path=["response"])
-
-    @parametrize
-    async def test_raw_response_tasks(self, async_client: AsyncRaccoonAI) -> None:
-        response = await async_client.lam.with_raw_response.tasks()
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        lam = await response.parse()
-        assert_matches_type(LamTasksResponse, lam, path=["response"])
-
-    @parametrize
-    async def test_streaming_response_tasks(self, async_client: AsyncRaccoonAI) -> None:
-        async with async_client.lam.with_streaming_response.tasks() as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            lam = await response.parse()
-            assert_matches_type(LamTasksResponse, lam, path=["response"])
 
         assert cast(Any, response.is_closed) is True

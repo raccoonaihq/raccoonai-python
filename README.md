@@ -127,7 +127,7 @@ from raccoonai import RaccoonAI
 
 client = RaccoonAI()
 
-client.extensions.upload(
+client.fleet.extensions.upload(
     file=Path("/path/to/file"),
 )
 ```
