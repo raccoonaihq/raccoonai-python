@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.10 (2025-03-04)
+
+Full Changelog: [v0.1.0-alpha.9...v0.1.0-alpha.10](https://github.com/raccoonaihq/raccoonai-python/compare/v0.1.0-alpha.9...v0.1.0-alpha.10)
+
+### Features
+
+* **api:** add create user and media endpoints + restructure ([#41](https://github.com/raccoonaihq/raccoonai-python/issues/41)) ([9ed4ec5](https://github.com/raccoonaihq/raccoonai-python/commit/9ed4ec5780ebb3ce33e4ba7cd3abb547d3566fa2))
+
 ## 0.1.0-alpha.9 (2025-03-04)
 
 Full Changelog: [v0.1.0-alpha.8...v0.1.0-alpha.9](https://github.com/raccoonaihq/raccoonai-python/compare/v0.1.0-alpha.8...v0.1.0-alpha.9)
