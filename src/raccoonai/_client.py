@@ -24,7 +24,6 @@ from ._utils import (
     get_async_library,
 )
 from ._version import __version__
-from .resources import lam, fleet, extensions
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import APIStatusError, RaccoonAIError
 from ._base_client import (
@@ -32,7 +31,9 @@ from ._base_client import (
     SyncAPIClient,
     AsyncAPIClient,
 )
+from .resources.lam import lam
 from .resources.tail import tail
+from .resources.fleet import fleet
 
 __all__ = [
     "ENVIRONMENTS",
@@ -57,7 +58,6 @@ class RaccoonAI(SyncAPIClient):
     lam: lam.LamResource
     tail: tail.TailResource
     fleet: fleet.FleetResource
-    extensions: extensions.ExtensionsResource
     with_raw_response: RaccoonAIWithRawResponse
     with_streaming_response: RaccoonAIWithStreamedResponse
 
@@ -142,7 +142,6 @@ class RaccoonAI(SyncAPIClient):
         self.lam = lam.LamResource(self)
         self.tail = tail.TailResource(self)
         self.fleet = fleet.FleetResource(self)
-        self.extensions = extensions.ExtensionsResource(self)
         self.with_raw_response = RaccoonAIWithRawResponse(self)
         self.with_streaming_response = RaccoonAIWithStreamedResponse(self)
 
@@ -257,7 +256,6 @@ class AsyncRaccoonAI(AsyncAPIClient):
     lam: lam.AsyncLamResource
     tail: tail.AsyncTailResource
     fleet: fleet.AsyncFleetResource
-    extensions: extensions.AsyncExtensionsResource
     with_raw_response: AsyncRaccoonAIWithRawResponse
     with_streaming_response: AsyncRaccoonAIWithStreamedResponse
 
@@ -342,7 +340,6 @@ class AsyncRaccoonAI(AsyncAPIClient):
         self.lam = lam.AsyncLamResource(self)
         self.tail = tail.AsyncTailResource(self)
         self.fleet = fleet.AsyncFleetResource(self)
-        self.extensions = extensions.AsyncExtensionsResource(self)
         self.with_raw_response = AsyncRaccoonAIWithRawResponse(self)
         self.with_streaming_response = AsyncRaccoonAIWithStreamedResponse(self)
 
@@ -458,7 +455,6 @@ class RaccoonAIWithRawResponse:
         self.lam = lam.LamResourceWithRawResponse(client.lam)
         self.tail = tail.TailResourceWithRawResponse(client.tail)
         self.fleet = fleet.FleetResourceWithRawResponse(client.fleet)
-        self.extensions = extensions.ExtensionsResourceWithRawResponse(client.extensions)
 
 
 class AsyncRaccoonAIWithRawResponse:
@@ -466,7 +462,6 @@ class AsyncRaccoonAIWithRawResponse:
         self.lam = lam.AsyncLamResourceWithRawResponse(client.lam)
         self.tail = tail.AsyncTailResourceWithRawResponse(client.tail)
         self.fleet = fleet.AsyncFleetResourceWithRawResponse(client.fleet)
-        self.extensions = extensions.AsyncExtensionsResourceWithRawResponse(client.extensions)
 
 
 class RaccoonAIWithStreamedResponse:
@@ -474,7 +469,6 @@ class RaccoonAIWithStreamedResponse:
         self.lam = lam.LamResourceWithStreamingResponse(client.lam)
         self.tail = tail.TailResourceWithStreamingResponse(client.tail)
         self.fleet = fleet.FleetResourceWithStreamingResponse(client.fleet)
-        self.extensions = extensions.ExtensionsResourceWithStreamingResponse(client.extensions)
 
 
 class AsyncRaccoonAIWithStreamedResponse:
@@ -482,7 +476,6 @@ class AsyncRaccoonAIWithStreamedResponse:
         self.lam = lam.AsyncLamResourceWithStreamingResponse(client.lam)
         self.tail = tail.AsyncTailResourceWithStreamingResponse(client.tail)
         self.fleet = fleet.AsyncFleetResourceWithStreamingResponse(client.fleet)
-        self.extensions = extensions.AsyncExtensionsResourceWithStreamingResponse(client.extensions)
 
 
 Client = RaccoonAI
