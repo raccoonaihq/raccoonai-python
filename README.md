@@ -117,6 +117,34 @@ Nested request parameters are [TypedDicts](https://docs.python.org/3/library/typ
 
 Typed requests and responses provide autocomplete and documentation within your editor. If you would like to see type errors in VS Code to help catch bugs earlier, set `python.analysis.typeCheckingMode` to `basic`.
 
+## Nested params
+
+Nested parameters are dictionaries, typed using `TypedDict`, for example:
+
+```python
+from raccoonai import RaccoonAI
+
+client = RaccoonAI()
+
+response = client.lam.run(
+    query="Find YCombinator startups who got funded in W24.",
+    raccoon_passcode="<end-user-raccoon-passcode>",
+    advanced={
+        "block_ads": True,
+        "extension_ids": ["df2399ea-a938-438f-9d4b-ef3bc95cf8af"],
+        "proxy": {
+            "city": "sanfrancisco",
+            "country": "us",
+            "enable": True,
+            "state": "ca",
+            "zip": 94102,
+        },
+        "solve_captchas": True,
+    },
+)
+print(response.advanced)
+```
+
 ## File uploads
 
 Request parameters that correspond to file uploads can be passed as `bytes`, a [`PathLike`](https://docs.python.org/3/library/os.html#os.PathLike) instance or a tuple of `(filename, contents, media type)`.
