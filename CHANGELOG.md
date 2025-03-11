@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.11 (2025-03-11)
+
+Full Changelog: [v0.1.0-alpha.10...v0.1.0-alpha.11](https://github.com/raccoonaihq/raccoonai-python/compare/v0.1.0-alpha.10...v0.1.0-alpha.11)
+
+### Documentation
+
+* revise readme docs about nested params ([#44](https://github.com/raccoonaihq/raccoonai-python/issues/44)) ([68f152e](https://github.com/raccoonaihq/raccoonai-python/commit/68f152e06a22cae44c28e4f6171df6ee87965866))
+
 ## 0.1.0-alpha.10 (2025-03-04)
 
 Full Changelog: [v0.1.0-alpha.9...v0.1.0-alpha.10](https://github.com/raccoonaihq/raccoonai-python/compare/v0.1.0-alpha.9...v0.1.0-alpha.10)
