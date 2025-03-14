@@ -1,6 +1,6 @@
 [project]
 name = "raccoonai"
-version = "0.1.0-alpha.11"
+version = "0.1.0-alpha.12"
 description = "The official Python library for the raccoonAI API"
 dynamic = ["readme"]
 license = "Apache-2.0"
@@ -36,7 +36,6 @@ classifiers = [
 [project.urls]
 Homepage = "https://github.com/raccoonaihq/raccoonai-python"
 Repository = "https://github.com/raccoonaihq/raccoonai-python"
-
 
 
 [tool.rye]
@@ -151,7 +150,6 @@ reportImplicitOverride = true
 
 reportImportCycles = false
 reportPrivateUsage = false
-
 
 [tool.ruff]
 line-length = 120

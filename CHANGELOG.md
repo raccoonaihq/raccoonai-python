@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.12 (2025-03-14)
+
+Full Changelog: [v0.1.0-alpha.11...v0.1.0-alpha.12](https://github.com/raccoonaihq/raccoonai-python/compare/v0.1.0-alpha.11...v0.1.0-alpha.12)
+
+### Chores
+
+* **internal:** remove extra empty newlines ([#48](https://github.com/raccoonaihq/raccoonai-python/issues/48)) ([3e29f20](https://github.com/raccoonaihq/raccoonai-python/commit/3e29f20507433c0c7c020d01d7bd1f1a167fcb3c))
+
 ## 0.1.0-alpha.11 (2025-03-11)
 
 Full Changelog: [v0.1.0-alpha.10...v0.1.0-alpha.11](https://github.com/raccoonaihq/raccoonai-python/compare/v0.1.0-alpha.10...v0.1.0-alpha.11)
