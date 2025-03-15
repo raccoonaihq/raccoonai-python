@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.1.0-alpha.13 (2025-03-15)
+
+Full Changelog: [v0.1.0-alpha.12...v0.1.0-alpha.13](https://github.com/raccoonaihq/raccoonai-python/compare/v0.1.0-alpha.12...v0.1.0-alpha.13)
+
+### Bug Fixes
+
+* **types:** handle more discriminated union shapes ([#54](https://github.com/raccoonaihq/raccoonai-python/issues/54)) ([89309c4](https://github.com/raccoonaihq/raccoonai-python/commit/89309c469b5350d7883e9d979ee34af7178ebb11))
+
+
+### Chores
+
+* **internal:** bump rye to 0.44.0 ([#53](https://github.com/raccoonaihq/raccoonai-python/issues/53)) ([8c6bbb6](https://github.com/raccoonaihq/raccoonai-python/commit/8c6bbb67d288e897cda0d492a6217ae3138e0ba5))
+* **internal:** codegen related update ([#51](https://github.com/raccoonaihq/raccoonai-python/issues/51)) ([f1ef956](https://github.com/raccoonaihq/raccoonai-python/commit/f1ef956cfe8fe417214ffc79dff0f233c48a2f82))
+
 ## 0.1.0-alpha.12 (2025-03-14)
 
 Full Changelog: [v0.1.0-alpha.11...v0.1.0-alpha.12](https://github.com/raccoonaihq/raccoonai-python/compare/v0.1.0-alpha.11...v0.1.0-alpha.12)
