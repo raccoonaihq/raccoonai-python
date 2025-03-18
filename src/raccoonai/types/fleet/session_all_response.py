@@ -25,8 +25,8 @@ class Session(BaseModel):
     execution_time: int = FieldInfo(alias="executionTime")
     """Time taken for the session execution (in milliseconds)."""
 
-    execution_type: Literal["run", "extract", "fleet"] = FieldInfo(alias="executionType")
-    """The type of execution performed (e.g., 'run', 'extract')."""
+    execution_type: Literal["default", "deepsearch", "fleet"] = FieldInfo(alias="executionType")
+    """The type of execution performed (e.g., 'default', 'deepsearch')."""
 
     inputs: object
     """Input parameters used for the session."""

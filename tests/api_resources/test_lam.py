@@ -36,7 +36,6 @@ class TestLam:
                 "proxy": {
                     "city": "sanfrancisco",
                     "country": "us",
-                    "enable": True,
                     "state": "ca",
                     "zip": 94102,
                 },
@@ -105,7 +104,6 @@ class TestLam:
                 "proxy": {
                     "city": "sanfrancisco",
                     "country": "us",
-                    "enable": True,
                     "state": "ca",
                     "zip": 94102,
                 },
@@ -176,7 +174,6 @@ class TestAsyncLam:
                 "proxy": {
                     "city": "sanfrancisco",
                     "country": "us",
-                    "enable": True,
                     "state": "ca",
                     "zip": 94102,
                 },
@@ -245,7 +242,6 @@ class TestAsyncLam:
                 "proxy": {
                     "city": "sanfrancisco",
                     "country": "us",
-                    "enable": True,
                     "state": "ca",
                     "zip": 94102,
                 },

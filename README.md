@@ -135,7 +135,6 @@ response = client.lam.run(
         "proxy": {
             "city": "sanfrancisco",
             "country": "us",
-            "enable": True,
             "state": "ca",
             "zip": 94102,
         },
