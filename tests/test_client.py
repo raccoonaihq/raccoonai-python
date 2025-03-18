@@ -573,7 +573,7 @@ class TestRaccoonAI:
             client = RaccoonAI(
                 base_url=None, secret_key=secret_key, _strict_response_validation=True, environment="production"
             )
-            assert str(client.base_url).startswith("https://api.flyingraccoon.tech")
+            assert str(client.base_url).startswith("https://api.raccoonai.tech")
 
     @pytest.mark.parametrize(
         "client",
@@ -1386,7 +1386,7 @@ class TestAsyncRaccoonAI:
             client = AsyncRaccoonAI(
                 base_url=None, secret_key=secret_key, _strict_response_validation=True, environment="production"
             )
-            assert str(client.base_url).startswith("https://api.flyingraccoon.tech")
+            assert str(client.base_url).startswith("https://api.raccoonai.tech")
 
     @pytest.mark.parametrize(
         "client",
