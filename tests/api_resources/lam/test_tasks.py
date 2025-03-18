@@ -26,7 +26,7 @@ class TestTasks:
     def test_method_all_with_all_params(self, client: RaccoonAI) -> None:
         task = client.lam.tasks.all(
             end_time=1678972800000,
-            execution_type=["run", "extract"],
+            execution_type=["default", "deepsearch"],
             limit=20,
             page=1,
             raccoon_passcode="code123",
@@ -108,7 +108,7 @@ class TestAsyncTasks:
     async def test_method_all_with_all_params(self, async_client: AsyncRaccoonAI) -> None:
         task = await async_client.lam.tasks.all(
             end_time=1678972800000,
-            execution_type=["run", "extract"],
+            execution_type=["default", "deepsearch"],
             limit=20,
             page=1,
             raccoon_passcode="code123",

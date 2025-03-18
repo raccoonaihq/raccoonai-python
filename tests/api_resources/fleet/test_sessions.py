@@ -38,7 +38,6 @@ class TestSessions:
                 "proxy": {
                     "city": "sanfrancisco",
                     "country": "us",
-                    "enable": True,
                     "state": "ca",
                     "zip": 94102,
                 },
@@ -89,7 +88,7 @@ class TestSessions:
     def test_method_all_with_all_params(self, client: RaccoonAI) -> None:
         session = client.fleet.sessions.all(
             end_time=1678972800000,
-            execution_type=["run"],
+            execution_type=["default"],
             limit=15,
             page=2,
             raccoon_passcode="code456",
@@ -291,7 +290,6 @@ class TestAsyncSessions:
                 "proxy": {
                     "city": "sanfrancisco",
                     "country": "us",
-                    "enable": True,
                     "state": "ca",
                     "zip": 94102,
                 },
@@ -342,7 +340,7 @@ class TestAsyncSessions:
     async def test_method_all_with_all_params(self, async_client: AsyncRaccoonAI) -> None:
         session = await async_client.fleet.sessions.all(
             end_time=1678972800000,
-            execution_type=["run"],
+            execution_type=["default"],
             limit=15,
             page=2,
             raccoon_passcode="code456",
