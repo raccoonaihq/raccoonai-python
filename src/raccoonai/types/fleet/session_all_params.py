@@ -14,8 +14,10 @@ class SessionAllParams(TypedDict, total=False):
     end_time: Optional[int]
     """Filter sessions created before this Unix timestamp (in milliseconds)."""
 
-    execution_type: Annotated[Optional[List[Literal["run", "extract", "fleet"]]], PropertyInfo(alias="executionType")]
-    """Filter sessions by execution type (e.g., 'run', 'extract')."""
+    execution_type: Annotated[
+        Optional[List[Literal["default", "deepsearch", "fleet"]]], PropertyInfo(alias="executionType")
+    ]
+    """Filter sessions by execution type (e.g., 'default', 'deepsearch')."""
 
     limit: Optional[int]
     """Number of sessions per page (maximum 100)."""

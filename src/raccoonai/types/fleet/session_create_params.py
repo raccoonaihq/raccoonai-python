@@ -2,10 +2,10 @@
 
 from __future__ import annotations
 
-from typing import Dict, List, Iterable, Optional
-from typing_extensions import Literal, TypedDict
+from typing import Dict, List, Union, Iterable, Optional
+from typing_extensions import Literal, TypeAlias, TypedDict
 
-__all__ = ["SessionCreateParams", "Advanced", "AdvancedProxy", "Settings"]
+__all__ = ["SessionCreateParams", "Advanced", "AdvancedProxy", "AdvancedProxyProxySettings", "Settings"]
 
 
 class SessionCreateParams(TypedDict, total=False):
@@ -43,21 +43,21 @@ class SessionCreateParams(TypedDict, total=False):
     """The entrypoint url for the session."""
 
 
-class AdvancedProxy(TypedDict, total=False):
+class AdvancedProxyProxySettings(TypedDict, total=False):
     city: Optional[str]
     """Target city."""
 
     country: Optional[str]
     """Target country (2-letter ISO code)."""
 
-    enable: bool
-    """Whether to use a proxy for the browser session."""
-
     state: Optional[str]
     """Target state (2-letter code)."""
 
     zip: Optional[int]
     """Target postal code."""
+
+
+AdvancedProxy: TypeAlias = Union[AdvancedProxyProxySettings, bool]
 
 
 class Advanced(TypedDict, total=False):
@@ -67,8 +67,11 @@ class Advanced(TypedDict, total=False):
     extension_ids: Optional[Iterable[object]]
     """list of extension ids"""
 
-    proxy: Optional[AdvancedProxy]
-    """Proxy details for the browser session."""
+    proxy: AdvancedProxy
+    """Proxy details for the browser session.
+
+    Automatically defaults to True if solve_captchas is on.
+    """
 
     solve_captchas: Optional[bool]
     """Whether to attempt automatic CAPTCHA solving."""

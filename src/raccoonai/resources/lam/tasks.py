@@ -52,7 +52,7 @@ class TasksResource(SyncAPIResource):
         self,
         *,
         end_time: Optional[int] | NotGiven = NOT_GIVEN,
-        execution_type: Optional[List[Literal["run", "extract", "fleet"]]] | NotGiven = NOT_GIVEN,
+        execution_type: Optional[List[Literal["default", "deepsearch", "fleet"]]] | NotGiven = NOT_GIVEN,
         limit: Optional[int] | NotGiven = NOT_GIVEN,
         page: Optional[int] | NotGiven = NOT_GIVEN,
         raccoon_passcode: Optional[str] | NotGiven = NOT_GIVEN,
@@ -74,7 +74,7 @@ class TasksResource(SyncAPIResource):
         Args:
           end_time: Filter tasks created before this Unix timestamp (in milliseconds).
 
-          execution_type: Filter tasks by execution type (e.g., 'run', 'extract').
+          execution_type: Filter tasks by execution type (e.g., 'default', 'deepsearch').
 
           limit: Number of tasks per page (maximum 100).
 
@@ -183,7 +183,7 @@ class AsyncTasksResource(AsyncAPIResource):
         self,
         *,
         end_time: Optional[int] | NotGiven = NOT_GIVEN,
-        execution_type: Optional[List[Literal["run", "extract", "fleet"]]] | NotGiven = NOT_GIVEN,
+        execution_type: Optional[List[Literal["default", "deepsearch", "fleet"]]] | NotGiven = NOT_GIVEN,
         limit: Optional[int] | NotGiven = NOT_GIVEN,
         page: Optional[int] | NotGiven = NOT_GIVEN,
         raccoon_passcode: Optional[str] | NotGiven = NOT_GIVEN,
@@ -205,7 +205,7 @@ class AsyncTasksResource(AsyncAPIResource):
         Args:
           end_time: Filter tasks created before this Unix timestamp (in milliseconds).
 
-          execution_type: Filter tasks by execution type (e.g., 'run', 'extract').
+          execution_type: Filter tasks by execution type (e.g., 'default', 'deepsearch').
 
           limit: Number of tasks per page (maximum 100).
 
