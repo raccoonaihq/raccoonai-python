@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.1.0-alpha.14 (2025-03-18)
+
+Full Changelog: [v0.1.0-alpha.13...v0.1.0-alpha.14](https://github.com/raccoonaihq/raccoonai-python/compare/v0.1.0-alpha.13...v0.1.0-alpha.14)
+
+### Features
+
+* **api:** api update ([#59](https://github.com/raccoonaihq/raccoonai-python/issues/59)) ([8c3e83c](https://github.com/raccoonaihq/raccoonai-python/commit/8c3e83cc030af8c2dfe01e79676b9b3f80bd3f8b))
+* **api:** update new domain ([#60](https://github.com/raccoonaihq/raccoonai-python/issues/60)) ([89b0074](https://github.com/raccoonaihq/raccoonai-python/commit/89b00747c646dc3ac8dfe84a025ba59aee06bbff))
+
+
+### Bug Fixes
+
+* **ci:** ensure pip is always available ([#56](https://github.com/raccoonaihq/raccoonai-python/issues/56)) ([1317d91](https://github.com/raccoonaihq/raccoonai-python/commit/1317d91a7551ea5e44d56e2538b1f8498cdc3f0e))
+* **ci:** remove publishing patch ([#58](https://github.com/raccoonaihq/raccoonai-python/issues/58)) ([fd0c16a](https://github.com/raccoonaihq/raccoonai-python/commit/fd0c16ab03e82f28591c3fde7b5ed079fe8f0557))
+
 ## 0.1.0-alpha.13 (2025-03-15)
 
 Full Changelog: [v0.1.0-alpha.12...v0.1.0-alpha.13](https://github.com/raccoonaihq/raccoonai-python/compare/v0.1.0-alpha.12...v0.1.0-alpha.13)
