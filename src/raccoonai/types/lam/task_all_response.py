@@ -25,8 +25,8 @@ class Task(BaseModel):
     execution_time: int = FieldInfo(alias="executionTime")
     """Time taken for the task execution (in seconds)."""
 
-    execution_type: Literal["run", "extract"] = FieldInfo(alias="executionType")
-    """The type of execution performed (e.g., 'run', 'extract')."""
+    execution_type: Literal["default", "deepsearch"] = FieldInfo(alias="executionType")
+    """The type of execution performed (e.g., 'default', 'deepsearch')."""
 
     inputs: object
     """Input parameters used for the task execution."""

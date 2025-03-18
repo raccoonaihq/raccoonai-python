@@ -14,7 +14,7 @@ class SessionCreateResponse(BaseModel):
     session_id: str
     """A unique identifier for the created session."""
 
-    status: Literal["starting", "running", "terminated", "completed", "unknown"]
+    status: Literal["starting", "running", "terminated", "completed", "unknown", "success", "failure"]
     """The current status of the session."""
 
     websocket_url: str
