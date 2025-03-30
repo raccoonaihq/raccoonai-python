@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.15 (2025-03-27)
+
+Full Changelog: [v0.1.0-alpha.14...v0.1.0-alpha.15](https://github.com/raccoonaihq/raccoonai-python/compare/v0.1.0-alpha.14...v0.1.0-alpha.15)
+
+### Chores
+
+* fix typos ([#62](https://github.com/raccoonaihq/raccoonai-python/issues/62)) ([48b308d](https://github.com/raccoonaihq/raccoonai-python/commit/48b308d54385b04e0d7139b81690a81194499310))
+
 ## 0.1.0-alpha.14 (2025-03-18)
 
 Full Changelog: [v0.1.0-alpha.13...v0.1.0-alpha.14](https://github.com/raccoonaihq/raccoonai-python/compare/v0.1.0-alpha.13...v0.1.0-alpha.14)
