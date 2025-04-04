@@ -1701,7 +1701,7 @@ class TestAsyncRaccoonAI:
         import threading
 
         from raccoonai._utils import asyncify
-        from raccoonai._base_client import get_platform 
+        from raccoonai._base_client import get_platform
 
         async def test_main() -> None:
             result = await asyncify(get_platform)()
