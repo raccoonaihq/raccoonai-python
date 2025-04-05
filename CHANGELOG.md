@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.16 (2025-04-05)
+
+Full Changelog: [v0.1.0-alpha.15...v0.1.0-alpha.16](https://github.com/raccoonaihq/raccoonai-python/compare/v0.1.0-alpha.15...v0.1.0-alpha.16)
+
+### Chores
+
+* **internal:** remove trailing character ([#65](https://github.com/raccoonaihq/raccoonai-python/issues/65)) ([a82b752](https://github.com/raccoonaihq/raccoonai-python/commit/a82b7527085ac2664785a04f481bcb585716528c))
+
 ## 0.1.0-alpha.15 (2025-03-27)
 
 Full Changelog: [v0.1.0-alpha.14...v0.1.0-alpha.15](https://github.com/raccoonaihq/raccoonai-python/compare/v0.1.0-alpha.14...v0.1.0-alpha.15)
