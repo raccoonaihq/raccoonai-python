@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.1.0-alpha.17 (2025-04-10)
+
+Full Changelog: [v0.1.0-alpha.16...v0.1.0-alpha.17](https://github.com/raccoonaihq/raccoonai-python/compare/v0.1.0-alpha.16...v0.1.0-alpha.17)
+
+### Chores
+
+* **internal:** expand CI branch coverage ([b33e54c](https://github.com/raccoonaihq/raccoonai-python/commit/b33e54c4795e36cddc163be5d7f634e0c03048ba))
+* **internal:** reduce CI branch coverage ([887e41e](https://github.com/raccoonaihq/raccoonai-python/commit/887e41e985b049f404af0ae9bb9020d2f7231f54))
+* **internal:** slight transform perf improvement ([#68](https://github.com/raccoonaihq/raccoonai-python/issues/68)) ([d5bf5bd](https://github.com/raccoonaihq/raccoonai-python/commit/d5bf5bdb0cc56ac907aa40e93bd2385c5ef7cf66))
+* slight wording improvement in README ([#69](https://github.com/raccoonaihq/raccoonai-python/issues/69)) ([a99f7da](https://github.com/raccoonaihq/raccoonai-python/commit/a99f7dac1a402c7afe64bcc22e5726931b65cdf0))
+
 ## 0.1.0-alpha.16 (2025-04-05)
 
 Full Changelog: [v0.1.0-alpha.15...v0.1.0-alpha.16](https://github.com/raccoonaihq/raccoonai-python/compare/v0.1.0-alpha.15...v0.1.0-alpha.16)
