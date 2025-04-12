@@ -266,7 +266,7 @@ class LamResource(SyncAPIResource):
                     "schema": schema,
                     "stream": stream,
                 },
-                lam_run_params.LamRunParams,
+                lam_run_params.LamRunParamsStreaming if stream else lam_run_params.LamRunParamsNonStreaming,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -506,7 +506,7 @@ class AsyncLamResource(AsyncAPIResource):
                     "schema": schema,
                     "stream": stream,
                 },
-                lam_run_params.LamRunParams,
+                lam_run_params.LamRunParamsStreaming if stream else lam_run_params.LamRunParamsNonStreaming,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
