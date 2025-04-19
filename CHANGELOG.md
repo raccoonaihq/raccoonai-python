@@ -1,5 +1,27 @@
 # Changelog
 
+## 0.1.0-alpha.17 (2025-04-19)
+
+Full Changelog: [v0.1.0-alpha.16...v0.1.0-alpha.17](https://github.com/raccoonaihq/raccoonai-python/compare/v0.1.0-alpha.16...v0.1.0-alpha.17)
+
+### Bug Fixes
+
+* **perf:** optimize some hot paths ([5a0becc](https://github.com/raccoonaihq/raccoonai-python/commit/5a0becc2ea338f48ead2c7593e2727e4636c7991))
+* **perf:** skip traversing types for NotGiven values ([b710b22](https://github.com/raccoonaihq/raccoonai-python/commit/b710b22dd8918404dbf8b3436b0a0a275cbc2c55))
+
+
+### Chores
+
+* **client:** minor internal fixes ([3aae4e2](https://github.com/raccoonaihq/raccoonai-python/commit/3aae4e22e2cb6af2281ea4ab9e6d8381eeed86b2))
+* **internal:** base client updates ([4f2fd7e](https://github.com/raccoonaihq/raccoonai-python/commit/4f2fd7e046b5ceb9d1d133b066a4d299541151b0))
+* **internal:** bump pyright version ([797794a](https://github.com/raccoonaihq/raccoonai-python/commit/797794a5c4d145b64f3f08249e846aa58f95c2de))
+* **internal:** expand CI branch coverage ([b33e54c](https://github.com/raccoonaihq/raccoonai-python/commit/b33e54c4795e36cddc163be5d7f634e0c03048ba))
+* **internal:** reduce CI branch coverage ([887e41e](https://github.com/raccoonaihq/raccoonai-python/commit/887e41e985b049f404af0ae9bb9020d2f7231f54))
+* **internal:** slight transform perf improvement ([#68](https://github.com/raccoonaihq/raccoonai-python/issues/68)) ([d5bf5bd](https://github.com/raccoonaihq/raccoonai-python/commit/d5bf5bdb0cc56ac907aa40e93bd2385c5ef7cf66))
+* **internal:** update models test ([0d60312](https://github.com/raccoonaihq/raccoonai-python/commit/0d60312d61e3514827c57e839b60d10fba7d3f39))
+* **internal:** update pyright settings ([b059fbe](https://github.com/raccoonaihq/raccoonai-python/commit/b059fbeaeae96b42303b5b12b92a6f77d5120b8d))
+* slight wording improvement in README ([#69](https://github.com/raccoonaihq/raccoonai-python/issues/69)) ([a99f7da](https://github.com/raccoonaihq/raccoonai-python/commit/a99f7dac1a402c7afe64bcc22e5726931b65cdf0))
+
 ## 0.1.0-alpha.16 (2025-04-05)
 
 Full Changelog: [v0.1.0-alpha.15...v0.1.0-alpha.16](https://github.com/raccoonaihq/raccoonai-python/compare/v0.1.0-alpha.15...v0.1.0-alpha.16)
