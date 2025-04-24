@@ -1,5 +1,36 @@
 # Changelog
 
+## 0.1.0-alpha.17 (2025-04-24)
+
+Full Changelog: [v0.1.0-alpha.16...v0.1.0-alpha.17](https://github.com/raccoonaihq/raccoonai-python/compare/v0.1.0-alpha.16...v0.1.0-alpha.17)
+
+### Bug Fixes
+
+* **perf:** optimize some hot paths ([5a0becc](https://github.com/raccoonaihq/raccoonai-python/commit/5a0becc2ea338f48ead2c7593e2727e4636c7991))
+* **perf:** skip traversing types for NotGiven values ([b710b22](https://github.com/raccoonaihq/raccoonai-python/commit/b710b22dd8918404dbf8b3436b0a0a275cbc2c55))
+* **pydantic v1:** more robust ModelField.annotation check ([da858d7](https://github.com/raccoonaihq/raccoonai-python/commit/da858d7536a9b151aa0dbd38e98e30130b1d219e))
+
+
+### Chores
+
+* broadly detect json family of content-type headers ([90f94bd](https://github.com/raccoonaihq/raccoonai-python/commit/90f94bd047e0522e4956a99da6248259d0619350))
+* **ci:** add timeout thresholds for CI jobs ([3256eaa](https://github.com/raccoonaihq/raccoonai-python/commit/3256eaa8373c187a67806366fe5d79e28199fdf9))
+* **ci:** only use depot for staging repos ([e50b221](https://github.com/raccoonaihq/raccoonai-python/commit/e50b22110b2bf2b508222589b051b1a94a573a92))
+* **client:** minor internal fixes ([3aae4e2](https://github.com/raccoonaihq/raccoonai-python/commit/3aae4e22e2cb6af2281ea4ab9e6d8381eeed86b2))
+* **internal:** base client updates ([4f2fd7e](https://github.com/raccoonaihq/raccoonai-python/commit/4f2fd7e046b5ceb9d1d133b066a4d299541151b0))
+* **internal:** bump pyright version ([797794a](https://github.com/raccoonaihq/raccoonai-python/commit/797794a5c4d145b64f3f08249e846aa58f95c2de))
+* **internal:** codegen related update ([941d8a6](https://github.com/raccoonaihq/raccoonai-python/commit/941d8a6c82ccb521730d9658059936100e4f38e3))
+* **internal:** expand CI branch coverage ([b33e54c](https://github.com/raccoonaihq/raccoonai-python/commit/b33e54c4795e36cddc163be5d7f634e0c03048ba))
+* **internal:** fix list file params ([795c8f4](https://github.com/raccoonaihq/raccoonai-python/commit/795c8f4980057fe365c08d1e8825e0a94481cf3e))
+* **internal:** import reformatting ([1dae4cf](https://github.com/raccoonaihq/raccoonai-python/commit/1dae4cf04bf1aa5f21013e2de72ef0533c43489f))
+* **internal:** minor formatting changes ([5d2b343](https://github.com/raccoonaihq/raccoonai-python/commit/5d2b3430c3f6ce32aa5478b161767b34896f04cb))
+* **internal:** reduce CI branch coverage ([887e41e](https://github.com/raccoonaihq/raccoonai-python/commit/887e41e985b049f404af0ae9bb9020d2f7231f54))
+* **internal:** refactor retries to not use recursion ([e4bd23e](https://github.com/raccoonaihq/raccoonai-python/commit/e4bd23e645ba1a1607cc16f087f2d7636346fa57))
+* **internal:** slight transform perf improvement ([#68](https://github.com/raccoonaihq/raccoonai-python/issues/68)) ([d5bf5bd](https://github.com/raccoonaihq/raccoonai-python/commit/d5bf5bdb0cc56ac907aa40e93bd2385c5ef7cf66))
+* **internal:** update models test ([0d60312](https://github.com/raccoonaihq/raccoonai-python/commit/0d60312d61e3514827c57e839b60d10fba7d3f39))
+* **internal:** update pyright settings ([b059fbe](https://github.com/raccoonaihq/raccoonai-python/commit/b059fbeaeae96b42303b5b12b92a6f77d5120b8d))
+* slight wording improvement in README ([#69](https://github.com/raccoonaihq/raccoonai-python/issues/69)) ([a99f7da](https://github.com/raccoonaihq/raccoonai-python/commit/a99f7dac1a402c7afe64bcc22e5726931b65cdf0))
+
 ## 0.1.0-alpha.16 (2025-04-05)
 
 Full Changelog: [v0.1.0-alpha.15...v0.1.0-alpha.16](https://github.com/raccoonaihq/raccoonai-python/compare/v0.1.0-alpha.15...v0.1.0-alpha.16)
