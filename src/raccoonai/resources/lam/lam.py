@@ -17,11 +17,7 @@ from .tasks import (
 )
 from ...types import lam_run_params
 from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
-from ..._utils import (
-    required_args,
-    maybe_transform,
-    async_maybe_transform,
-)
+from ..._utils import required_args, maybe_transform, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -266,7 +262,7 @@ class LamResource(SyncAPIResource):
                     "schema": schema,
                     "stream": stream,
                 },
-                lam_run_params.LamRunParams,
+                lam_run_params.LamRunParamsStreaming if stream else lam_run_params.LamRunParamsNonStreaming,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -506,7 +502,7 @@ class AsyncLamResource(AsyncAPIResource):
                     "schema": schema,
                     "stream": stream,
                 },
-                lam_run_params.LamRunParams,
+                lam_run_params.LamRunParamsStreaming if stream else lam_run_params.LamRunParamsNonStreaming,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
