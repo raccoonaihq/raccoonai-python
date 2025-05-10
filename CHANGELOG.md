@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.1.0-alpha.18 (2025-05-10)
+
+Full Changelog: [v0.1.0-alpha.17...v0.1.0-alpha.18](https://github.com/raccoonaihq/raccoonai-python/compare/v0.1.0-alpha.17...v0.1.0-alpha.18)
+
+### Bug Fixes
+
+* **package:** support direct resource imports ([f3a27ab](https://github.com/raccoonaihq/raccoonai-python/commit/f3a27ab2bb0a836a24f096588509e295677723e3))
+
+
+### Chores
+
+* **internal:** avoid errors for isinstance checks on proxies ([0e03ccf](https://github.com/raccoonaihq/raccoonai-python/commit/0e03ccf60cfcd90fdae07ffb27a83e7acb3455b4))
+
 ## 0.1.0-alpha.17 (2025-04-24)
 
 Full Changelog: [v0.1.0-alpha.16...v0.1.0-alpha.17](https://github.com/raccoonaihq/raccoonai-python/compare/v0.1.0-alpha.16...v0.1.0-alpha.17)
