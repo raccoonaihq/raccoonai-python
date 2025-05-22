@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.1.0-alpha.18 (2025-05-22)
+
+Full Changelog: [v0.1.0-alpha.17...v0.1.0-alpha.18](https://github.com/raccoonaihq/raccoonai-python/compare/v0.1.0-alpha.17...v0.1.0-alpha.18)
+
+### Bug Fixes
+
+* **package:** support direct resource imports ([f3a27ab](https://github.com/raccoonaihq/raccoonai-python/commit/f3a27ab2bb0a836a24f096588509e295677723e3))
+
+
+### Chores
+
+* **ci:** fix installation instructions ([a8ca3a5](https://github.com/raccoonaihq/raccoonai-python/commit/a8ca3a501421f8ff560aae6544327a17f737a3f2))
+* **ci:** upload sdks to package manager ([180aa07](https://github.com/raccoonaihq/raccoonai-python/commit/180aa079b0dbe5d9ad507a90ecc86f300c647a7a))
+* **docs:** grammar improvements ([3c7226c](https://github.com/raccoonaihq/raccoonai-python/commit/3c7226cab9643f76ff8478b53ac7e69c05e9a71f))
+* **internal:** avoid errors for isinstance checks on proxies ([0e03ccf](https://github.com/raccoonaihq/raccoonai-python/commit/0e03ccf60cfcd90fdae07ffb27a83e7acb3455b4))
+* **internal:** codegen related update ([8336f4c](https://github.com/raccoonaihq/raccoonai-python/commit/8336f4c7c9217951d908d9d4b201687bc1578a17))
+
 ## 0.1.0-alpha.17 (2025-04-24)
 
 Full Changelog: [v0.1.0-alpha.16...v0.1.0-alpha.17](https://github.com/raccoonaihq/raccoonai-python/compare/v0.1.0-alpha.16...v0.1.0-alpha.17)
