@@ -84,7 +84,6 @@ Types:
 
 ```python
 from raccoonai.types.fleet import (
-    ExtensionDeleteResponse,
     ExtensionAllResponse,
     ExtensionGetResponse,
     ExtensionUploadResponse,
@@ -93,7 +92,7 @@ from raccoonai.types.fleet import (
 
 Methods:
 
-- <code title="delete /extensions/{extensionId}">client.fleet.extensions.<a href="./src/raccoonai/resources/fleet/extensions.py">delete</a>(extension_id) -> <a href="./src/raccoonai/types/fleet/extension_delete_response.py">object</a></code>
+- <code title="delete /extensions/{extensionId}">client.fleet.extensions.<a href="./src/raccoonai/resources/fleet/extensions.py">delete</a>(extension_id) -> object</code>
 - <code title="get /extensions">client.fleet.extensions.<a href="./src/raccoonai/resources/fleet/extensions.py">all</a>() -> <a href="./src/raccoonai/types/fleet/extension_all_response.py">ExtensionAllResponse</a></code>
 - <code title="get /extensions/{extensionId}">client.fleet.extensions.<a href="./src/raccoonai/resources/fleet/extensions.py">get</a>(extension_id) -> <a href="./src/raccoonai/types/fleet/extension_get_response.py">ExtensionGetResponse</a></code>
 - <code title="post /extensions">client.fleet.extensions.<a href="./src/raccoonai/resources/fleet/extensions.py">upload</a>(\*\*<a href="src/raccoonai/types/fleet/extension_upload_params.py">params</a>) -> <a href="./src/raccoonai/types/fleet/extension_upload_response.py">ExtensionUploadResponse</a></code>
