@@ -131,7 +131,6 @@ response = client.lam.run(
     raccoon_passcode="<end-user-raccoon-passcode>",
     advanced={
         "block_ads": True,
-        "extension_ids": ["df2399ea-a938-438f-9d4b-ef3bc95cf8af"],
         "proxy": {
             "city": "sanfrancisco",
             "country": "us",
