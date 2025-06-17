@@ -1,5 +1,35 @@
 # Changelog
 
+## 0.1.0-alpha.18 (2025-06-17)
+
+Full Changelog: [v0.1.0-alpha.17...v0.1.0-alpha.18](https://github.com/raccoonaihq/raccoonai-python/compare/v0.1.0-alpha.17...v0.1.0-alpha.18)
+
+### Features
+
+* **client:** add follow_redirects request option ([ead1aa2](https://github.com/raccoonaihq/raccoonai-python/commit/ead1aa29c13d4f033a0168fdeacee20f85fc487a))
+
+
+### Bug Fixes
+
+* **client:** correctly parse binary response | stream ([5428452](https://github.com/raccoonaihq/raccoonai-python/commit/5428452fe2a72d1779f18dd5d94f05a790e5d374))
+* **docs/api:** remove references to nonexistent types ([c914c59](https://github.com/raccoonaihq/raccoonai-python/commit/c914c596f8f1269d52ac9e733fe6c0687e48934a))
+* **package:** support direct resource imports ([f3a27ab](https://github.com/raccoonaihq/raccoonai-python/commit/f3a27ab2bb0a836a24f096588509e295677723e3))
+
+
+### Chores
+
+* **ci:** enable for pull requests ([b9d4d4a](https://github.com/raccoonaihq/raccoonai-python/commit/b9d4d4ae8d0056704b3a3041d283e65d056709ba))
+* **ci:** fix installation instructions ([a8ca3a5](https://github.com/raccoonaihq/raccoonai-python/commit/a8ca3a501421f8ff560aae6544327a17f737a3f2))
+* **ci:** upload sdks to package manager ([180aa07](https://github.com/raccoonaihq/raccoonai-python/commit/180aa079b0dbe5d9ad507a90ecc86f300c647a7a))
+* **docs:** grammar improvements ([3c7226c](https://github.com/raccoonaihq/raccoonai-python/commit/3c7226cab9643f76ff8478b53ac7e69c05e9a71f))
+* **docs:** remove reference to rye shell ([fdf4e0a](https://github.com/raccoonaihq/raccoonai-python/commit/fdf4e0a89c78828f52bfd3a328b76c5c883eb4b9))
+* **docs:** remove unnecessary param examples ([1e465a4](https://github.com/raccoonaihq/raccoonai-python/commit/1e465a444fdf34a1a55abd7cdb0558520985f701))
+* **internal:** avoid errors for isinstance checks on proxies ([0e03ccf](https://github.com/raccoonaihq/raccoonai-python/commit/0e03ccf60cfcd90fdae07ffb27a83e7acb3455b4))
+* **internal:** codegen related update ([8336f4c](https://github.com/raccoonaihq/raccoonai-python/commit/8336f4c7c9217951d908d9d4b201687bc1578a17))
+* **internal:** update conftest.py ([07c3955](https://github.com/raccoonaihq/raccoonai-python/commit/07c39557bc235720039aab307764faa6bea099b2))
+* **tests:** add tests for httpx client instantiation & proxies ([a9961c3](https://github.com/raccoonaihq/raccoonai-python/commit/a9961c3882797827f7d1b09a2b65f31ce2c7a1e4))
+* **tests:** run tests in parallel ([781ba6d](https://github.com/raccoonaihq/raccoonai-python/commit/781ba6d84ce3459e44b7e56e89f091d9f7db53cc))
+
 ## 0.1.0-alpha.17 (2025-04-24)
 
 Full Changelog: [v0.1.0-alpha.16...v0.1.0-alpha.17](https://github.com/raccoonaihq/raccoonai-python/compare/v0.1.0-alpha.16...v0.1.0-alpha.17)
