@@ -23,9 +23,7 @@ from pydantic import ValidationError
 
 from raccoonai import RaccoonAI, AsyncRaccoonAI, APIResponseValidationError
 from raccoonai._types import Omit
-from raccoonai._utils import maybe_transform
 from raccoonai._models import BaseModel, FinalRequestOptions
-from raccoonai._constants import RAW_RESPONSE_HEADER
 from raccoonai._exceptions import APIStatusError, RaccoonAIError, APITimeoutError, APIResponseValidationError
 from raccoonai._base_client import (
     DEFAULT_TIMEOUT,
@@ -35,7 +33,6 @@ from raccoonai._base_client import (
     DefaultAsyncHttpxClient,
     make_request_options,
 )
-from raccoonai.types.lam_run_params import LamRunParamsNonStreaming
 
 from .utils import update_env
 
@@ -738,50 +735,25 @@ class TestRaccoonAI:
 
     @mock.patch("raccoonai._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
-    def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
+    def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter, client: RaccoonAI) -> None:
         respx_mock.post("/lam/run").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
         with pytest.raises(APITimeoutError):
-            self.client.post(
-                "/lam/run",
-                body=cast(
-                    object,
-                    maybe_transform(
-                        dict(
-                            query="Find YCombinator startups who got funded in W24.",
-                            raccoon_passcode="<end-user-raccoon-passcode>",
-                        ),
-                        LamRunParamsNonStreaming,
-                    ),
-                ),
-                cast_to=httpx.Response,
-                options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
-            )
+            client.lam.with_streaming_response.run(
+                query="Find YCombinator startups who got funded in W24.", raccoon_passcode="<end-user-raccoon-passcode>"
+            ).__enter__()
 
         assert _get_open_connections(self.client) == 0
 
     @mock.patch("raccoonai._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
-    def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
+    def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter, client: RaccoonAI) -> None:
         respx_mock.post("/lam/run").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
-            self.client.post(
-                "/lam/run",
-                body=cast(
-                    object,
-                    maybe_transform(
-                        dict(
-                            query="Find YCombinator startups who got funded in W24.",
-                            raccoon_passcode="<end-user-raccoon-passcode>",
-                        ),
-                        LamRunParamsNonStreaming,
-                    ),
-                ),
-                cast_to=httpx.Response,
-                options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
-            )
-
+            client.lam.with_streaming_response.run(
+                query="Find YCombinator startups who got funded in W24.", raccoon_passcode="<end-user-raccoon-passcode>"
+            ).__enter__()
         assert _get_open_connections(self.client) == 0
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
@@ -1604,50 +1576,29 @@ class TestAsyncRaccoonAI:
 
     @mock.patch("raccoonai._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
-    async def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
+    async def test_retrying_timeout_errors_doesnt_leak(
+        self, respx_mock: MockRouter, async_client: AsyncRaccoonAI
+    ) -> None:
         respx_mock.post("/lam/run").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
         with pytest.raises(APITimeoutError):
-            await self.client.post(
-                "/lam/run",
-                body=cast(
-                    object,
-                    maybe_transform(
-                        dict(
-                            query="Find YCombinator startups who got funded in W24.",
-                            raccoon_passcode="<end-user-raccoon-passcode>",
-                        ),
-                        LamRunParamsNonStreaming,
-                    ),
-                ),
-                cast_to=httpx.Response,
-                options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
-            )
+            await async_client.lam.with_streaming_response.run(
+                query="Find YCombinator startups who got funded in W24.", raccoon_passcode="<end-user-raccoon-passcode>"
+            ).__aenter__()
 
         assert _get_open_connections(self.client) == 0
 
     @mock.patch("raccoonai._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
-    async def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
+    async def test_retrying_status_errors_doesnt_leak(
+        self, respx_mock: MockRouter, async_client: AsyncRaccoonAI
+    ) -> None:
         respx_mock.post("/lam/run").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
-            await self.client.post(
-                "/lam/run",
-                body=cast(
-                    object,
-                    maybe_transform(
-                        dict(
-                            query="Find YCombinator startups who got funded in W24.",
-                            raccoon_passcode="<end-user-raccoon-passcode>",
-                        ),
-                        LamRunParamsNonStreaming,
-                    ),
-                ),
-                cast_to=httpx.Response,
-                options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
-            )
-
+            await async_client.lam.with_streaming_response.run(
+                query="Find YCombinator startups who got funded in W24.", raccoon_passcode="<end-user-raccoon-passcode>"
+            ).__aenter__()
         assert _get_open_connections(self.client) == 0
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
