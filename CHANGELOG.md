@@ -1,5 +1,28 @@
 # Changelog
 
+## 0.1.0-alpha.19 (2025-06-21)
+
+Full Changelog: [v0.1.0-alpha.18...v0.1.0-alpha.19](https://github.com/raccoonaihq/raccoonai-python/compare/v0.1.0-alpha.18...v0.1.0-alpha.19)
+
+### Features
+
+* **client:** add support for aiohttp ([f55551a](https://github.com/raccoonaihq/raccoonai-python/commit/f55551aae49ad94af24239e0e26f316698021754))
+
+
+### Bug Fixes
+
+* **tests:** fix: tests which call HTTP endpoints directly with the example parameters ([44715e4](https://github.com/raccoonaihq/raccoonai-python/commit/44715e41f17460b45ae2bf5e18dc35ccfa82fc38))
+
+
+### Chores
+
+* **readme:** update badges ([6152d97](https://github.com/raccoonaihq/raccoonai-python/commit/6152d9729ea7bec51e2fac8c04c74b8312f86d88))
+
+
+### Documentation
+
+* **client:** fix httpx.Timeout documentation reference ([02eccd7](https://github.com/raccoonaihq/raccoonai-python/commit/02eccd75aa5c06a17d8097112d326fbc2de46d94))
+
 ## 0.1.0-alpha.18 (2025-06-17)
 
 Full Changelog: [v0.1.0-alpha.17...v0.1.0-alpha.18](https://github.com/raccoonaihq/raccoonai-python/compare/v0.1.0-alpha.17...v0.1.0-alpha.18)
