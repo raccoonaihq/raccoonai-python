@@ -7,7 +7,7 @@ from typing_extensions import Literal
 
 import httpx
 
-from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
+from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
 from ..._utils import maybe_transform, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
@@ -48,22 +48,21 @@ class TasksResource(SyncAPIResource):
     def all(
         self,
         *,
-        end_time: Optional[int] | NotGiven = NOT_GIVEN,
-        execution_type: Optional[List[Literal["default", "deepsearch", "fleet"]]] | NotGiven = NOT_GIVEN,
-        limit: Optional[int] | NotGiven = NOT_GIVEN,
-        page: Optional[int] | NotGiven = NOT_GIVEN,
-        raccoon_passcode: Optional[str] | NotGiven = NOT_GIVEN,
-        sort_by: Optional[Literal["timestamp", "executionTime", "taskId", "status", "executionType"]]
-        | NotGiven = NOT_GIVEN,
-        sort_order: Optional[Literal["ascend", "descend"]] | NotGiven = NOT_GIVEN,
-        start_time: Optional[int] | NotGiven = NOT_GIVEN,
-        task_id: Optional[str] | NotGiven = NOT_GIVEN,
+        end_time: Optional[int] | Omit = omit,
+        execution_type: Optional[List[Literal["default", "deepsearch", "fleet"]]] | Omit = omit,
+        limit: Optional[int] | Omit = omit,
+        page: Optional[int] | Omit = omit,
+        raccoon_passcode: Optional[str] | Omit = omit,
+        sort_by: Optional[Literal["timestamp", "executionTime", "taskId", "status", "executionType"]] | Omit = omit,
+        sort_order: Optional[Literal["ascend", "descend"]] | Omit = omit,
+        start_time: Optional[int] | Omit = omit,
+        task_id: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TaskAllResponse:
         """
         Get Tasks Endpoint
@@ -129,7 +128,7 @@ class TasksResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TaskMediaResponse:
         """
         Get Task Media Endpoint
@@ -179,22 +178,21 @@ class AsyncTasksResource(AsyncAPIResource):
     async def all(
         self,
         *,
-        end_time: Optional[int] | NotGiven = NOT_GIVEN,
-        execution_type: Optional[List[Literal["default", "deepsearch", "fleet"]]] | NotGiven = NOT_GIVEN,
-        limit: Optional[int] | NotGiven = NOT_GIVEN,
-        page: Optional[int] | NotGiven = NOT_GIVEN,
-        raccoon_passcode: Optional[str] | NotGiven = NOT_GIVEN,
-        sort_by: Optional[Literal["timestamp", "executionTime", "taskId", "status", "executionType"]]
-        | NotGiven = NOT_GIVEN,
-        sort_order: Optional[Literal["ascend", "descend"]] | NotGiven = NOT_GIVEN,
-        start_time: Optional[int] | NotGiven = NOT_GIVEN,
-        task_id: Optional[str] | NotGiven = NOT_GIVEN,
+        end_time: Optional[int] | Omit = omit,
+        execution_type: Optional[List[Literal["default", "deepsearch", "fleet"]]] | Omit = omit,
+        limit: Optional[int] | Omit = omit,
+        page: Optional[int] | Omit = omit,
+        raccoon_passcode: Optional[str] | Omit = omit,
+        sort_by: Optional[Literal["timestamp", "executionTime", "taskId", "status", "executionType"]] | Omit = omit,
+        sort_order: Optional[Literal["ascend", "descend"]] | Omit = omit,
+        start_time: Optional[int] | Omit = omit,
+        task_id: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TaskAllResponse:
         """
         Get Tasks Endpoint
@@ -260,7 +258,7 @@ class AsyncTasksResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TaskMediaResponse:
         """
         Get Task Media Endpoint
