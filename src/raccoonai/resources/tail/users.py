@@ -7,7 +7,7 @@ from typing_extensions import Literal
 
 import httpx
 
-from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
+from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
 from ..._utils import maybe_transform, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
@@ -56,7 +56,7 @@ class UsersResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> UserCreateResponse:
         """
         Create User Endpoint
@@ -92,19 +92,19 @@ class UsersResource(SyncAPIResource):
     def all(
         self,
         *,
-        email_id: Optional[str] | NotGiven = NOT_GIVEN,
-        limit: Optional[int] | NotGiven = NOT_GIVEN,
-        page: Optional[int] | NotGiven = NOT_GIVEN,
-        raccoon_passcode: Optional[str] | NotGiven = NOT_GIVEN,
-        search_query: Optional[str] | NotGiven = NOT_GIVEN,
-        sort_by: Optional[Literal["createdAt", "name", "email", "raccoonPasscode"]] | NotGiven = NOT_GIVEN,
-        sort_order: Optional[Literal["ascend", "descend"]] | NotGiven = NOT_GIVEN,
+        email_id: Optional[str] | Omit = omit,
+        limit: Optional[int] | Omit = omit,
+        page: Optional[int] | Omit = omit,
+        raccoon_passcode: Optional[str] | Omit = omit,
+        search_query: Optional[str] | Omit = omit,
+        sort_by: Optional[Literal["createdAt", "name", "email", "raccoonPasscode"]] | Omit = omit,
+        sort_order: Optional[Literal["ascend", "descend"]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> UserAllResponse:
         """
         Get Users Endpoint
@@ -151,7 +151,7 @@ class UsersResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> UserStatusResponse:
         """
         Get Auth Status Endpoint
@@ -214,7 +214,7 @@ class AsyncUsersResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> UserCreateResponse:
         """
         Create User Endpoint
@@ -250,19 +250,19 @@ class AsyncUsersResource(AsyncAPIResource):
     async def all(
         self,
         *,
-        email_id: Optional[str] | NotGiven = NOT_GIVEN,
-        limit: Optional[int] | NotGiven = NOT_GIVEN,
-        page: Optional[int] | NotGiven = NOT_GIVEN,
-        raccoon_passcode: Optional[str] | NotGiven = NOT_GIVEN,
-        search_query: Optional[str] | NotGiven = NOT_GIVEN,
-        sort_by: Optional[Literal["createdAt", "name", "email", "raccoonPasscode"]] | NotGiven = NOT_GIVEN,
-        sort_order: Optional[Literal["ascend", "descend"]] | NotGiven = NOT_GIVEN,
+        email_id: Optional[str] | Omit = omit,
+        limit: Optional[int] | Omit = omit,
+        page: Optional[int] | Omit = omit,
+        raccoon_passcode: Optional[str] | Omit = omit,
+        search_query: Optional[str] | Omit = omit,
+        sort_by: Optional[Literal["createdAt", "name", "email", "raccoonPasscode"]] | Omit = omit,
+        sort_order: Optional[Literal["ascend", "descend"]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> UserAllResponse:
         """
         Get Users Endpoint
@@ -309,7 +309,7 @@ class AsyncUsersResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> UserStatusResponse:
         """
         Get Auth Status Endpoint
