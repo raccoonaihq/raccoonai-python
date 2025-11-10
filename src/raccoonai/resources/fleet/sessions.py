@@ -7,7 +7,7 @@ from typing_extensions import Literal
 
 import httpx
 
-from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
+from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
 from ..._utils import maybe_transform, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
@@ -52,19 +52,19 @@ class SessionsResource(SyncAPIResource):
     def create(
         self,
         *,
-        advanced: Optional[session_create_params.Advanced] | NotGiven = NOT_GIVEN,
-        browser_type: Optional[Literal["chromium", "firefox", "webkit"]] | NotGiven = NOT_GIVEN,
-        headless: Optional[bool] | NotGiven = NOT_GIVEN,
-        raccoon_passcode: Optional[str] | NotGiven = NOT_GIVEN,
-        session_timeout: Optional[int] | NotGiven = NOT_GIVEN,
-        settings: Optional[session_create_params.Settings] | NotGiven = NOT_GIVEN,
-        url: Optional[str] | NotGiven = NOT_GIVEN,
+        advanced: Optional[session_create_params.Advanced] | Omit = omit,
+        browser_type: Optional[Literal["chromium", "firefox", "webkit"]] | Omit = omit,
+        headless: Optional[bool] | Omit = omit,
+        raccoon_passcode: Optional[str] | Omit = omit,
+        session_timeout: Optional[int] | Omit = omit,
+        settings: Optional[session_create_params.Settings] | Omit = omit,
+        url: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SessionCreateResponse:
         """
         Fleet Websocket Session Create Endpoint
@@ -119,23 +119,22 @@ class SessionsResource(SyncAPIResource):
     def all(
         self,
         *,
-        end_time: Optional[int] | NotGiven = NOT_GIVEN,
-        execution_type: Optional[List[Literal["default", "deepsearch", "fleet"]]] | NotGiven = NOT_GIVEN,
-        limit: Optional[int] | NotGiven = NOT_GIVEN,
-        page: Optional[int] | NotGiven = NOT_GIVEN,
-        raccoon_passcode: Optional[str] | NotGiven = NOT_GIVEN,
-        session_id: Optional[str] | NotGiven = NOT_GIVEN,
-        sort_by: Optional[Literal["timestamp", "executionTime", "taskId", "status", "executionType"]]
-        | NotGiven = NOT_GIVEN,
-        sort_order: Optional[Literal["ascend", "descend"]] | NotGiven = NOT_GIVEN,
-        start_time: Optional[int] | NotGiven = NOT_GIVEN,
-        task_id: Optional[str] | NotGiven = NOT_GIVEN,
+        end_time: Optional[int] | Omit = omit,
+        execution_type: Optional[List[Literal["default", "deepsearch", "fleet"]]] | Omit = omit,
+        limit: Optional[int] | Omit = omit,
+        page: Optional[int] | Omit = omit,
+        raccoon_passcode: Optional[str] | Omit = omit,
+        session_id: Optional[str] | Omit = omit,
+        sort_by: Optional[Literal["timestamp", "executionTime", "taskId", "status", "executionType"]] | Omit = omit,
+        sort_order: Optional[Literal["ascend", "descend"]] | Omit = omit,
+        start_time: Optional[int] | Omit = omit,
+        task_id: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SessionAllResponse:
         """
         Get Sessions Endpoint
@@ -204,7 +203,7 @@ class SessionsResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SessionLogsResponse:
         """
         Fleet Session Logs Endpoint
@@ -237,7 +236,7 @@ class SessionsResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SessionMediaResponse:
         """
         Get Session Media Endpoint
@@ -272,7 +271,7 @@ class SessionsResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SessionStatusResponse:
         """
         Fleet Session Status Endpoint
@@ -305,7 +304,7 @@ class SessionsResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SessionTerminateResponse:
         """
         Fleet Session Terminate Endpoint
@@ -353,19 +352,19 @@ class AsyncSessionsResource(AsyncAPIResource):
     async def create(
         self,
         *,
-        advanced: Optional[session_create_params.Advanced] | NotGiven = NOT_GIVEN,
-        browser_type: Optional[Literal["chromium", "firefox", "webkit"]] | NotGiven = NOT_GIVEN,
-        headless: Optional[bool] | NotGiven = NOT_GIVEN,
-        raccoon_passcode: Optional[str] | NotGiven = NOT_GIVEN,
-        session_timeout: Optional[int] | NotGiven = NOT_GIVEN,
-        settings: Optional[session_create_params.Settings] | NotGiven = NOT_GIVEN,
-        url: Optional[str] | NotGiven = NOT_GIVEN,
+        advanced: Optional[session_create_params.Advanced] | Omit = omit,
+        browser_type: Optional[Literal["chromium", "firefox", "webkit"]] | Omit = omit,
+        headless: Optional[bool] | Omit = omit,
+        raccoon_passcode: Optional[str] | Omit = omit,
+        session_timeout: Optional[int] | Omit = omit,
+        settings: Optional[session_create_params.Settings] | Omit = omit,
+        url: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SessionCreateResponse:
         """
         Fleet Websocket Session Create Endpoint
@@ -420,23 +419,22 @@ class AsyncSessionsResource(AsyncAPIResource):
     async def all(
         self,
         *,
-        end_time: Optional[int] | NotGiven = NOT_GIVEN,
-        execution_type: Optional[List[Literal["default", "deepsearch", "fleet"]]] | NotGiven = NOT_GIVEN,
-        limit: Optional[int] | NotGiven = NOT_GIVEN,
-        page: Optional[int] | NotGiven = NOT_GIVEN,
-        raccoon_passcode: Optional[str] | NotGiven = NOT_GIVEN,
-        session_id: Optional[str] | NotGiven = NOT_GIVEN,
-        sort_by: Optional[Literal["timestamp", "executionTime", "taskId", "status", "executionType"]]
-        | NotGiven = NOT_GIVEN,
-        sort_order: Optional[Literal["ascend", "descend"]] | NotGiven = NOT_GIVEN,
-        start_time: Optional[int] | NotGiven = NOT_GIVEN,
-        task_id: Optional[str] | NotGiven = NOT_GIVEN,
+        end_time: Optional[int] | Omit = omit,
+        execution_type: Optional[List[Literal["default", "deepsearch", "fleet"]]] | Omit = omit,
+        limit: Optional[int] | Omit = omit,
+        page: Optional[int] | Omit = omit,
+        raccoon_passcode: Optional[str] | Omit = omit,
+        session_id: Optional[str] | Omit = omit,
+        sort_by: Optional[Literal["timestamp", "executionTime", "taskId", "status", "executionType"]] | Omit = omit,
+        sort_order: Optional[Literal["ascend", "descend"]] | Omit = omit,
+        start_time: Optional[int] | Omit = omit,
+        task_id: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SessionAllResponse:
         """
         Get Sessions Endpoint
@@ -505,7 +503,7 @@ class AsyncSessionsResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SessionLogsResponse:
         """
         Fleet Session Logs Endpoint
@@ -538,7 +536,7 @@ class AsyncSessionsResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SessionMediaResponse:
         """
         Get Session Media Endpoint
@@ -573,7 +571,7 @@ class AsyncSessionsResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SessionStatusResponse:
         """
         Fleet Session Status Endpoint
@@ -606,7 +604,7 @@ class AsyncSessionsResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SessionTerminateResponse:
         """
         Fleet Session Terminate Endpoint

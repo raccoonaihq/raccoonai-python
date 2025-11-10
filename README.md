@@ -1,6 +1,7 @@
 # Raccoon AI Python API library
 
-[![PyPI version](https://img.shields.io/pypi/v/raccoonai.svg)](https://pypi.org/project/raccoonai/)
+<!-- prettier-ignore -->
+[![PyPI version](https://img.shields.io/pypi/v/raccoonai.svg?label=pypi%20(stable))](https://pypi.org/project/raccoonai/)
 
 The Raccoon AI Python library provides convenient access to the Raccoon AI REST API from any Python 3.8+
 application. The library includes type definitions for all request params and response fields,
@@ -73,6 +74,40 @@ asyncio.run(main())
 ```
 
 Functionality between the synchronous and asynchronous clients is otherwise identical.
+
+### With aiohttp
+
+By default, the async client uses `httpx` for HTTP requests. However, for improved concurrency performance you may also use `aiohttp` as the HTTP backend.
+
+You can enable this by installing `aiohttp`:
+
+```sh
+# install from PyPI
+pip install --pre raccoonai[aiohttp]
+```
+
+Then you can enable it by instantiating the client with `http_client=DefaultAioHttpClient()`:
+
+```python
+import asyncio
+from raccoonai import DefaultAioHttpClient
+from raccoonai import AsyncRaccoonAI
+
+
+async def main() -> None:
+    async with AsyncRaccoonAI(
+        secret_key="My Secret Key",
+        http_client=DefaultAioHttpClient(),
+    ) as client:
+        response = await client.lam.run(
+            query="Find YCombinator startups who got funded in W24.",
+            raccoon_passcode="<end-user-raccoon-passcode>",
+        )
+        print(response.data)
+
+
+asyncio.run(main())
+```
 
 ## Streaming responses
 
@@ -231,7 +266,7 @@ client.with_options(max_retries=5).lam.run(
 ### Timeouts
 
 By default requests time out after 10 minutes. You can configure this with a `timeout` option,
-which accepts a float or an [`httpx.Timeout`](https://www.python-httpx.org/advanced/#fine-tuning-the-configuration) object:
+which accepts a float or an [`httpx.Timeout`](https://www.python-httpx.org/advanced/timeouts/#fine-tuning-the-configuration) object:
 
 ```python
 from raccoonai import RaccoonAI

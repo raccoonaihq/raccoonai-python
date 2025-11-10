@@ -6,13 +6,10 @@ import gc
 import os
 import sys
 import json
-import time
 import asyncio
 import inspect
-import subprocess
 import tracemalloc
 from typing import Any, Union, cast
-from textwrap import dedent
 from unittest import mock
 from typing_extensions import Literal
 
@@ -23,19 +20,19 @@ from pydantic import ValidationError
 
 from raccoonai import RaccoonAI, AsyncRaccoonAI, APIResponseValidationError
 from raccoonai._types import Omit
-from raccoonai._utils import maybe_transform
+from raccoonai._utils import asyncify
 from raccoonai._models import BaseModel, FinalRequestOptions
-from raccoonai._constants import RAW_RESPONSE_HEADER
 from raccoonai._exceptions import APIStatusError, RaccoonAIError, APITimeoutError, APIResponseValidationError
 from raccoonai._base_client import (
     DEFAULT_TIMEOUT,
     HTTPX_DEFAULT_TIMEOUT,
     BaseClient,
+    OtherPlatform,
     DefaultHttpxClient,
     DefaultAsyncHttpxClient,
+    get_platform,
     make_request_options,
 )
-from raccoonai.types.lam_run_params import LamRunParamsNonStreaming
 
 from .utils import update_env
 
@@ -62,51 +59,49 @@ def _get_open_connections(client: RaccoonAI | AsyncRaccoonAI) -> int:
 
 
 class TestRaccoonAI:
-    client = RaccoonAI(base_url=base_url, secret_key=secret_key, _strict_response_validation=True)
-
     @pytest.mark.respx(base_url=base_url)
-    def test_raw_response(self, respx_mock: MockRouter) -> None:
+    def test_raw_response(self, respx_mock: MockRouter, client: RaccoonAI) -> None:
         respx_mock.post("/foo").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
 
-        response = self.client.post("/foo", cast_to=httpx.Response)
+        response = client.post("/foo", cast_to=httpx.Response)
         assert response.status_code == 200
         assert isinstance(response, httpx.Response)
         assert response.json() == {"foo": "bar"}
 
     @pytest.mark.respx(base_url=base_url)
-    def test_raw_response_for_binary(self, respx_mock: MockRouter) -> None:
+    def test_raw_response_for_binary(self, respx_mock: MockRouter, client: RaccoonAI) -> None:
         respx_mock.post("/foo").mock(
             return_value=httpx.Response(200, headers={"Content-Type": "application/binary"}, content='{"foo": "bar"}')
         )
 
-        response = self.client.post("/foo", cast_to=httpx.Response)
+        response = client.post("/foo", cast_to=httpx.Response)
         assert response.status_code == 200
         assert isinstance(response, httpx.Response)
         assert response.json() == {"foo": "bar"}
 
-    def test_copy(self) -> None:
-        copied = self.client.copy()
-        assert id(copied) != id(self.client)
+    def test_copy(self, client: RaccoonAI) -> None:
+        copied = client.copy()
+        assert id(copied) != id(client)
 
-        copied = self.client.copy(secret_key="another My Secret Key")
+        copied = client.copy(secret_key="another My Secret Key")
         assert copied.secret_key == "another My Secret Key"
-        assert self.client.secret_key == "My Secret Key"
+        assert client.secret_key == "My Secret Key"
 
-    def test_copy_default_options(self) -> None:
+    def test_copy_default_options(self, client: RaccoonAI) -> None:
         # options that have a default are overridden correctly
-        copied = self.client.copy(max_retries=7)
+        copied = client.copy(max_retries=7)
         assert copied.max_retries == 7
-        assert self.client.max_retries == 0
+        assert client.max_retries == 0
 
         copied2 = copied.copy(max_retries=6)
         assert copied2.max_retries == 6
         assert copied.max_retries == 7
 
         # timeout
-        assert isinstance(self.client.timeout, httpx.Timeout)
-        copied = self.client.copy(timeout=None)
+        assert isinstance(client.timeout, httpx.Timeout)
+        copied = client.copy(timeout=None)
         assert copied.timeout is None
-        assert isinstance(self.client.timeout, httpx.Timeout)
+        assert isinstance(client.timeout, httpx.Timeout)
 
     def test_copy_default_headers(self) -> None:
         client = RaccoonAI(
@@ -141,6 +136,7 @@ class TestRaccoonAI:
             match="`default_headers` and `set_default_headers` arguments are mutually exclusive",
         ):
             client.copy(set_default_headers={}, default_headers={"X-Foo": "Bar"})
+        client.close()
 
     def test_copy_default_query(self) -> None:
         client = RaccoonAI(
@@ -178,13 +174,15 @@ class TestRaccoonAI:
         ):
             client.copy(set_default_query={}, default_query={"foo": "Bar"})
 
-    def test_copy_signature(self) -> None:
+        client.close()
+
+    def test_copy_signature(self, client: RaccoonAI) -> None:
         # ensure the same parameters that can be passed to the client are defined in the `.copy()` method
         init_signature = inspect.signature(
             # mypy doesn't like that we access the `__init__` property.
-            self.client.__init__,  # type: ignore[misc]
+            client.__init__,  # type: ignore[misc]
         )
-        copy_signature = inspect.signature(self.client.copy)
+        copy_signature = inspect.signature(client.copy)
         exclude_params = {"transport", "proxies", "_strict_response_validation"}
 
         for name in init_signature.parameters.keys():
@@ -194,12 +192,13 @@ class TestRaccoonAI:
             copy_param = copy_signature.parameters.get(name)
             assert copy_param is not None, f"copy() signature is missing the {name} param"
 
-    def test_copy_build_request(self) -> None:
+    @pytest.mark.skipif(sys.version_info >= (3, 10), reason="fails because of a memory leak that started from 3.12")
+    def test_copy_build_request(self, client: RaccoonAI) -> None:
         options = FinalRequestOptions(method="get", url="/foo")
 
         def build_request(options: FinalRequestOptions) -> None:
-            client = self.client.copy()
-            client._build_request(options)
+            client_copy = client.copy()
+            client_copy._build_request(options)
 
         # ensure that the machinery is warmed up before tracing starts.
         build_request(options)
@@ -256,14 +255,12 @@ class TestRaccoonAI:
                     print(frame)
             raise AssertionError()
 
-    def test_request_timeout(self) -> None:
-        request = self.client._build_request(FinalRequestOptions(method="get", url="/foo"))
+    def test_request_timeout(self, client: RaccoonAI) -> None:
+        request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         timeout = httpx.Timeout(**request.extensions["timeout"])  # type: ignore
         assert timeout == DEFAULT_TIMEOUT
 
-        request = self.client._build_request(
-            FinalRequestOptions(method="get", url="/foo", timeout=httpx.Timeout(100.0))
-        )
+        request = client._build_request(FinalRequestOptions(method="get", url="/foo", timeout=httpx.Timeout(100.0)))
         timeout = httpx.Timeout(**request.extensions["timeout"])  # type: ignore
         assert timeout == httpx.Timeout(100.0)
 
@@ -276,6 +273,8 @@ class TestRaccoonAI:
         timeout = httpx.Timeout(**request.extensions["timeout"])  # type: ignore
         assert timeout == httpx.Timeout(0)
 
+        client.close()
+
     def test_http_client_timeout_option(self) -> None:
         # custom timeout given to the httpx client should be used
         with httpx.Client(timeout=None) as http_client:
@@ -287,6 +286,8 @@ class TestRaccoonAI:
             timeout = httpx.Timeout(**request.extensions["timeout"])  # type: ignore
             assert timeout == httpx.Timeout(None)
 
+            client.close()
+
         # no timeout given to the httpx client should not use the httpx default
         with httpx.Client() as http_client:
             client = RaccoonAI(
@@ -297,6 +298,8 @@ class TestRaccoonAI:
             timeout = httpx.Timeout(**request.extensions["timeout"])  # type: ignore
             assert timeout == DEFAULT_TIMEOUT
 
+            client.close()
+
         # explicitly passing the default timeout currently results in it being ignored
         with httpx.Client(timeout=HTTPX_DEFAULT_TIMEOUT) as http_client:
             client = RaccoonAI(
@@ -306,6 +309,8 @@ class TestRaccoonAI:
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
             timeout = httpx.Timeout(**request.extensions["timeout"])  # type: ignore
             assert timeout == DEFAULT_TIMEOUT  # our default
+
+            client.close()
 
     async def test_invalid_http_client(self) -> None:
         with pytest.raises(TypeError, match="Invalid `http_client` arg"):
@@ -318,14 +323,14 @@ class TestRaccoonAI:
                 )
 
     def test_default_headers_option(self) -> None:
-        client = RaccoonAI(
+        test_client = RaccoonAI(
             base_url=base_url, secret_key=secret_key, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
         )
-        request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
+        request = test_client._build_request(FinalRequestOptions(method="get", url="/foo"))
         assert request.headers.get("x-foo") == "bar"
         assert request.headers.get("x-stainless-lang") == "python"
 
-        client2 = RaccoonAI(
+        test_client2 = RaccoonAI(
             base_url=base_url,
             secret_key=secret_key,
             _strict_response_validation=True,
@@ -334,9 +339,12 @@ class TestRaccoonAI:
                 "X-Stainless-Lang": "my-overriding-header",
             },
         )
-        request = client2._build_request(FinalRequestOptions(method="get", url="/foo"))
+        request = test_client2._build_request(FinalRequestOptions(method="get", url="/foo"))
         assert request.headers.get("x-foo") == "stainless"
         assert request.headers.get("x-stainless-lang") == "my-overriding-header"
+
+        test_client.close()
+        test_client2.close()
 
     def test_validate_headers(self) -> None:
         client = RaccoonAI(base_url=base_url, secret_key=secret_key, _strict_response_validation=True)
@@ -369,8 +377,10 @@ class TestRaccoonAI:
         url = httpx.URL(request.url)
         assert dict(url.params) == {"foo": "baz", "query_param": "overridden"}
 
-    def test_request_extra_json(self) -> None:
-        request = self.client._build_request(
+        client.close()
+
+    def test_request_extra_json(self, client: RaccoonAI) -> None:
+        request = client._build_request(
             FinalRequestOptions(
                 method="post",
                 url="/foo",
@@ -381,7 +391,7 @@ class TestRaccoonAI:
         data = json.loads(request.content.decode("utf-8"))
         assert data == {"foo": "bar", "baz": False}
 
-        request = self.client._build_request(
+        request = client._build_request(
             FinalRequestOptions(
                 method="post",
                 url="/foo",
@@ -392,7 +402,7 @@ class TestRaccoonAI:
         assert data == {"baz": False}
 
         # `extra_json` takes priority over `json_data` when keys clash
-        request = self.client._build_request(
+        request = client._build_request(
             FinalRequestOptions(
                 method="post",
                 url="/foo",
@@ -403,8 +413,8 @@ class TestRaccoonAI:
         data = json.loads(request.content.decode("utf-8"))
         assert data == {"foo": "bar", "baz": None}
 
-    def test_request_extra_headers(self) -> None:
-        request = self.client._build_request(
+    def test_request_extra_headers(self, client: RaccoonAI) -> None:
+        request = client._build_request(
             FinalRequestOptions(
                 method="post",
                 url="/foo",
@@ -414,7 +424,7 @@ class TestRaccoonAI:
         assert request.headers.get("X-Foo") == "Foo"
 
         # `extra_headers` takes priority over `default_headers` when keys clash
-        request = self.client.with_options(default_headers={"X-Bar": "true"})._build_request(
+        request = client.with_options(default_headers={"X-Bar": "true"})._build_request(
             FinalRequestOptions(
                 method="post",
                 url="/foo",
@@ -425,8 +435,8 @@ class TestRaccoonAI:
         )
         assert request.headers.get("X-Bar") == "false"
 
-    def test_request_extra_query(self) -> None:
-        request = self.client._build_request(
+    def test_request_extra_query(self, client: RaccoonAI) -> None:
+        request = client._build_request(
             FinalRequestOptions(
                 method="post",
                 url="/foo",
@@ -439,7 +449,7 @@ class TestRaccoonAI:
         assert params == {"my_query_param": "Foo"}
 
         # if both `query` and `extra_query` are given, they are merged
-        request = self.client._build_request(
+        request = client._build_request(
             FinalRequestOptions(
                 method="post",
                 url="/foo",
@@ -453,7 +463,7 @@ class TestRaccoonAI:
         assert params == {"bar": "1", "foo": "2"}
 
         # `extra_query` takes priority over `query` when keys clash
-        request = self.client._build_request(
+        request = client._build_request(
             FinalRequestOptions(
                 method="post",
                 url="/foo",
@@ -469,7 +479,7 @@ class TestRaccoonAI:
     def test_multipart_repeating_array(self, client: RaccoonAI) -> None:
         request = client._build_request(
             FinalRequestOptions.construct(
-                method="get",
+                method="post",
                 url="/foo",
                 headers={"Content-Type": "multipart/form-data; boundary=6b7ba517decee4a450543ea6ae821c82"},
                 json_data={"array": ["foo", "bar"]},
@@ -496,7 +506,7 @@ class TestRaccoonAI:
         ]
 
     @pytest.mark.respx(base_url=base_url)
-    def test_basic_union_response(self, respx_mock: MockRouter) -> None:
+    def test_basic_union_response(self, respx_mock: MockRouter, client: RaccoonAI) -> None:
         class Model1(BaseModel):
             name: str
 
@@ -505,12 +515,12 @@ class TestRaccoonAI:
 
         respx_mock.get("/foo").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
 
-        response = self.client.get("/foo", cast_to=cast(Any, Union[Model1, Model2]))
+        response = client.get("/foo", cast_to=cast(Any, Union[Model1, Model2]))
         assert isinstance(response, Model2)
         assert response.foo == "bar"
 
     @pytest.mark.respx(base_url=base_url)
-    def test_union_response_different_types(self, respx_mock: MockRouter) -> None:
+    def test_union_response_different_types(self, respx_mock: MockRouter, client: RaccoonAI) -> None:
         """Union of objects with the same field name using a different type"""
 
         class Model1(BaseModel):
@@ -521,18 +531,18 @@ class TestRaccoonAI:
 
         respx_mock.get("/foo").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
 
-        response = self.client.get("/foo", cast_to=cast(Any, Union[Model1, Model2]))
+        response = client.get("/foo", cast_to=cast(Any, Union[Model1, Model2]))
         assert isinstance(response, Model2)
         assert response.foo == "bar"
 
         respx_mock.get("/foo").mock(return_value=httpx.Response(200, json={"foo": 1}))
 
-        response = self.client.get("/foo", cast_to=cast(Any, Union[Model1, Model2]))
+        response = client.get("/foo", cast_to=cast(Any, Union[Model1, Model2]))
         assert isinstance(response, Model1)
         assert response.foo == 1
 
     @pytest.mark.respx(base_url=base_url)
-    def test_non_application_json_content_type_for_json_data(self, respx_mock: MockRouter) -> None:
+    def test_non_application_json_content_type_for_json_data(self, respx_mock: MockRouter, client: RaccoonAI) -> None:
         """
         Response that sets Content-Type to something other than application/json but returns json data
         """
@@ -548,7 +558,7 @@ class TestRaccoonAI:
             )
         )
 
-        response = self.client.get("/foo", cast_to=Model)
+        response = client.get("/foo", cast_to=Model)
         assert isinstance(response, Model)
         assert response.foo == 2
 
@@ -561,6 +571,8 @@ class TestRaccoonAI:
         client.base_url = "https://example.com/from_setter"  # type: ignore[assignment]
 
         assert client.base_url == "https://example.com/from_setter/"
+
+        client.close()
 
     def test_base_url_env(self) -> None:
         with update_env(RACCOON_AI_BASE_URL="http://localhost:5000/from/env"):
@@ -576,6 +588,8 @@ class TestRaccoonAI:
                 base_url=None, secret_key=secret_key, _strict_response_validation=True, environment="production"
             )
             assert str(client.base_url).startswith("https://api.raccoonai.tech")
+
+            client.close()
 
     @pytest.mark.parametrize(
         "client",
@@ -601,6 +615,7 @@ class TestRaccoonAI:
             ),
         )
         assert request.url == "http://localhost:5000/custom/path/foo"
+        client.close()
 
     @pytest.mark.parametrize(
         "client",
@@ -626,6 +641,7 @@ class TestRaccoonAI:
             ),
         )
         assert request.url == "http://localhost:5000/custom/path/foo"
+        client.close()
 
     @pytest.mark.parametrize(
         "client",
@@ -651,35 +667,36 @@ class TestRaccoonAI:
             ),
         )
         assert request.url == "https://myapi.com/foo"
+        client.close()
 
     def test_copied_client_does_not_close_http(self) -> None:
-        client = RaccoonAI(base_url=base_url, secret_key=secret_key, _strict_response_validation=True)
-        assert not client.is_closed()
+        test_client = RaccoonAI(base_url=base_url, secret_key=secret_key, _strict_response_validation=True)
+        assert not test_client.is_closed()
 
-        copied = client.copy()
-        assert copied is not client
+        copied = test_client.copy()
+        assert copied is not test_client
 
         del copied
 
-        assert not client.is_closed()
+        assert not test_client.is_closed()
 
     def test_client_context_manager(self) -> None:
-        client = RaccoonAI(base_url=base_url, secret_key=secret_key, _strict_response_validation=True)
-        with client as c2:
-            assert c2 is client
+        test_client = RaccoonAI(base_url=base_url, secret_key=secret_key, _strict_response_validation=True)
+        with test_client as c2:
+            assert c2 is test_client
             assert not c2.is_closed()
-            assert not client.is_closed()
-        assert client.is_closed()
+            assert not test_client.is_closed()
+        assert test_client.is_closed()
 
     @pytest.mark.respx(base_url=base_url)
-    def test_client_response_validation_error(self, respx_mock: MockRouter) -> None:
+    def test_client_response_validation_error(self, respx_mock: MockRouter, client: RaccoonAI) -> None:
         class Model(BaseModel):
             foo: str
 
         respx_mock.get("/foo").mock(return_value=httpx.Response(200, json={"foo": {"invalid": True}}))
 
         with pytest.raises(APIResponseValidationError) as exc:
-            self.client.get("/foo", cast_to=Model)
+            client.get("/foo", cast_to=Model)
 
         assert isinstance(exc.value.__cause__, ValidationError)
 
@@ -701,10 +718,13 @@ class TestRaccoonAI:
         with pytest.raises(APIResponseValidationError):
             strict_client.get("/foo", cast_to=Model)
 
-        client = RaccoonAI(base_url=base_url, secret_key=secret_key, _strict_response_validation=False)
+        non_strict_client = RaccoonAI(base_url=base_url, secret_key=secret_key, _strict_response_validation=False)
 
-        response = client.get("/foo", cast_to=Model)
+        response = non_strict_client.get("/foo", cast_to=Model)
         assert isinstance(response, str)  # type: ignore[unreachable]
+
+        strict_client.close()
+        non_strict_client.close()
 
     @pytest.mark.parametrize(
         "remaining_retries,retry_after,timeout",
@@ -728,9 +748,9 @@ class TestRaccoonAI:
         ],
     )
     @mock.patch("time.time", mock.MagicMock(return_value=1696004797))
-    def test_parse_retry_after_header(self, remaining_retries: int, retry_after: str, timeout: float) -> None:
-        client = RaccoonAI(base_url=base_url, secret_key=secret_key, _strict_response_validation=True)
-
+    def test_parse_retry_after_header(
+        self, remaining_retries: int, retry_after: str, timeout: float, client: RaccoonAI
+    ) -> None:
         headers = httpx.Headers({"retry-after": retry_after})
         options = FinalRequestOptions(method="get", url="/foo", max_retries=3)
         calculated = client._calculate_retry_timeout(remaining_retries, options, headers)
@@ -738,51 +758,26 @@ class TestRaccoonAI:
 
     @mock.patch("raccoonai._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
-    def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
+    def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter, client: RaccoonAI) -> None:
         respx_mock.post("/lam/run").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
         with pytest.raises(APITimeoutError):
-            self.client.post(
-                "/lam/run",
-                body=cast(
-                    object,
-                    maybe_transform(
-                        dict(
-                            query="Find YCombinator startups who got funded in W24.",
-                            raccoon_passcode="<end-user-raccoon-passcode>",
-                        ),
-                        LamRunParamsNonStreaming,
-                    ),
-                ),
-                cast_to=httpx.Response,
-                options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
-            )
+            client.lam.with_streaming_response.run(
+                query="Find YCombinator startups who got funded in W24.", raccoon_passcode="<end-user-raccoon-passcode>"
+            ).__enter__()
 
-        assert _get_open_connections(self.client) == 0
+        assert _get_open_connections(client) == 0
 
     @mock.patch("raccoonai._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
-    def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
+    def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter, client: RaccoonAI) -> None:
         respx_mock.post("/lam/run").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
-            self.client.post(
-                "/lam/run",
-                body=cast(
-                    object,
-                    maybe_transform(
-                        dict(
-                            query="Find YCombinator startups who got funded in W24.",
-                            raccoon_passcode="<end-user-raccoon-passcode>",
-                        ),
-                        LamRunParamsNonStreaming,
-                    ),
-                ),
-                cast_to=httpx.Response,
-                options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
-            )
-
-        assert _get_open_connections(self.client) == 0
+            client.lam.with_streaming_response.run(
+                query="Find YCombinator startups who got funded in W24.", raccoon_passcode="<end-user-raccoon-passcode>"
+            ).__enter__()
+        assert _get_open_connections(client) == 0
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
     @mock.patch("raccoonai._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
@@ -894,83 +889,77 @@ class TestRaccoonAI:
         )
 
     @pytest.mark.respx(base_url=base_url)
-    def test_follow_redirects(self, respx_mock: MockRouter) -> None:
+    def test_follow_redirects(self, respx_mock: MockRouter, client: RaccoonAI) -> None:
         # Test that the default follow_redirects=True allows following redirects
         respx_mock.post("/redirect").mock(
             return_value=httpx.Response(302, headers={"Location": f"{base_url}/redirected"})
         )
         respx_mock.get("/redirected").mock(return_value=httpx.Response(200, json={"status": "ok"}))
 
-        response = self.client.post("/redirect", body={"key": "value"}, cast_to=httpx.Response)
+        response = client.post("/redirect", body={"key": "value"}, cast_to=httpx.Response)
         assert response.status_code == 200
         assert response.json() == {"status": "ok"}
 
     @pytest.mark.respx(base_url=base_url)
-    def test_follow_redirects_disabled(self, respx_mock: MockRouter) -> None:
+    def test_follow_redirects_disabled(self, respx_mock: MockRouter, client: RaccoonAI) -> None:
         # Test that follow_redirects=False prevents following redirects
         respx_mock.post("/redirect").mock(
             return_value=httpx.Response(302, headers={"Location": f"{base_url}/redirected"})
         )
 
         with pytest.raises(APIStatusError) as exc_info:
-            self.client.post(
-                "/redirect", body={"key": "value"}, options={"follow_redirects": False}, cast_to=httpx.Response
-            )
+            client.post("/redirect", body={"key": "value"}, options={"follow_redirects": False}, cast_to=httpx.Response)
 
         assert exc_info.value.response.status_code == 302
         assert exc_info.value.response.headers["Location"] == f"{base_url}/redirected"
 
 
 class TestAsyncRaccoonAI:
-    client = AsyncRaccoonAI(base_url=base_url, secret_key=secret_key, _strict_response_validation=True)
-
     @pytest.mark.respx(base_url=base_url)
-    @pytest.mark.asyncio
-    async def test_raw_response(self, respx_mock: MockRouter) -> None:
+    async def test_raw_response(self, respx_mock: MockRouter, async_client: AsyncRaccoonAI) -> None:
         respx_mock.post("/foo").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
 
-        response = await self.client.post("/foo", cast_to=httpx.Response)
+        response = await async_client.post("/foo", cast_to=httpx.Response)
         assert response.status_code == 200
         assert isinstance(response, httpx.Response)
         assert response.json() == {"foo": "bar"}
 
     @pytest.mark.respx(base_url=base_url)
-    @pytest.mark.asyncio
-    async def test_raw_response_for_binary(self, respx_mock: MockRouter) -> None:
+    async def test_raw_response_for_binary(self, respx_mock: MockRouter, async_client: AsyncRaccoonAI) -> None:
         respx_mock.post("/foo").mock(
             return_value=httpx.Response(200, headers={"Content-Type": "application/binary"}, content='{"foo": "bar"}')
         )
 
-        response = await self.client.post("/foo", cast_to=httpx.Response)
+        response = await async_client.post("/foo", cast_to=httpx.Response)
         assert response.status_code == 200
         assert isinstance(response, httpx.Response)
         assert response.json() == {"foo": "bar"}
 
-    def test_copy(self) -> None:
-        copied = self.client.copy()
-        assert id(copied) != id(self.client)
+    def test_copy(self, async_client: AsyncRaccoonAI) -> None:
+        copied = async_client.copy()
+        assert id(copied) != id(async_client)
 
-        copied = self.client.copy(secret_key="another My Secret Key")
+        copied = async_client.copy(secret_key="another My Secret Key")
         assert copied.secret_key == "another My Secret Key"
-        assert self.client.secret_key == "My Secret Key"
+        assert async_client.secret_key == "My Secret Key"
 
-    def test_copy_default_options(self) -> None:
+    def test_copy_default_options(self, async_client: AsyncRaccoonAI) -> None:
         # options that have a default are overridden correctly
-        copied = self.client.copy(max_retries=7)
+        copied = async_client.copy(max_retries=7)
         assert copied.max_retries == 7
-        assert self.client.max_retries == 0
+        assert async_client.max_retries == 0
 
         copied2 = copied.copy(max_retries=6)
         assert copied2.max_retries == 6
         assert copied.max_retries == 7
 
         # timeout
-        assert isinstance(self.client.timeout, httpx.Timeout)
-        copied = self.client.copy(timeout=None)
+        assert isinstance(async_client.timeout, httpx.Timeout)
+        copied = async_client.copy(timeout=None)
         assert copied.timeout is None
-        assert isinstance(self.client.timeout, httpx.Timeout)
+        assert isinstance(async_client.timeout, httpx.Timeout)
 
-    def test_copy_default_headers(self) -> None:
+    async def test_copy_default_headers(self) -> None:
         client = AsyncRaccoonAI(
             base_url=base_url, secret_key=secret_key, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
         )
@@ -1003,8 +992,9 @@ class TestAsyncRaccoonAI:
             match="`default_headers` and `set_default_headers` arguments are mutually exclusive",
         ):
             client.copy(set_default_headers={}, default_headers={"X-Foo": "Bar"})
+        await client.close()
 
-    def test_copy_default_query(self) -> None:
+    async def test_copy_default_query(self) -> None:
         client = AsyncRaccoonAI(
             base_url=base_url, secret_key=secret_key, _strict_response_validation=True, default_query={"foo": "bar"}
         )
@@ -1040,13 +1030,15 @@ class TestAsyncRaccoonAI:
         ):
             client.copy(set_default_query={}, default_query={"foo": "Bar"})
 
-    def test_copy_signature(self) -> None:
+        await client.close()
+
+    def test_copy_signature(self, async_client: AsyncRaccoonAI) -> None:
         # ensure the same parameters that can be passed to the client are defined in the `.copy()` method
         init_signature = inspect.signature(
             # mypy doesn't like that we access the `__init__` property.
-            self.client.__init__,  # type: ignore[misc]
+            async_client.__init__,  # type: ignore[misc]
         )
-        copy_signature = inspect.signature(self.client.copy)
+        copy_signature = inspect.signature(async_client.copy)
         exclude_params = {"transport", "proxies", "_strict_response_validation"}
 
         for name in init_signature.parameters.keys():
@@ -1056,12 +1048,13 @@ class TestAsyncRaccoonAI:
             copy_param = copy_signature.parameters.get(name)
             assert copy_param is not None, f"copy() signature is missing the {name} param"
 
-    def test_copy_build_request(self) -> None:
+    @pytest.mark.skipif(sys.version_info >= (3, 10), reason="fails because of a memory leak that started from 3.12")
+    def test_copy_build_request(self, async_client: AsyncRaccoonAI) -> None:
         options = FinalRequestOptions(method="get", url="/foo")
 
         def build_request(options: FinalRequestOptions) -> None:
-            client = self.client.copy()
-            client._build_request(options)
+            client_copy = async_client.copy()
+            client_copy._build_request(options)
 
         # ensure that the machinery is warmed up before tracing starts.
         build_request(options)
@@ -1118,12 +1111,12 @@ class TestAsyncRaccoonAI:
                     print(frame)
             raise AssertionError()
 
-    async def test_request_timeout(self) -> None:
-        request = self.client._build_request(FinalRequestOptions(method="get", url="/foo"))
+    async def test_request_timeout(self, async_client: AsyncRaccoonAI) -> None:
+        request = async_client._build_request(FinalRequestOptions(method="get", url="/foo"))
         timeout = httpx.Timeout(**request.extensions["timeout"])  # type: ignore
         assert timeout == DEFAULT_TIMEOUT
 
-        request = self.client._build_request(
+        request = async_client._build_request(
             FinalRequestOptions(method="get", url="/foo", timeout=httpx.Timeout(100.0))
         )
         timeout = httpx.Timeout(**request.extensions["timeout"])  # type: ignore
@@ -1138,6 +1131,8 @@ class TestAsyncRaccoonAI:
         timeout = httpx.Timeout(**request.extensions["timeout"])  # type: ignore
         assert timeout == httpx.Timeout(0)
 
+        await client.close()
+
     async def test_http_client_timeout_option(self) -> None:
         # custom timeout given to the httpx client should be used
         async with httpx.AsyncClient(timeout=None) as http_client:
@@ -1149,6 +1144,8 @@ class TestAsyncRaccoonAI:
             timeout = httpx.Timeout(**request.extensions["timeout"])  # type: ignore
             assert timeout == httpx.Timeout(None)
 
+            await client.close()
+
         # no timeout given to the httpx client should not use the httpx default
         async with httpx.AsyncClient() as http_client:
             client = AsyncRaccoonAI(
@@ -1158,6 +1155,8 @@ class TestAsyncRaccoonAI:
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
             timeout = httpx.Timeout(**request.extensions["timeout"])  # type: ignore
             assert timeout == DEFAULT_TIMEOUT
+
+            await client.close()
 
         # explicitly passing the default timeout currently results in it being ignored
         async with httpx.AsyncClient(timeout=HTTPX_DEFAULT_TIMEOUT) as http_client:
@@ -1169,6 +1168,8 @@ class TestAsyncRaccoonAI:
             timeout = httpx.Timeout(**request.extensions["timeout"])  # type: ignore
             assert timeout == DEFAULT_TIMEOUT  # our default
 
+            await client.close()
+
     def test_invalid_http_client(self) -> None:
         with pytest.raises(TypeError, match="Invalid `http_client` arg"):
             with httpx.Client() as http_client:
@@ -1179,15 +1180,15 @@ class TestAsyncRaccoonAI:
                     http_client=cast(Any, http_client),
                 )
 
-    def test_default_headers_option(self) -> None:
-        client = AsyncRaccoonAI(
+    async def test_default_headers_option(self) -> None:
+        test_client = AsyncRaccoonAI(
             base_url=base_url, secret_key=secret_key, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
         )
-        request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
+        request = test_client._build_request(FinalRequestOptions(method="get", url="/foo"))
         assert request.headers.get("x-foo") == "bar"
         assert request.headers.get("x-stainless-lang") == "python"
 
-        client2 = AsyncRaccoonAI(
+        test_client2 = AsyncRaccoonAI(
             base_url=base_url,
             secret_key=secret_key,
             _strict_response_validation=True,
@@ -1196,9 +1197,12 @@ class TestAsyncRaccoonAI:
                 "X-Stainless-Lang": "my-overriding-header",
             },
         )
-        request = client2._build_request(FinalRequestOptions(method="get", url="/foo"))
+        request = test_client2._build_request(FinalRequestOptions(method="get", url="/foo"))
         assert request.headers.get("x-foo") == "stainless"
         assert request.headers.get("x-stainless-lang") == "my-overriding-header"
+
+        await test_client.close()
+        await test_client2.close()
 
     def test_validate_headers(self) -> None:
         client = AsyncRaccoonAI(base_url=base_url, secret_key=secret_key, _strict_response_validation=True)
@@ -1210,7 +1214,7 @@ class TestAsyncRaccoonAI:
                 client2 = AsyncRaccoonAI(base_url=base_url, secret_key=None, _strict_response_validation=True)
             _ = client2
 
-    def test_default_query_option(self) -> None:
+    async def test_default_query_option(self) -> None:
         client = AsyncRaccoonAI(
             base_url=base_url,
             secret_key=secret_key,
@@ -1231,8 +1235,10 @@ class TestAsyncRaccoonAI:
         url = httpx.URL(request.url)
         assert dict(url.params) == {"foo": "baz", "query_param": "overridden"}
 
-    def test_request_extra_json(self) -> None:
-        request = self.client._build_request(
+        await client.close()
+
+    def test_request_extra_json(self, client: RaccoonAI) -> None:
+        request = client._build_request(
             FinalRequestOptions(
                 method="post",
                 url="/foo",
@@ -1243,7 +1249,7 @@ class TestAsyncRaccoonAI:
         data = json.loads(request.content.decode("utf-8"))
         assert data == {"foo": "bar", "baz": False}
 
-        request = self.client._build_request(
+        request = client._build_request(
             FinalRequestOptions(
                 method="post",
                 url="/foo",
@@ -1254,7 +1260,7 @@ class TestAsyncRaccoonAI:
         assert data == {"baz": False}
 
         # `extra_json` takes priority over `json_data` when keys clash
-        request = self.client._build_request(
+        request = client._build_request(
             FinalRequestOptions(
                 method="post",
                 url="/foo",
@@ -1265,8 +1271,8 @@ class TestAsyncRaccoonAI:
         data = json.loads(request.content.decode("utf-8"))
         assert data == {"foo": "bar", "baz": None}
 
-    def test_request_extra_headers(self) -> None:
-        request = self.client._build_request(
+    def test_request_extra_headers(self, client: RaccoonAI) -> None:
+        request = client._build_request(
             FinalRequestOptions(
                 method="post",
                 url="/foo",
@@ -1276,7 +1282,7 @@ class TestAsyncRaccoonAI:
         assert request.headers.get("X-Foo") == "Foo"
 
         # `extra_headers` takes priority over `default_headers` when keys clash
-        request = self.client.with_options(default_headers={"X-Bar": "true"})._build_request(
+        request = client.with_options(default_headers={"X-Bar": "true"})._build_request(
             FinalRequestOptions(
                 method="post",
                 url="/foo",
@@ -1287,8 +1293,8 @@ class TestAsyncRaccoonAI:
         )
         assert request.headers.get("X-Bar") == "false"
 
-    def test_request_extra_query(self) -> None:
-        request = self.client._build_request(
+    def test_request_extra_query(self, client: RaccoonAI) -> None:
+        request = client._build_request(
             FinalRequestOptions(
                 method="post",
                 url="/foo",
@@ -1301,7 +1307,7 @@ class TestAsyncRaccoonAI:
         assert params == {"my_query_param": "Foo"}
 
         # if both `query` and `extra_query` are given, they are merged
-        request = self.client._build_request(
+        request = client._build_request(
             FinalRequestOptions(
                 method="post",
                 url="/foo",
@@ -1315,7 +1321,7 @@ class TestAsyncRaccoonAI:
         assert params == {"bar": "1", "foo": "2"}
 
         # `extra_query` takes priority over `query` when keys clash
-        request = self.client._build_request(
+        request = client._build_request(
             FinalRequestOptions(
                 method="post",
                 url="/foo",
@@ -1331,7 +1337,7 @@ class TestAsyncRaccoonAI:
     def test_multipart_repeating_array(self, async_client: AsyncRaccoonAI) -> None:
         request = async_client._build_request(
             FinalRequestOptions.construct(
-                method="get",
+                method="post",
                 url="/foo",
                 headers={"Content-Type": "multipart/form-data; boundary=6b7ba517decee4a450543ea6ae821c82"},
                 json_data={"array": ["foo", "bar"]},
@@ -1358,7 +1364,7 @@ class TestAsyncRaccoonAI:
         ]
 
     @pytest.mark.respx(base_url=base_url)
-    async def test_basic_union_response(self, respx_mock: MockRouter) -> None:
+    async def test_basic_union_response(self, respx_mock: MockRouter, async_client: AsyncRaccoonAI) -> None:
         class Model1(BaseModel):
             name: str
 
@@ -1367,12 +1373,12 @@ class TestAsyncRaccoonAI:
 
         respx_mock.get("/foo").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
 
-        response = await self.client.get("/foo", cast_to=cast(Any, Union[Model1, Model2]))
+        response = await async_client.get("/foo", cast_to=cast(Any, Union[Model1, Model2]))
         assert isinstance(response, Model2)
         assert response.foo == "bar"
 
     @pytest.mark.respx(base_url=base_url)
-    async def test_union_response_different_types(self, respx_mock: MockRouter) -> None:
+    async def test_union_response_different_types(self, respx_mock: MockRouter, async_client: AsyncRaccoonAI) -> None:
         """Union of objects with the same field name using a different type"""
 
         class Model1(BaseModel):
@@ -1383,18 +1389,20 @@ class TestAsyncRaccoonAI:
 
         respx_mock.get("/foo").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
 
-        response = await self.client.get("/foo", cast_to=cast(Any, Union[Model1, Model2]))
+        response = await async_client.get("/foo", cast_to=cast(Any, Union[Model1, Model2]))
         assert isinstance(response, Model2)
         assert response.foo == "bar"
 
         respx_mock.get("/foo").mock(return_value=httpx.Response(200, json={"foo": 1}))
 
-        response = await self.client.get("/foo", cast_to=cast(Any, Union[Model1, Model2]))
+        response = await async_client.get("/foo", cast_to=cast(Any, Union[Model1, Model2]))
         assert isinstance(response, Model1)
         assert response.foo == 1
 
     @pytest.mark.respx(base_url=base_url)
-    async def test_non_application_json_content_type_for_json_data(self, respx_mock: MockRouter) -> None:
+    async def test_non_application_json_content_type_for_json_data(
+        self, respx_mock: MockRouter, async_client: AsyncRaccoonAI
+    ) -> None:
         """
         Response that sets Content-Type to something other than application/json but returns json data
         """
@@ -1410,11 +1418,11 @@ class TestAsyncRaccoonAI:
             )
         )
 
-        response = await self.client.get("/foo", cast_to=Model)
+        response = await async_client.get("/foo", cast_to=Model)
         assert isinstance(response, Model)
         assert response.foo == 2
 
-    def test_base_url_setter(self) -> None:
+    async def test_base_url_setter(self) -> None:
         client = AsyncRaccoonAI(
             base_url="https://example.com/from_init", secret_key=secret_key, _strict_response_validation=True
         )
@@ -1424,7 +1432,9 @@ class TestAsyncRaccoonAI:
 
         assert client.base_url == "https://example.com/from_setter/"
 
-    def test_base_url_env(self) -> None:
+        await client.close()
+
+    async def test_base_url_env(self) -> None:
         with update_env(RACCOON_AI_BASE_URL="http://localhost:5000/from/env"):
             client = AsyncRaccoonAI(secret_key=secret_key, _strict_response_validation=True)
             assert client.base_url == "http://localhost:5000/from/env/"
@@ -1439,30 +1449,7 @@ class TestAsyncRaccoonAI:
             )
             assert str(client.base_url).startswith("https://api.raccoonai.tech")
 
-    @pytest.mark.parametrize(
-        "client",
-        [
-            AsyncRaccoonAI(
-                base_url="http://localhost:5000/custom/path/", secret_key=secret_key, _strict_response_validation=True
-            ),
-            AsyncRaccoonAI(
-                base_url="http://localhost:5000/custom/path/",
-                secret_key=secret_key,
-                _strict_response_validation=True,
-                http_client=httpx.AsyncClient(),
-            ),
-        ],
-        ids=["standard", "custom http client"],
-    )
-    def test_base_url_trailing_slash(self, client: AsyncRaccoonAI) -> None:
-        request = client._build_request(
-            FinalRequestOptions(
-                method="post",
-                url="/foo",
-                json_data={"foo": "bar"},
-            ),
-        )
-        assert request.url == "http://localhost:5000/custom/path/foo"
+            await client.close()
 
     @pytest.mark.parametrize(
         "client",
@@ -1479,7 +1466,7 @@ class TestAsyncRaccoonAI:
         ],
         ids=["standard", "custom http client"],
     )
-    def test_base_url_no_trailing_slash(self, client: AsyncRaccoonAI) -> None:
+    async def test_base_url_trailing_slash(self, client: AsyncRaccoonAI) -> None:
         request = client._build_request(
             FinalRequestOptions(
                 method="post",
@@ -1488,6 +1475,7 @@ class TestAsyncRaccoonAI:
             ),
         )
         assert request.url == "http://localhost:5000/custom/path/foo"
+        await client.close()
 
     @pytest.mark.parametrize(
         "client",
@@ -1504,7 +1492,33 @@ class TestAsyncRaccoonAI:
         ],
         ids=["standard", "custom http client"],
     )
-    def test_absolute_request_url(self, client: AsyncRaccoonAI) -> None:
+    async def test_base_url_no_trailing_slash(self, client: AsyncRaccoonAI) -> None:
+        request = client._build_request(
+            FinalRequestOptions(
+                method="post",
+                url="/foo",
+                json_data={"foo": "bar"},
+            ),
+        )
+        assert request.url == "http://localhost:5000/custom/path/foo"
+        await client.close()
+
+    @pytest.mark.parametrize(
+        "client",
+        [
+            AsyncRaccoonAI(
+                base_url="http://localhost:5000/custom/path/", secret_key=secret_key, _strict_response_validation=True
+            ),
+            AsyncRaccoonAI(
+                base_url="http://localhost:5000/custom/path/",
+                secret_key=secret_key,
+                _strict_response_validation=True,
+                http_client=httpx.AsyncClient(),
+            ),
+        ],
+        ids=["standard", "custom http client"],
+    )
+    async def test_absolute_request_url(self, client: AsyncRaccoonAI) -> None:
         request = client._build_request(
             FinalRequestOptions(
                 method="post",
@@ -1513,37 +1527,37 @@ class TestAsyncRaccoonAI:
             ),
         )
         assert request.url == "https://myapi.com/foo"
+        await client.close()
 
     async def test_copied_client_does_not_close_http(self) -> None:
-        client = AsyncRaccoonAI(base_url=base_url, secret_key=secret_key, _strict_response_validation=True)
-        assert not client.is_closed()
+        test_client = AsyncRaccoonAI(base_url=base_url, secret_key=secret_key, _strict_response_validation=True)
+        assert not test_client.is_closed()
 
-        copied = client.copy()
-        assert copied is not client
+        copied = test_client.copy()
+        assert copied is not test_client
 
         del copied
 
         await asyncio.sleep(0.2)
-        assert not client.is_closed()
+        assert not test_client.is_closed()
 
     async def test_client_context_manager(self) -> None:
-        client = AsyncRaccoonAI(base_url=base_url, secret_key=secret_key, _strict_response_validation=True)
-        async with client as c2:
-            assert c2 is client
+        test_client = AsyncRaccoonAI(base_url=base_url, secret_key=secret_key, _strict_response_validation=True)
+        async with test_client as c2:
+            assert c2 is test_client
             assert not c2.is_closed()
-            assert not client.is_closed()
-        assert client.is_closed()
+            assert not test_client.is_closed()
+        assert test_client.is_closed()
 
     @pytest.mark.respx(base_url=base_url)
-    @pytest.mark.asyncio
-    async def test_client_response_validation_error(self, respx_mock: MockRouter) -> None:
+    async def test_client_response_validation_error(self, respx_mock: MockRouter, async_client: AsyncRaccoonAI) -> None:
         class Model(BaseModel):
             foo: str
 
         respx_mock.get("/foo").mock(return_value=httpx.Response(200, json={"foo": {"invalid": True}}))
 
         with pytest.raises(APIResponseValidationError) as exc:
-            await self.client.get("/foo", cast_to=Model)
+            await async_client.get("/foo", cast_to=Model)
 
         assert isinstance(exc.value.__cause__, ValidationError)
 
@@ -1554,7 +1568,6 @@ class TestAsyncRaccoonAI:
             )
 
     @pytest.mark.respx(base_url=base_url)
-    @pytest.mark.asyncio
     async def test_received_text_for_expected_json(self, respx_mock: MockRouter) -> None:
         class Model(BaseModel):
             name: str
@@ -1566,10 +1579,13 @@ class TestAsyncRaccoonAI:
         with pytest.raises(APIResponseValidationError):
             await strict_client.get("/foo", cast_to=Model)
 
-        client = AsyncRaccoonAI(base_url=base_url, secret_key=secret_key, _strict_response_validation=False)
+        non_strict_client = AsyncRaccoonAI(base_url=base_url, secret_key=secret_key, _strict_response_validation=False)
 
-        response = await client.get("/foo", cast_to=Model)
+        response = await non_strict_client.get("/foo", cast_to=Model)
         assert isinstance(response, str)  # type: ignore[unreachable]
+
+        await strict_client.close()
+        await non_strict_client.close()
 
     @pytest.mark.parametrize(
         "remaining_retries,retry_after,timeout",
@@ -1593,67 +1609,44 @@ class TestAsyncRaccoonAI:
         ],
     )
     @mock.patch("time.time", mock.MagicMock(return_value=1696004797))
-    @pytest.mark.asyncio
-    async def test_parse_retry_after_header(self, remaining_retries: int, retry_after: str, timeout: float) -> None:
-        client = AsyncRaccoonAI(base_url=base_url, secret_key=secret_key, _strict_response_validation=True)
-
+    async def test_parse_retry_after_header(
+        self, remaining_retries: int, retry_after: str, timeout: float, async_client: AsyncRaccoonAI
+    ) -> None:
         headers = httpx.Headers({"retry-after": retry_after})
         options = FinalRequestOptions(method="get", url="/foo", max_retries=3)
-        calculated = client._calculate_retry_timeout(remaining_retries, options, headers)
+        calculated = async_client._calculate_retry_timeout(remaining_retries, options, headers)
         assert calculated == pytest.approx(timeout, 1 * 0.875)  # pyright: ignore[reportUnknownMemberType]
 
     @mock.patch("raccoonai._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
-    async def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
+    async def test_retrying_timeout_errors_doesnt_leak(
+        self, respx_mock: MockRouter, async_client: AsyncRaccoonAI
+    ) -> None:
         respx_mock.post("/lam/run").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
         with pytest.raises(APITimeoutError):
-            await self.client.post(
-                "/lam/run",
-                body=cast(
-                    object,
-                    maybe_transform(
-                        dict(
-                            query="Find YCombinator startups who got funded in W24.",
-                            raccoon_passcode="<end-user-raccoon-passcode>",
-                        ),
-                        LamRunParamsNonStreaming,
-                    ),
-                ),
-                cast_to=httpx.Response,
-                options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
-            )
+            await async_client.lam.with_streaming_response.run(
+                query="Find YCombinator startups who got funded in W24.", raccoon_passcode="<end-user-raccoon-passcode>"
+            ).__aenter__()
 
-        assert _get_open_connections(self.client) == 0
+        assert _get_open_connections(async_client) == 0
 
     @mock.patch("raccoonai._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
-    async def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
+    async def test_retrying_status_errors_doesnt_leak(
+        self, respx_mock: MockRouter, async_client: AsyncRaccoonAI
+    ) -> None:
         respx_mock.post("/lam/run").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
-            await self.client.post(
-                "/lam/run",
-                body=cast(
-                    object,
-                    maybe_transform(
-                        dict(
-                            query="Find YCombinator startups who got funded in W24.",
-                            raccoon_passcode="<end-user-raccoon-passcode>",
-                        ),
-                        LamRunParamsNonStreaming,
-                    ),
-                ),
-                cast_to=httpx.Response,
-                options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
-            )
-
-        assert _get_open_connections(self.client) == 0
+            await async_client.lam.with_streaming_response.run(
+                query="Find YCombinator startups who got funded in W24.", raccoon_passcode="<end-user-raccoon-passcode>"
+            ).__aenter__()
+        assert _get_open_connections(async_client) == 0
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
     @mock.patch("raccoonai._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
-    @pytest.mark.asyncio
     @pytest.mark.parametrize("failure_mode", ["status", "exception"])
     async def test_retries_taken(
         self,
@@ -1687,7 +1680,6 @@ class TestAsyncRaccoonAI:
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
     @mock.patch("raccoonai._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
-    @pytest.mark.asyncio
     async def test_omit_retry_count_header(
         self, async_client: AsyncRaccoonAI, failures_before_success: int, respx_mock: MockRouter
     ) -> None:
@@ -1715,7 +1707,6 @@ class TestAsyncRaccoonAI:
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
     @mock.patch("raccoonai._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
-    @pytest.mark.asyncio
     async def test_overwrite_retry_count_header(
         self, async_client: AsyncRaccoonAI, failures_before_success: int, respx_mock: MockRouter
     ) -> None:
@@ -1740,50 +1731,9 @@ class TestAsyncRaccoonAI:
 
         assert response.http_request.headers.get("x-stainless-retry-count") == "42"
 
-    def test_get_platform(self) -> None:
-        # A previous implementation of asyncify could leave threads unterminated when
-        # used with nest_asyncio.
-        #
-        # Since nest_asyncio.apply() is global and cannot be un-applied, this
-        # test is run in a separate process to avoid affecting other tests.
-        test_code = dedent("""
-        import asyncio
-        import nest_asyncio
-        import threading
-
-        from raccoonai._utils import asyncify
-        from raccoonai._base_client import get_platform
-
-        async def test_main() -> None:
-            result = await asyncify(get_platform)()
-            print(result)
-            for thread in threading.enumerate():
-                print(thread.name)
-
-        nest_asyncio.apply()
-        asyncio.run(test_main())
-        """)
-        with subprocess.Popen(
-            [sys.executable, "-c", test_code],
-            text=True,
-        ) as process:
-            timeout = 10  # seconds
-
-            start_time = time.monotonic()
-            while True:
-                return_code = process.poll()
-                if return_code is not None:
-                    if return_code != 0:
-                        raise AssertionError("calling get_platform using asyncify resulted in a non-zero exit code")
-
-                    # success
-                    break
-
-                if time.monotonic() - start_time > timeout:
-                    process.kill()
-                    raise AssertionError("calling get_platform using asyncify resulted in a hung process")
-
-                time.sleep(0.1)
+    async def test_get_platform(self) -> None:
+        platform = await asyncify(get_platform)()
+        assert isinstance(platform, (str, OtherPlatform))
 
     async def test_proxy_environment_variables(self, monkeypatch: pytest.MonkeyPatch) -> None:
         # Test that the proxy environment variables are set correctly
@@ -1808,26 +1758,26 @@ class TestAsyncRaccoonAI:
         )
 
     @pytest.mark.respx(base_url=base_url)
-    async def test_follow_redirects(self, respx_mock: MockRouter) -> None:
+    async def test_follow_redirects(self, respx_mock: MockRouter, async_client: AsyncRaccoonAI) -> None:
         # Test that the default follow_redirects=True allows following redirects
         respx_mock.post("/redirect").mock(
             return_value=httpx.Response(302, headers={"Location": f"{base_url}/redirected"})
         )
         respx_mock.get("/redirected").mock(return_value=httpx.Response(200, json={"status": "ok"}))
 
-        response = await self.client.post("/redirect", body={"key": "value"}, cast_to=httpx.Response)
+        response = await async_client.post("/redirect", body={"key": "value"}, cast_to=httpx.Response)
         assert response.status_code == 200
         assert response.json() == {"status": "ok"}
 
     @pytest.mark.respx(base_url=base_url)
-    async def test_follow_redirects_disabled(self, respx_mock: MockRouter) -> None:
+    async def test_follow_redirects_disabled(self, respx_mock: MockRouter, async_client: AsyncRaccoonAI) -> None:
         # Test that follow_redirects=False prevents following redirects
         respx_mock.post("/redirect").mock(
             return_value=httpx.Response(302, headers={"Location": f"{base_url}/redirected"})
         )
 
         with pytest.raises(APIStatusError) as exc_info:
-            await self.client.post(
+            await async_client.post(
                 "/redirect", body={"key": "value"}, options={"follow_redirects": False}, cast_to=httpx.Response
             )
 

@@ -2,8 +2,10 @@
 
 from __future__ import annotations
 
-from typing import Dict, List, Union, Iterable, Optional
+from typing import Dict, Union, Iterable, Optional
 from typing_extensions import Literal, TypeAlias, TypedDict
+
+from ..._types import SequenceNotStr
 
 __all__ = ["SessionCreateParams", "Advanced", "AdvancedProxy", "AdvancedProxyProxySettings", "Settings"]
 
@@ -78,7 +80,7 @@ class Advanced(TypedDict, total=False):
 
 
 class Settings(TypedDict, total=False):
-    locales: Optional[List[str]]
+    locales: Optional[SequenceNotStr[str]]
     """A list of locales or languages to use for the browser session.
 
     These determine language preferences.

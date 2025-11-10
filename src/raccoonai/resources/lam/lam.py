@@ -16,7 +16,7 @@ from .tasks import (
     AsyncTasksResourceWithStreamingResponse,
 )
 from ...types import lam_run_params
-from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
+from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
 from ..._utils import required_args, maybe_transform, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
@@ -63,19 +63,19 @@ class LamResource(SyncAPIResource):
         *,
         query: str,
         raccoon_passcode: str,
-        advanced: Optional[lam_run_params.Advanced] | NotGiven = NOT_GIVEN,
-        app_url: Optional[str] | NotGiven = NOT_GIVEN,
-        chat_history: Optional[Iterable[object]] | NotGiven = NOT_GIVEN,
-        max_count: Optional[int] | NotGiven = NOT_GIVEN,
-        mode: Optional[Literal["deepsearch", "default"]] | NotGiven = NOT_GIVEN,
-        schema: object | NotGiven = NOT_GIVEN,
-        stream: Optional[Literal[False]] | NotGiven = NOT_GIVEN,
+        advanced: Optional[lam_run_params.Advanced] | Omit = omit,
+        app_url: Optional[str] | Omit = omit,
+        chat_history: Optional[Iterable[object]] | Omit = omit,
+        max_count: Optional[int] | Omit = omit,
+        mode: Optional[Literal["deepsearch", "default"]] | Omit = omit,
+        schema: object | Omit = omit,
+        stream: Optional[Literal[False]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> LamRunResponse:
         """Lam Run Endpoint
 
@@ -121,18 +121,18 @@ class LamResource(SyncAPIResource):
         query: str,
         raccoon_passcode: str,
         stream: Literal[True],
-        advanced: Optional[lam_run_params.Advanced] | NotGiven = NOT_GIVEN,
-        app_url: Optional[str] | NotGiven = NOT_GIVEN,
-        chat_history: Optional[Iterable[object]] | NotGiven = NOT_GIVEN,
-        max_count: Optional[int] | NotGiven = NOT_GIVEN,
-        mode: Optional[Literal["deepsearch", "default"]] | NotGiven = NOT_GIVEN,
-        schema: object | NotGiven = NOT_GIVEN,
+        advanced: Optional[lam_run_params.Advanced] | Omit = omit,
+        app_url: Optional[str] | Omit = omit,
+        chat_history: Optional[Iterable[object]] | Omit = omit,
+        max_count: Optional[int] | Omit = omit,
+        mode: Optional[Literal["deepsearch", "default"]] | Omit = omit,
+        schema: object | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Stream[LamRunResponse]:
         """Lam Run Endpoint
 
@@ -178,18 +178,18 @@ class LamResource(SyncAPIResource):
         query: str,
         raccoon_passcode: str,
         stream: bool,
-        advanced: Optional[lam_run_params.Advanced] | NotGiven = NOT_GIVEN,
-        app_url: Optional[str] | NotGiven = NOT_GIVEN,
-        chat_history: Optional[Iterable[object]] | NotGiven = NOT_GIVEN,
-        max_count: Optional[int] | NotGiven = NOT_GIVEN,
-        mode: Optional[Literal["deepsearch", "default"]] | NotGiven = NOT_GIVEN,
-        schema: object | NotGiven = NOT_GIVEN,
+        advanced: Optional[lam_run_params.Advanced] | Omit = omit,
+        app_url: Optional[str] | Omit = omit,
+        chat_history: Optional[Iterable[object]] | Omit = omit,
+        max_count: Optional[int] | Omit = omit,
+        mode: Optional[Literal["deepsearch", "default"]] | Omit = omit,
+        schema: object | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> LamRunResponse | Stream[LamRunResponse]:
         """Lam Run Endpoint
 
@@ -234,19 +234,19 @@ class LamResource(SyncAPIResource):
         *,
         query: str,
         raccoon_passcode: str,
-        advanced: Optional[lam_run_params.Advanced] | NotGiven = NOT_GIVEN,
-        app_url: Optional[str] | NotGiven = NOT_GIVEN,
-        chat_history: Optional[Iterable[object]] | NotGiven = NOT_GIVEN,
-        max_count: Optional[int] | NotGiven = NOT_GIVEN,
-        mode: Optional[Literal["deepsearch", "default"]] | NotGiven = NOT_GIVEN,
-        schema: object | NotGiven = NOT_GIVEN,
-        stream: Optional[Literal[False]] | Literal[True] | NotGiven = NOT_GIVEN,
+        advanced: Optional[lam_run_params.Advanced] | Omit = omit,
+        app_url: Optional[str] | Omit = omit,
+        chat_history: Optional[Iterable[object]] | Omit = omit,
+        max_count: Optional[int] | Omit = omit,
+        mode: Optional[Literal["deepsearch", "default"]] | Omit = omit,
+        schema: object | Omit = omit,
+        stream: Optional[Literal[False]] | Literal[True] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> LamRunResponse | Stream[LamRunResponse]:
         return self._post(
             "/lam/run",
@@ -303,19 +303,19 @@ class AsyncLamResource(AsyncAPIResource):
         *,
         query: str,
         raccoon_passcode: str,
-        advanced: Optional[lam_run_params.Advanced] | NotGiven = NOT_GIVEN,
-        app_url: Optional[str] | NotGiven = NOT_GIVEN,
-        chat_history: Optional[Iterable[object]] | NotGiven = NOT_GIVEN,
-        max_count: Optional[int] | NotGiven = NOT_GIVEN,
-        mode: Optional[Literal["deepsearch", "default"]] | NotGiven = NOT_GIVEN,
-        schema: object | NotGiven = NOT_GIVEN,
-        stream: Optional[Literal[False]] | NotGiven = NOT_GIVEN,
+        advanced: Optional[lam_run_params.Advanced] | Omit = omit,
+        app_url: Optional[str] | Omit = omit,
+        chat_history: Optional[Iterable[object]] | Omit = omit,
+        max_count: Optional[int] | Omit = omit,
+        mode: Optional[Literal["deepsearch", "default"]] | Omit = omit,
+        schema: object | Omit = omit,
+        stream: Optional[Literal[False]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> LamRunResponse:
         """Lam Run Endpoint
 
@@ -361,18 +361,18 @@ class AsyncLamResource(AsyncAPIResource):
         query: str,
         raccoon_passcode: str,
         stream: Literal[True],
-        advanced: Optional[lam_run_params.Advanced] | NotGiven = NOT_GIVEN,
-        app_url: Optional[str] | NotGiven = NOT_GIVEN,
-        chat_history: Optional[Iterable[object]] | NotGiven = NOT_GIVEN,
-        max_count: Optional[int] | NotGiven = NOT_GIVEN,
-        mode: Optional[Literal["deepsearch", "default"]] | NotGiven = NOT_GIVEN,
-        schema: object | NotGiven = NOT_GIVEN,
+        advanced: Optional[lam_run_params.Advanced] | Omit = omit,
+        app_url: Optional[str] | Omit = omit,
+        chat_history: Optional[Iterable[object]] | Omit = omit,
+        max_count: Optional[int] | Omit = omit,
+        mode: Optional[Literal["deepsearch", "default"]] | Omit = omit,
+        schema: object | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AsyncStream[LamRunResponse]:
         """Lam Run Endpoint
 
@@ -418,18 +418,18 @@ class AsyncLamResource(AsyncAPIResource):
         query: str,
         raccoon_passcode: str,
         stream: bool,
-        advanced: Optional[lam_run_params.Advanced] | NotGiven = NOT_GIVEN,
-        app_url: Optional[str] | NotGiven = NOT_GIVEN,
-        chat_history: Optional[Iterable[object]] | NotGiven = NOT_GIVEN,
-        max_count: Optional[int] | NotGiven = NOT_GIVEN,
-        mode: Optional[Literal["deepsearch", "default"]] | NotGiven = NOT_GIVEN,
-        schema: object | NotGiven = NOT_GIVEN,
+        advanced: Optional[lam_run_params.Advanced] | Omit = omit,
+        app_url: Optional[str] | Omit = omit,
+        chat_history: Optional[Iterable[object]] | Omit = omit,
+        max_count: Optional[int] | Omit = omit,
+        mode: Optional[Literal["deepsearch", "default"]] | Omit = omit,
+        schema: object | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> LamRunResponse | AsyncStream[LamRunResponse]:
         """Lam Run Endpoint
 
@@ -474,19 +474,19 @@ class AsyncLamResource(AsyncAPIResource):
         *,
         query: str,
         raccoon_passcode: str,
-        advanced: Optional[lam_run_params.Advanced] | NotGiven = NOT_GIVEN,
-        app_url: Optional[str] | NotGiven = NOT_GIVEN,
-        chat_history: Optional[Iterable[object]] | NotGiven = NOT_GIVEN,
-        max_count: Optional[int] | NotGiven = NOT_GIVEN,
-        mode: Optional[Literal["deepsearch", "default"]] | NotGiven = NOT_GIVEN,
-        schema: object | NotGiven = NOT_GIVEN,
-        stream: Optional[Literal[False]] | Literal[True] | NotGiven = NOT_GIVEN,
+        advanced: Optional[lam_run_params.Advanced] | Omit = omit,
+        app_url: Optional[str] | Omit = omit,
+        chat_history: Optional[Iterable[object]] | Omit = omit,
+        max_count: Optional[int] | Omit = omit,
+        mode: Optional[Literal["deepsearch", "default"]] | Omit = omit,
+        schema: object | Omit = omit,
+        stream: Optional[Literal[False]] | Literal[True] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> LamRunResponse | AsyncStream[LamRunResponse]:
         return await self._post(
             "/lam/run",

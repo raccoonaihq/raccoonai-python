@@ -1,5 +1,53 @@
 # Changelog
 
+## 0.1.0-alpha.19 (2025-11-04)
+
+Full Changelog: [v0.1.0-alpha.18...v0.1.0-alpha.19](https://github.com/raccoonaihq/raccoonai-python/compare/v0.1.0-alpha.18...v0.1.0-alpha.19)
+
+### Features
+
+* clean up environment call outs ([64ab1f8](https://github.com/raccoonaihq/raccoonai-python/commit/64ab1f88832be94991c827eac9b1b6fc5937d28f))
+* **client:** add support for aiohttp ([f55551a](https://github.com/raccoonaihq/raccoonai-python/commit/f55551aae49ad94af24239e0e26f316698021754))
+* **client:** support file upload requests ([124c4c0](https://github.com/raccoonaihq/raccoonai-python/commit/124c4c0cc214e547fa25433053e38cbd7b6338f6))
+
+
+### Bug Fixes
+
+* **ci:** correct conditional ([4e4eca9](https://github.com/raccoonaihq/raccoonai-python/commit/4e4eca947c064446b95ded935941af2c19ae59b6))
+* **ci:** release-doctor — report correct token name ([fcbd5d3](https://github.com/raccoonaihq/raccoonai-python/commit/fcbd5d3abd43ef9ee9d2bd3ba2e8731bb02e42be))
+* **client:** don't send Content-Type header on GET requests ([af58369](https://github.com/raccoonaihq/raccoonai-python/commit/af583699fc05b962f33278b1fa0feab3ab495c67))
+* **parsing:** correctly handle nested discriminated unions ([661189a](https://github.com/raccoonaihq/raccoonai-python/commit/661189a2a3d503b66ed2c2f499dce0905987ed10))
+* **parsing:** ignore empty metadata ([6d4bca8](https://github.com/raccoonaihq/raccoonai-python/commit/6d4bca8de4db86ce82c4addbaf599433f374a646))
+* **parsing:** parse extra field types ([3e1aba6](https://github.com/raccoonaihq/raccoonai-python/commit/3e1aba60cb0effd848fbd9412855d568600e7f5c))
+* **tests:** fix: tests which call HTTP endpoints directly with the example parameters ([44715e4](https://github.com/raccoonaihq/raccoonai-python/commit/44715e41f17460b45ae2bf5e18dc35ccfa82fc38))
+
+
+### Chores
+
+* **ci:** change upload type ([3b22540](https://github.com/raccoonaihq/raccoonai-python/commit/3b22540f1c3f6144dc7af703cfec8221f983188e))
+* **ci:** only run for pushes and fork pull requests ([c0a2ec3](https://github.com/raccoonaihq/raccoonai-python/commit/c0a2ec355594dd9f609a078b237d44703fd51368))
+* **internal:** bump pinned h11 dep ([ddf8719](https://github.com/raccoonaihq/raccoonai-python/commit/ddf871977794ce8b7208b669ed7a0104fd836d6c))
+* **internal:** codegen related update ([4f91217](https://github.com/raccoonaihq/raccoonai-python/commit/4f91217e8f0584b4e456c12061ad0016637ff2aa))
+* **internal:** codegen related update ([a37625d](https://github.com/raccoonaihq/raccoonai-python/commit/a37625d9889ad5abca5267dcbe11ac38dc79060e))
+* **internal:** codegen related update ([92e2b6a](https://github.com/raccoonaihq/raccoonai-python/commit/92e2b6a93faad0e9d5f5a14fbd8f69aa4f47780e))
+* **internal:** codegen related update ([6a542a6](https://github.com/raccoonaihq/raccoonai-python/commit/6a542a6f2c23a988acc20c73809960418434c5fc))
+* **internal:** codegen related update ([d8e8a73](https://github.com/raccoonaihq/raccoonai-python/commit/d8e8a736f71b694ca9463bce54cce7a1414351b7))
+* **internal:** codegen related update ([902ae5e](https://github.com/raccoonaihq/raccoonai-python/commit/902ae5e0f6b083845b85c4bf293a915a63f5b38c))
+* **internal:** codegen related update ([609e96d](https://github.com/raccoonaihq/raccoonai-python/commit/609e96de49b1fdc8ac4d8a66530e4292c130ee1c))
+* **internal:** fix ruff target version ([cbd2c47](https://github.com/raccoonaihq/raccoonai-python/commit/cbd2c4791e411d3c60afb909a934d641a1aad959))
+* **internal:** update comment in script ([ed19702](https://github.com/raccoonaihq/raccoonai-python/commit/ed19702d3c38a2a5c627d401f16a658d87e61f08))
+* **package:** mark python 3.13 as supported ([64b34a0](https://github.com/raccoonaihq/raccoonai-python/commit/64b34a04c3344d4d2b6c6c8be258f08480f420fb))
+* **project:** add settings file for vscode ([fd70189](https://github.com/raccoonaihq/raccoonai-python/commit/fd70189a623ca46cf2137b6d77e6bde5c21f5cb5))
+* **readme:** fix version rendering on pypi ([c06b9e9](https://github.com/raccoonaihq/raccoonai-python/commit/c06b9e905696a5d15f97088c59f20499b91c7926))
+* **readme:** update badges ([6152d97](https://github.com/raccoonaihq/raccoonai-python/commit/6152d9729ea7bec51e2fac8c04c74b8312f86d88))
+* **tests:** skip some failing tests on the latest python versions ([e508628](https://github.com/raccoonaihq/raccoonai-python/commit/e508628735120437dc1d92e1e5b3f4f34eda2a45))
+* update @stainless-api/prism-cli to v5.15.0 ([6ec9c06](https://github.com/raccoonaihq/raccoonai-python/commit/6ec9c06c7133ebdc9bb723cad5d3e92ce95e2da0))
+
+
+### Documentation
+
+* **client:** fix httpx.Timeout documentation reference ([02eccd7](https://github.com/raccoonaihq/raccoonai-python/commit/02eccd75aa5c06a17d8097112d326fbc2de46d94))
+
 ## 0.1.0-alpha.18 (2025-06-17)
 
 Full Changelog: [v0.1.0-alpha.17...v0.1.0-alpha.18](https://github.com/raccoonaihq/raccoonai-python/compare/v0.1.0-alpha.17...v0.1.0-alpha.18)
