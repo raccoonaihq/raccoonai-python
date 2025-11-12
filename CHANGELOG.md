@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.1.0-alpha.20 (2025-11-12)
+
+Full Changelog: [v0.1.0-alpha.19...v0.1.0-alpha.20](https://github.com/raccoonaihq/raccoonai-python/compare/v0.1.0-alpha.19...v0.1.0-alpha.20)
+
+### Bug Fixes
+
+* compat with Python 3.14 ([42dfa6f](https://github.com/raccoonaihq/raccoonai-python/commit/42dfa6f9626b9cbd6bdc49b1e3ab9954ff07d867))
+* **compat:** update signatures of `model_dump` and `model_dump_json` for Pydantic v1 ([993d025](https://github.com/raccoonaihq/raccoonai-python/commit/993d0255a4f3b367bf11455b7dfe986cc9a7c9d9))
+
+
+### Chores
+
+* **package:** drop Python 3.8 support ([8ba508d](https://github.com/raccoonaihq/raccoonai-python/commit/8ba508de63427b422fd0d99ea995c94fbe309f3f))
+
 ## 0.1.0-alpha.19 (2025-11-04)
 
 Full Changelog: [v0.1.0-alpha.18...v0.1.0-alpha.19](https://github.com/raccoonaihq/raccoonai-python/compare/v0.1.0-alpha.18...v0.1.0-alpha.19)
