@@ -89,6 +89,7 @@ pip install --pre raccoonai[aiohttp]
 Then you can enable it by instantiating the client with `http_client=DefaultAioHttpClient()`:
 
 ```python
+import os
 import asyncio
 from raccoonai import DefaultAioHttpClient
 from raccoonai import AsyncRaccoonAI
@@ -96,7 +97,7 @@ from raccoonai import AsyncRaccoonAI
 
 async def main() -> None:
     async with AsyncRaccoonAI(
-        secret_key="My Secret Key",
+        secret_key=os.environ.get("RACCOON_SECRET_KEY"),  # This is the default and can be omitted
         http_client=DefaultAioHttpClient(),
     ) as client:
         response = await client.lam.run(
