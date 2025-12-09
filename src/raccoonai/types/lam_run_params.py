@@ -72,6 +72,10 @@ AdvancedProxy: TypeAlias = Union[AdvancedProxyProxySettings, bool]
 
 
 class Advanced(TypedDict, total=False):
+    """
+    Advanced configuration options for the session, such as ad-blocking and CAPTCHA solving.
+    """
+
     block_ads: Optional[bool]
     """Whether to block advertisements during the browser session."""
 
