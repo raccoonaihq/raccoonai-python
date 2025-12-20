@@ -110,40 +110,6 @@ async def main() -> None:
 asyncio.run(main())
 ```
 
-## Streaming responses
-
-We provide support for streaming responses using Server Side Events (SSE).
-
-```python
-from raccoonai import RaccoonAI
-
-client = RaccoonAI()
-
-stream = client.lam.run(
-    query="Find YCombinator startups who got funded in W24.",
-    raccoon_passcode="<end-user-raccoon-passcode>",
-    stream=True,
-)
-for response in stream:
-    print(response.data)
-```
-
-The async client uses the exact same interface.
-
-```python
-from raccoonai import AsyncRaccoonAI
-
-client = AsyncRaccoonAI()
-
-stream = await client.lam.run(
-    query="Find YCombinator startups who got funded in W24.",
-    raccoon_passcode="<end-user-raccoon-passcode>",
-    stream=True,
-)
-async for response in stream:
-    print(response.data)
-```
-
 ## Using types
 
 Nested request parameters are [TypedDicts](https://docs.python.org/3/library/typing.html#typing.TypedDict). Responses are [Pydantic models](https://docs.pydantic.dev) which also provide helper methods for things like:
