@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 [![PyPI version](https://img.shields.io/pypi/v/raccoonai.svg?label=pypi%20(stable))](https://pypi.org/project/raccoonai/)
 
-The Raccoon AI Python library provides convenient access to the Raccoon AI REST API from any Python 3.8+
+The Raccoon AI Python library provides convenient access to the Raccoon AI REST API from any Python 3.9+
 application. The library includes type definitions for all request params and response fields,
 and offers both synchronous and asynchronous clients powered by [httpx](https://github.com/encode/httpx).
 
@@ -89,6 +89,7 @@ pip install --pre raccoonai[aiohttp]
 Then you can enable it by instantiating the client with `http_client=DefaultAioHttpClient()`:
 
 ```python
+import os
 import asyncio
 from raccoonai import DefaultAioHttpClient
 from raccoonai import AsyncRaccoonAI
@@ -96,7 +97,7 @@ from raccoonai import AsyncRaccoonAI
 
 async def main() -> None:
     async with AsyncRaccoonAI(
-        secret_key="My Secret Key",
+        secret_key=os.environ.get("RACCOON_SECRET_KEY"),  # This is the default and can be omitted
         http_client=DefaultAioHttpClient(),
     ) as client:
         response = await client.lam.run(
@@ -107,40 +108,6 @@ async def main() -> None:
 
 
 asyncio.run(main())
-```
-
-## Streaming responses
-
-We provide support for streaming responses using Server Side Events (SSE).
-
-```python
-from raccoonai import RaccoonAI
-
-client = RaccoonAI()
-
-stream = client.lam.run(
-    query="Find YCombinator startups who got funded in W24.",
-    raccoon_passcode="<end-user-raccoon-passcode>",
-    stream=True,
-)
-for response in stream:
-    print(response.data)
-```
-
-The async client uses the exact same interface.
-
-```python
-from raccoonai import AsyncRaccoonAI
-
-client = AsyncRaccoonAI()
-
-stream = await client.lam.run(
-    query="Find YCombinator startups who got funded in W24.",
-    raccoon_passcode="<end-user-raccoon-passcode>",
-    stream=True,
-)
-async for response in stream:
-    print(response.data)
 ```
 
 ## Using types
@@ -461,7 +428,7 @@ print(raccoonai.__version__)
 
 ## Requirements
 
-Python 3.8 or higher.
+Python 3.9 or higher.
 
 ## Contributing
 

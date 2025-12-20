@@ -1,5 +1,35 @@
 # Changelog
 
+## 0.1.0-alpha.20 (2025-12-20)
+
+Full Changelog: [v0.1.0-alpha.19...v0.1.0-alpha.20](https://github.com/raccoonaihq/raccoonai-python/compare/v0.1.0-alpha.19...v0.1.0-alpha.20)
+
+### Bug Fixes
+
+* compat with Python 3.14 ([42dfa6f](https://github.com/raccoonaihq/raccoonai-python/commit/42dfa6f9626b9cbd6bdc49b1e3ab9954ff07d867))
+* **compat:** update signatures of `model_dump` and `model_dump_json` for Pydantic v1 ([993d025](https://github.com/raccoonaihq/raccoonai-python/commit/993d0255a4f3b367bf11455b7dfe986cc9a7c9d9))
+* ensure streams are always closed ([9b72114](https://github.com/raccoonaihq/raccoonai-python/commit/9b72114991e61df69d7e8f8c447e1c79bba12b1c))
+* **types:** allow pyright to infer TypedDict types within SequenceNotStr ([66c901f](https://github.com/raccoonaihq/raccoonai-python/commit/66c901f190b2a06d9517811207b726fb752a2748))
+* use async_to_httpx_files in patch method ([3b537c2](https://github.com/raccoonaihq/raccoonai-python/commit/3b537c240e29bd0367e2ab90204b7e757d169a90))
+
+
+### Chores
+
+* add missing docstrings ([d68946e](https://github.com/raccoonaihq/raccoonai-python/commit/d68946ee5ac699e2c564c7b584439e473253bb26))
+* add Python 3.14 classifier and testing ([3cd827d](https://github.com/raccoonaihq/raccoonai-python/commit/3cd827d5010c2e66396aa926a3ec43274d75e5df))
+* **deps:** mypy 1.18.1 has a regression, pin to 1.17 ([6fed9b1](https://github.com/raccoonaihq/raccoonai-python/commit/6fed9b155224d257bacc163f22063d2567896b68))
+* **docs:** use environment variables for authentication in code snippets ([e2b354f](https://github.com/raccoonaihq/raccoonai-python/commit/e2b354ff49d57a985c06ae85d8ea3abd4d0e48f8))
+* **internal:** add `--fix` argument to lint script ([b1768a7](https://github.com/raccoonaihq/raccoonai-python/commit/b1768a72db8a9d60c1f699fdfb2bdcfda18e2ee6))
+* **internal:** add missing files argument to base client ([b88c6ea](https://github.com/raccoonaihq/raccoonai-python/commit/b88c6eaa6ce1cdd1fee7ae5e2fbdf17010d1bb09))
+* **package:** drop Python 3.8 support ([8ba508d](https://github.com/raccoonaihq/raccoonai-python/commit/8ba508de63427b422fd0d99ea995c94fbe309f3f))
+* speedup initial import ([f804c17](https://github.com/raccoonaihq/raccoonai-python/commit/f804c17b3e56ebe3a5ea9e7b5ea42844a56e567a))
+* update lockfile ([a3fab40](https://github.com/raccoonaihq/raccoonai-python/commit/a3fab40d07bd44b5bd8bed52ec5a494fd5bbf818))
+
+
+### Documentation
+
+* add more examples ([e7eb2b5](https://github.com/raccoonaihq/raccoonai-python/commit/e7eb2b53ccf2c6e97a39a7c6409679412cf231c7))
+
 ## 0.1.0-alpha.19 (2025-11-04)
 
 Full Changelog: [v0.1.0-alpha.18...v0.1.0-alpha.19](https://github.com/raccoonaihq/raccoonai-python/compare/v0.1.0-alpha.18...v0.1.0-alpha.19)
