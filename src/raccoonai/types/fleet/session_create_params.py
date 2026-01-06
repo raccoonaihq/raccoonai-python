@@ -63,6 +63,10 @@ AdvancedProxy: TypeAlias = Union[AdvancedProxyProxySettings, bool]
 
 
 class Advanced(TypedDict, total=False):
+    """
+    Advanced configuration options for the session, such as ad-blocking and CAPTCHA solving.
+    """
+
     block_ads: Optional[bool]
     """Whether to block advertisements during the browser session."""
 
@@ -80,6 +84,10 @@ class Advanced(TypedDict, total=False):
 
 
 class Settings(TypedDict, total=False):
+    """
+    Configuration settings for the browser, such as viewport size and User-Agent string.
+    """
+
     locales: Optional[SequenceNotStr[str]]
     """A list of locales or languages to use for the browser session.
 

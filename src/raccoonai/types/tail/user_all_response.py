@@ -10,6 +10,8 @@ __all__ = ["UserAllResponse", "Meta", "User"]
 
 
 class Meta(BaseModel):
+    """Metadata about the user list."""
+
     current_page: int = FieldInfo(alias="currentPage")
     """The current page number."""
 

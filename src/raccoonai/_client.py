@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import os
-from typing import Any, Dict, Mapping, cast
+from typing import TYPE_CHECKING, Any, Dict, Mapping, cast
 from typing_extensions import Self, Literal, override
 
 import httpx
@@ -20,6 +20,7 @@ from ._types import (
     not_given,
 )
 from ._utils import is_given, get_async_library
+from ._compat import cached_property
 from ._version import __version__
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import APIStatusError, RaccoonAIError
@@ -28,9 +29,12 @@ from ._base_client import (
     SyncAPIClient,
     AsyncAPIClient,
 )
-from .resources.lam import lam
-from .resources.tail import tail
-from .resources.fleet import fleet
+
+if TYPE_CHECKING:
+    from .resources import lam, tail, fleet
+    from .resources.lam.lam import LamResource, AsyncLamResource
+    from .resources.tail.tail import TailResource, AsyncTailResource
+    from .resources.fleet.fleet import FleetResource, AsyncFleetResource
 
 __all__ = [
     "ENVIRONMENTS",
@@ -52,12 +56,6 @@ ENVIRONMENTS: Dict[str, str] = {
 
 
 class RaccoonAI(SyncAPIClient):
-    lam: lam.LamResource
-    tail: tail.TailResource
-    fleet: fleet.FleetResource
-    with_raw_response: RaccoonAIWithRawResponse
-    with_streaming_response: RaccoonAIWithStreamedResponse
-
     # client options
     secret_key: str
 
@@ -136,11 +134,31 @@ class RaccoonAI(SyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.lam = lam.LamResource(self)
-        self.tail = tail.TailResource(self)
-        self.fleet = fleet.FleetResource(self)
-        self.with_raw_response = RaccoonAIWithRawResponse(self)
-        self.with_streaming_response = RaccoonAIWithStreamedResponse(self)
+    @cached_property
+    def lam(self) -> LamResource:
+        from .resources.lam import LamResource
+
+        return LamResource(self)
+
+    @cached_property
+    def tail(self) -> TailResource:
+        from .resources.tail import TailResource
+
+        return TailResource(self)
+
+    @cached_property
+    def fleet(self) -> FleetResource:
+        from .resources.fleet import FleetResource
+
+        return FleetResource(self)
+
+    @cached_property
+    def with_raw_response(self) -> RaccoonAIWithRawResponse:
+        return RaccoonAIWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> RaccoonAIWithStreamedResponse:
+        return RaccoonAIWithStreamedResponse(self)
 
     @property
     @override
@@ -250,12 +268,6 @@ class RaccoonAI(SyncAPIClient):
 
 
 class AsyncRaccoonAI(AsyncAPIClient):
-    lam: lam.AsyncLamResource
-    tail: tail.AsyncTailResource
-    fleet: fleet.AsyncFleetResource
-    with_raw_response: AsyncRaccoonAIWithRawResponse
-    with_streaming_response: AsyncRaccoonAIWithStreamedResponse
-
     # client options
     secret_key: str
 
@@ -334,11 +346,31 @@ class AsyncRaccoonAI(AsyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.lam = lam.AsyncLamResource(self)
-        self.tail = tail.AsyncTailResource(self)
-        self.fleet = fleet.AsyncFleetResource(self)
-        self.with_raw_response = AsyncRaccoonAIWithRawResponse(self)
-        self.with_streaming_response = AsyncRaccoonAIWithStreamedResponse(self)
+    @cached_property
+    def lam(self) -> AsyncLamResource:
+        from .resources.lam import AsyncLamResource
+
+        return AsyncLamResource(self)
+
+    @cached_property
+    def tail(self) -> AsyncTailResource:
+        from .resources.tail import AsyncTailResource
+
+        return AsyncTailResource(self)
+
+    @cached_property
+    def fleet(self) -> AsyncFleetResource:
+        from .resources.fleet import AsyncFleetResource
+
+        return AsyncFleetResource(self)
+
+    @cached_property
+    def with_raw_response(self) -> AsyncRaccoonAIWithRawResponse:
+        return AsyncRaccoonAIWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> AsyncRaccoonAIWithStreamedResponse:
+        return AsyncRaccoonAIWithStreamedResponse(self)
 
     @property
     @override
@@ -448,31 +480,103 @@ class AsyncRaccoonAI(AsyncAPIClient):
 
 
 class RaccoonAIWithRawResponse:
+    _client: RaccoonAI
+
     def __init__(self, client: RaccoonAI) -> None:
-        self.lam = lam.LamResourceWithRawResponse(client.lam)
-        self.tail = tail.TailResourceWithRawResponse(client.tail)
-        self.fleet = fleet.FleetResourceWithRawResponse(client.fleet)
+        self._client = client
+
+    @cached_property
+    def lam(self) -> lam.LamResourceWithRawResponse:
+        from .resources.lam import LamResourceWithRawResponse
+
+        return LamResourceWithRawResponse(self._client.lam)
+
+    @cached_property
+    def tail(self) -> tail.TailResourceWithRawResponse:
+        from .resources.tail import TailResourceWithRawResponse
+
+        return TailResourceWithRawResponse(self._client.tail)
+
+    @cached_property
+    def fleet(self) -> fleet.FleetResourceWithRawResponse:
+        from .resources.fleet import FleetResourceWithRawResponse
+
+        return FleetResourceWithRawResponse(self._client.fleet)
 
 
 class AsyncRaccoonAIWithRawResponse:
+    _client: AsyncRaccoonAI
+
     def __init__(self, client: AsyncRaccoonAI) -> None:
-        self.lam = lam.AsyncLamResourceWithRawResponse(client.lam)
-        self.tail = tail.AsyncTailResourceWithRawResponse(client.tail)
-        self.fleet = fleet.AsyncFleetResourceWithRawResponse(client.fleet)
+        self._client = client
+
+    @cached_property
+    def lam(self) -> lam.AsyncLamResourceWithRawResponse:
+        from .resources.lam import AsyncLamResourceWithRawResponse
+
+        return AsyncLamResourceWithRawResponse(self._client.lam)
+
+    @cached_property
+    def tail(self) -> tail.AsyncTailResourceWithRawResponse:
+        from .resources.tail import AsyncTailResourceWithRawResponse
+
+        return AsyncTailResourceWithRawResponse(self._client.tail)
+
+    @cached_property
+    def fleet(self) -> fleet.AsyncFleetResourceWithRawResponse:
+        from .resources.fleet import AsyncFleetResourceWithRawResponse
+
+        return AsyncFleetResourceWithRawResponse(self._client.fleet)
 
 
 class RaccoonAIWithStreamedResponse:
+    _client: RaccoonAI
+
     def __init__(self, client: RaccoonAI) -> None:
-        self.lam = lam.LamResourceWithStreamingResponse(client.lam)
-        self.tail = tail.TailResourceWithStreamingResponse(client.tail)
-        self.fleet = fleet.FleetResourceWithStreamingResponse(client.fleet)
+        self._client = client
+
+    @cached_property
+    def lam(self) -> lam.LamResourceWithStreamingResponse:
+        from .resources.lam import LamResourceWithStreamingResponse
+
+        return LamResourceWithStreamingResponse(self._client.lam)
+
+    @cached_property
+    def tail(self) -> tail.TailResourceWithStreamingResponse:
+        from .resources.tail import TailResourceWithStreamingResponse
+
+        return TailResourceWithStreamingResponse(self._client.tail)
+
+    @cached_property
+    def fleet(self) -> fleet.FleetResourceWithStreamingResponse:
+        from .resources.fleet import FleetResourceWithStreamingResponse
+
+        return FleetResourceWithStreamingResponse(self._client.fleet)
 
 
 class AsyncRaccoonAIWithStreamedResponse:
+    _client: AsyncRaccoonAI
+
     def __init__(self, client: AsyncRaccoonAI) -> None:
-        self.lam = lam.AsyncLamResourceWithStreamingResponse(client.lam)
-        self.tail = tail.AsyncTailResourceWithStreamingResponse(client.tail)
-        self.fleet = fleet.AsyncFleetResourceWithStreamingResponse(client.fleet)
+        self._client = client
+
+    @cached_property
+    def lam(self) -> lam.AsyncLamResourceWithStreamingResponse:
+        from .resources.lam import AsyncLamResourceWithStreamingResponse
+
+        return AsyncLamResourceWithStreamingResponse(self._client.lam)
+
+    @cached_property
+    def tail(self) -> tail.AsyncTailResourceWithStreamingResponse:
+        from .resources.tail import AsyncTailResourceWithStreamingResponse
+
+        return AsyncTailResourceWithStreamingResponse(self._client.tail)
+
+    @cached_property
+    def fleet(self) -> fleet.AsyncFleetResourceWithStreamingResponse:
+        from .resources.fleet import AsyncFleetResourceWithStreamingResponse
+
+        return AsyncFleetResourceWithStreamingResponse(self._client.fleet)
 
 
 Client = RaccoonAI

@@ -11,6 +11,8 @@ __all__ = ["SessionAllResponse", "Meta", "Session"]
 
 
 class Meta(BaseModel):
+    """Metadata about the session list."""
+
     current_page: int = FieldInfo(alias="currentPage")
     """The current page number."""
 
